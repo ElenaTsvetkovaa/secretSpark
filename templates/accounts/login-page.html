@@ -1,18 +1,9 @@
-{% load static %}
+{% extends 'common/home.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Secret Spark</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Indie+Flower&display=swap" rel="stylesheet">
-</head>
-<body>
 
-    <!-- Navbar -->
-    {% include 'common/nav.html' %}
+{% block title %}Login | Secret Spark{% endblock %}
+
+{% block content %}
 
              <!-- Login Form -->
     <div class="login-register-div">
@@ -38,10 +29,8 @@
         <div class="second-option">
 
             <!-- Link to Register Page-->
-            <p>Don't have an account? <a href="#">Register</a></p>
+            <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
         </div>
     </div>
 
-
-</body>
-</html>
+{% endblock %}

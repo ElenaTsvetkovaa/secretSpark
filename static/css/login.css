@@ -1,7 +1,7 @@
 /* Centering the login/register form */
 .login-register-div {
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     width: 400px;
     transform: translate(-50%, -50%);
@@ -16,10 +16,10 @@
 /* Box styling for login and register */
 .login-register-box, .second-option {
     display: block;
-    width: 300px;
+    width: 260px;
     background-color: #FFF9F3; /* Soft beige */
-    border: 1px solid #D3C5B5;
-    padding: 40px;
+    border: 2px solid #D3C5B5;
+    padding: 30px;
     margin-bottom: 15px;
     border-radius: 12px; /* Softer edges */
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1);
@@ -45,7 +45,7 @@
     background-color: #FAF3EB; /* Light warm tone */
     border: 1px solid #D3C5B5;
     border-radius: 8px;
-    height: 40px;
+    height: 30px;
     width: 100%;
     padding-left: 10px;
     margin-top: 12px;
