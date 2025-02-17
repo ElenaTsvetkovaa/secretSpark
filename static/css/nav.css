@@ -1,4 +1,8 @@
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 /* Navigation Bar */
 .nav {
     width: 100px;
@@ -12,8 +16,8 @@
     align-items: center;
     border-radius: 15px;
     box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
     margin-top: 80px;
+    position: relative;
 }
 
 /* Navigation Items */

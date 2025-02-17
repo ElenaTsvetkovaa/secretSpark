@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 MY_APPS = [
-    'secretSpark.home',
+    'secretSpark.common',
+    'secretSpark.accounts'
 ]
 
 INSTALLED_APPS = [

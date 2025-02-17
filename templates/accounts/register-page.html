@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Secret Spark</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Indie+Flower&display=swap" rel="stylesheet">
+</head>
+<body>
+
+        <!-- Navbar -->
+    {% include 'common/nav.html' %}
+
+    <!-- Start Register Section -->
+    <div class="login-register-div">
+        <div class="login-register-box">
+            <h1>Register</h1>
+
+            <!-- Start Register Form -->
+            <form action="">
+                <input type="text" placeholder="Username">
+
+                <input type="email" placeholder="Email">
+
+                <input type="password" placeholder="Password">
+
+                <input type="password" placeholder="Repeat Password">
+
+                <!-- Register Button -->
+                <button type="submit">Register</button>
+            </form>
+            <!-- End Register Form -->
+
+        </div>
+        <div class="second-option">
+
+            <!-- Link to Login Page -->
+            <p>Have an account? <a href="#">Log in</a></p>
+        </div>
+    </div>
+    <!-- End Register Section -->
+
+
+</body>
+</html>
