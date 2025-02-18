@@ -1,10 +1,10 @@
 nav {
     position: fixed;
     width: 100px;
-    height: 600px;
+    height: 560px;
     z-index: 10000;
     margin-left: 5%;
-    margin-top: 40px;
+    margin-top: 45px;
 }
 
 /* Navigation Bar */
@@ -67,3 +67,5 @@ nav ul {
     text-align: center;
     line-height: 1.2;
 }
+
+

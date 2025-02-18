@@ -1,9 +1,26 @@
-{% extends 'common/home.html' %}
+{% load static %}
 
+<!DOCTYPE html>
+<html lang="en">
+<!-- Starts Head Section -->
+<head>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>Secret Spark - Enter Your Glowing Era</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700&display=swap" rel="stylesheet">
 
-{% block title %}Login | Secret Spark{% endblock %}
+</head>
 
-{% block content %}
+<body>
+    {% include 'common/nav.html' %}
+
+    <header>
+        <h1 class="title">Secret Spark - Enter Your Glowing Era</h1>
+            <div class="auth-buttons">
+                <a href="{% url 'home' %}" class="button">Home</a>
+            </div>
+
+    </header>
 
              <!-- Login Form -->
     <div class="login-register-div">
@@ -33,4 +50,4 @@
         </div>
     </div>
 
-{% endblock %}
+</body>

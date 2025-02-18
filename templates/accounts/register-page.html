@@ -1,10 +1,27 @@
-{% extends 'common/home.html' %}
+{% load static %}
 
+<!DOCTYPE html>
+<html lang="en">
+<!-- Starts Head Section -->
+<head>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>Secret Spark - Enter Your Glowing Era</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700&display=swap" rel="stylesheet">
 
-{% block title %}Register | Secret Spark{% endblock %}
+</head>
 
+<body>
+    {% include 'common/nav.html' %}
 
-{% block content %}
+    <header>
+        <h1 class="title">Secret Spark - Enter Your Glowing Era</h1>
+            <div class="auth-buttons">
+                <a href="{% url 'home' %}" class="button">Home</a>
+            </div>
+
+    </header>
+
     <!-- Start Register Section -->
     <div class="login-register-div">
         <div class="login-register-box">
@@ -37,4 +54,4 @@
     <!-- End Register Section -->
 
 
-{% endblock %}
+</body>
