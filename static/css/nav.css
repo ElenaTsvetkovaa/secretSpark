@@ -1,11 +1,17 @@
-
-/* Navigation Bar */
-.nav {
+nav {
+    position: fixed;
     width: 100px;
     height: 600px;
     z-index: 10000;
-    flex-direction: column;
     margin-left: 5%;
+    margin-top: 40px;
+}
+
+/* Navigation Bar */
+nav ul {
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
     transform: translateX(-50%);
     background-color: #eed9c4;
     display: flex;
@@ -15,7 +21,9 @@
     box-shadow: 7px 10px 16px rgba(0, 0, 0, 0.1);
     margin-top: 80px;
     position: relative;
-    border: 35px #4A3F35;
+    border: 5px #4A3F35; /* Fixed border syntax */
+    padding: 0;
+    list-style: none; /* Removes default bullet points */
 }
 
 /* Navigation Items */
@@ -26,6 +34,14 @@
     text-align: center;
     width: auto;
     margin: 5px;
+}
+
+.nav-item a {
+    text-decoration: none; /* Removes default link underline */
+    color: inherit; /* Keeps text color consistent */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Images inside Navigation */
@@ -48,9 +64,6 @@
     color: #333;
     font-weight: bold;
     margin-top: 15px;
-    max-width: 100%; /* Ensures text doesn't go beyond nav */
-    word-wrap: break-word; /* Forces long words to wrap */
-    overflow-wrap: break-word; /* Ensures proper text wrapping */
-    text-align: center; /* Keeps text centered */
-    line-height: 1.2; /
+    text-align: center;
+    line-height: 1.2;
 }

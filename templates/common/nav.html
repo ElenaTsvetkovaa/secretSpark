@@ -1,28 +1,33 @@
 {% load static %}
-	<div class="nav">
-    	<div class="nav-item">
-        	<img src="{% static 'images/self_improvement.jpg' %}" alt="Self Improvement">
-            <span>Self-Improvement</span>
 
-        </div>
+<nav>
+    <ul class="nav">
+        <li class="nav-item">
+            <a href="#">
+                <img src="{% static 'images/self_improvement.jpg' %}" alt="Self Improvement">
+                <span>Self-Improvement</span>
+            </a>
+        </li>
 
-           <div class="nav-item">
-        	<img src="{% static 'images/work_and_money.jpg' %}"
-            alt="Work and Money">
-            <span>Work & Money</span>
+        <li class="nav-item">
+            <a href="#">
+                <img src="{% static 'images/work_and_money.jpg' %}" alt="Work and Money">
+                <span>Work & Money</span>
+            </a>
+        </li>
 
-        </div>
+        <li class="nav-item">
+            <a href="#">
+                <img src="{% static 'images/style.jpg' %}" alt="Style">
+                <span>Style</span>
+            </a>
+        </li>
 
-            <div class="nav-item">
-        	<img src="{%  static 'images/style.jpg' %}" alt="Style">
-            <span>Style</span>
-
-        </div>
-
-            <div class="nav-item">
-        	<img src="{% static 'images/feminine_health.jpg' %}" alt="Feminine Health">
-            <span>Feminine Health</span>
-
-        </div>
-
-        </div>
+        <li class="nav-item">
+            <a href="#">
+                <img src="{% static 'images/feminine_health.jpg' %}" alt="Feminine Health">
+                <span>Feminine Health</span>
+            </a>
+        </li>
+    </ul>
+</nav>
