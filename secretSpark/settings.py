@@ -32,7 +32,10 @@ ALLOWED_HOSTS = []
 
 MY_APPS = [
     'secretSpark.common',
-    'secretSpark.accounts'
+    'secretSpark.accounts',
+    'secretSpark.articles',
+    'secretSpark.plans',
+    'secretSpark.notes'
 ]
 
 INSTALLED_APPS = [
