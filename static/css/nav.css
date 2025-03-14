@@ -1,10 +1,10 @@
 nav {
+    display: flex;
+    flex: 1;
     position: fixed;
     width: 100px;
     height: 560px;
-    z-index: 10000;
-    margin-left: 5%;
-    margin-top: 45px;
+    margin: 60px;
 }
 
 /* Navigation Bar */

@@ -2,7 +2,7 @@ from django.db import models
 from enum import StrEnum
 
 
-class CyclePhases(models.TextChoices):
+class Phases(models.TextChoices):
 
     MENSTRUAL = 'M, Menstrual'
     FOLLICULAR = 'F, Follicular'
