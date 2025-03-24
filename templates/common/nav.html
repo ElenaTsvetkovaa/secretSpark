@@ -1,34 +1,47 @@
 {% load static %}
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
 <nav>
 
     <ul class>
         <li class="nav-item">
             <a href="#">
-                <img src="{% static 'images/self_improvement.jpg' %}" alt="Self Improvement">
+                <iconify-icon icon="mdi:home" class="nav-icon"></iconify-icon>
+                <span>Home</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="#">
+                <iconify-icon icon="mdi:brain" class="nav-icon"></iconify-icon>
+{#                <img src="{% static 'images/self_improvement.jpg' %}" alt="Self Improvement">#}
                 <span>Self-Improvement</span>
             </a>
         </li>
 
         <li class="nav-item">
             <a href="#">
-                <img src="{% static 'images/work_and_money.jpg' %}" alt="Work and Money">
+                 <iconify-icon icon="mdi:wallet" class="nav-icon"></iconify-icon>
+{#                <img src="{% static 'images/work_and_money.jpg' %}" alt="Work and Money">#}
                 <span>Work & Money</span>
             </a>
         </li>
 
         <li class="nav-item">
             <a href="#">
-                <img src="{% static 'images/style.jpg' %}" alt="Style">
+                <iconify-icon icon="mdi:lipstick" class="nav-icon"></iconify-icon>
+{#                <img src="{% static 'images/style.jpg' %}" alt="Style">#}
                 <span>Style</span>
             </a>
         </li>
 
         <li class="nav-item">
             <a href="#">
-                <img src="{% static 'images/feminine_health.jpg' %}" alt="Feminine Health">
+                 <iconify-icon icon="mdi:heart-pulse" class="nav-icon"></iconify-icon>
+{#                <img src="{% static 'images/feminine_health.jpg' %}" alt="Feminine Health">#}
                 <span>Feminine Health</span>
             </a>
         </li>
     </ul>
 </nav>
+
