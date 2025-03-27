@@ -61,8 +61,8 @@ nav ul {
 
 
 /* Hover effect on icons */
-.nav-item .nav-icon:hover {
-    transform: scale(1.2);
+.nav-item:hover {
+    transform: scale(1.05);
 }
 
 /* Text Below Images */
