@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('secretSpark.common.urls')),
     path('accounts/', include('secretSpark.accounts.urls')),
-    path('notes/', include('secretSpark.notes.urls'))
+    path('notes/', include('secretSpark.notes.urls')),
+    path('articles/', include('secretSpark.articles.urls'))
 ]
