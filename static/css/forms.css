@@ -1,0 +1,143 @@
+form {
+    font-family: 'Georgia', serif;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #faf4ed;
+    border-style: outset;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    color: #721f49;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form textarea {
+    width: 100%;
+    padding: 10px 0px 10px;
+    font-size: 16px;
+    border: 0.3px solid #8a6a6a;
+    border-radius: 4px;
+}
+
+form textarea {
+    resize: vertical;
+}
+
+form input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background: #B78A73;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: #B78A73;
+}
+
+/* CSS */
+.button {
+    background-color: #B78A73;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    /*margin-top: 15px;*/
+    /*height: 40px;*/
+    /*font-size: 16px;*/
+    font-family: 'Georgia', serif;
+    cursor: pointer;
+    appearance: button;
+    backface-visibility: hidden;
+    border-width: 0;
+    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+    box-sizing: border-box;
+    font-size: 100%;
+    height: 44px;
+    line-height: 1.15;
+    margin: 12px 0 0;
+    outline: none;
+    overflow: hidden;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    transform: translateZ(0);
+    transition: all .2s,box-shadow .08s ease-in;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 100%;
+}
+
+.button:disabled {
+  cursor: default;
+}
+
+.button:focus {
+    box-shadow: rgba(255, 192, 203, 0.3) 0 0 0 2px inset,  /* Soft pink inner glow */
+          rgba(255, 105, 180, 0.4) 0 4px 12px,       /* Hot pink outer glow */
+          rgba(255, 182, 193, 0.3) 0 2px 4px,        /* Light pink shadow */
+          rgba(255, 20, 147, 0.5) 0 0 0 4px;
+    }
+
+select fieldset {
+    border: 2px solid rgba(255, 182, 193, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+select {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 0.3px solid #8a6a6a;
+    border-radius: 4px;
+    color: #333;
+}
+
+/* Style for the option elements */
+select option {
+    padding: 10px;
+    color: #333;
+}
+
+/* Hover effect for the select dropdown */
+select:hover {
+    border-color: rgba(255, 182, 193, 0.3);
+}
+
+/* Focus effect for the select dropdown */
+select:focus {
+    outline: none;
+    border-color: rgba(255, 182, 193, 0.5);
+}
+
+/* Style for the option when selected */
+select:focus option {
+    background-color: white;
+}
