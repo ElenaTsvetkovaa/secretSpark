@@ -1,0 +1,13 @@
+{% extends "common/index.html" %}
+
+{% block title %}Create Article{% endblock %}
+
+{% block content %}
+
+    <form action="{% url 'create-article' %}" method="post">
+        {{ form }}
+        {% csrf_token %}
+        <button class="submit"> Create </button>
+    </form>
+
+{% endblock %}

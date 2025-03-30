@@ -33,9 +33,9 @@ ALLOWED_HOSTS = []
 MY_APPS = [
     'secretSpark.common',
     'secretSpark.accounts',
-    'secretSpark.articles',
     'secretSpark.plans',
-    'secretSpark.notes'
+    'secretSpark.notes',
+    'secretSpark.articles'
 ]
 
 INSTALLED_APPS = [
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
 ] + MY_APPS
 
 MIDDLEWARE = [
@@ -130,7 +131,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR, 'static',
+    BASE_DIR / 'static',
 ]
 
 # Default primary key field type

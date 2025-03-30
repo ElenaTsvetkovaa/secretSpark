@@ -1,13 +1,5 @@
-from django.shortcuts import render, redirect
-
+from django.shortcuts import redirect, render
 from secretSpark.articles.forms import ArticleCreateForm
-
-
-# def index(request):
-#     context = {
-#         'a_form': '',
-#     }
-#     return render(request, 'common/home.html', context=context)
 
 
 def create_article(request):
@@ -22,7 +14,7 @@ def create_article(request):
     context = {
         "form": form,
     }
-    return render(request, 'articles/create_article.html' , context)
+    return render(request, 'articles/create-article.html', context)
 
 
 

@@ -5,7 +5,7 @@ from secretSpark.articles.choices import ArticleCategories
 from secretSpark.articles.mixins import TimeStampMixin
 
 
-class Article(models.Model, TimeStampMixin):
+class Article(TimeStampMixin):
 
     title = models.CharField(
         max_length=100

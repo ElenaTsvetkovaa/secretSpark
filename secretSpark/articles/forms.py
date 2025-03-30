@@ -1,6 +1,4 @@
 from django import forms
-from django.core.exceptions import ValidationError
-
 from secretSpark.articles.models import Article
 
 
