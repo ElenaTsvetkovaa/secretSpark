@@ -31,6 +31,8 @@ form label {
 
 /* Input & Textarea Styling */
 form input[type="text"],
+form input[type="password"],
+form input[type="email"],
 form textarea,
 form select {
     width: 100%;
