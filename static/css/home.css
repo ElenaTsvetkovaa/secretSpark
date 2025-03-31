@@ -4,6 +4,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    padding-top: 40px;
 }
 
 header {
@@ -57,7 +58,6 @@ header {
 
 .button:hover {
     background-color: rosybrown;
-    transform: scale(1.05);
 }
 
 .container {

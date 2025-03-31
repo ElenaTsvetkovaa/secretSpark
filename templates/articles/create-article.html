@@ -6,6 +6,7 @@
 {% block content %}
 
     <form action="{% url 'create-article' %}" method="post">
+
         {{ form }}
         {% csrf_token %}
         <button class="button"> Create </button>
