@@ -2,79 +2,74 @@
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
 <nav>
+  <ul class="nav-list">
+    <li class="nav-item">
+      <a href="{% url 'home' %}">
+        <iconify-icon icon="mdi:home" class="nav-icon"></iconify-icon>
+        <span>Home</span>
+      </a>
+    </li>
 
-    <ul class>
-        <li class="nav-item">
-            <a href="{% url 'home' %}">
-                <iconify-icon icon="mdi:home" class="nav-icon"></iconify-icon>
-                <span>Home</span>
-            </a>
-        </li>
+    <li class="nav-item" id="articles-nav-item" aria-haspopup="true" aria-expanded="false">
+      <a href="#" class="toggle-articles">
+        <iconify-icon icon="mdi:newspaper" class="nav-icon"></iconify-icon>
+        <span>Articles</span>
+      </a>
+      <div class="side-flyout" id="articles-dropdown">
+        <a href="#">Self-Improvement</a>
+        <a href="#">Work & Money</a>
+        <a href="#">Style</a>
+      </div>
+    </li>
 
-        <li class="nav-item dropdown">
-            <a href="#" class="dropdown-toggle">
-                <iconify-icon icon="mdi:newspaper" class="nav-icon"></iconify-icon>
-                <span>Articles</span>
-            </a>
+    <li class="nav-item">
+      <a href="#">
+        <iconify-icon icon="mdi:diary" class="nav-icon"></iconify-icon>
+        <span>Diary</span>
+      </a>
+    </li>
 
-            <ul class="dropdown-menu">
-                <li>
-                    <a href='#'>
-                            <span>Self-Improvement</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                            <span>Work & Money</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                            <span>Style</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-{#        <li class="nav-item">#}
-{#            <a href="#">#}
-{#                <iconify-icon icon="mdi:brain" class="nav-icon"></iconify-icon>#}
-{#                <img src="{% static 'images/self_improvement.jpg' %}" alt="Self Improvement">#}
-{#                <span>Self-Improvement</span>#}
-{#            </a>#}
-{#        </li>#}
-{##}
-{#        <li class="nav-item">#}
-{#            <a href="#">#}
-{#                 <iconify-icon icon="mdi:wallet" class="nav-icon"></iconify-icon>#}
-{#                <img src="{% static 'images/work_and_money.jpg' %}" alt="Work and Money">#}
-{#                <span>Work & Money</span>#}
-{#            </a>#}
-{#        </li>#}
-{##}
-{#        <li class="nav-item">#}
-{#            <a href="#">#}
-{#                <iconify-icon icon="mdi:lipstick" class="nav-icon"></iconify-icon>#}
-{#                <img src="{% static 'images/style.jpg' %}" alt="Style">#}
-{#                <span>Style</span>#}
-{#            </a>#}
-{#        </li>#}
-        <li class="nav-item">
-            <a href="#">
-                <iconify-icon icon="mdi:calendar" class="nav-icon"></iconify-icon>
-                <span>Calendar</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a href="#">
-                 <iconify-icon icon="mdi:heart-pulse" class="nav-icon"></iconify-icon>
-{#                <img src="{% static 'images/feminine_health.jpg' %}" alt="Feminine Health">#}
-                <span>Feminine Health</span>
-            </a>
-        </li>
-    </ul>
+    <li class="nav-item">
+      <a href="#">
+        <iconify-icon icon="mdi:heart-pulse" class="nav-icon"></iconify-icon>
+        <span>Feminine Health</span>
+      </a>
+    </li>
+  </ul>
 </nav>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const articlesNavItem = document.getElementById('articles-nav-item');
+    const articlesDropdown = document.getElementById('articles-dropdown');
+    let hoverTimeout;
+
+    function showDropdown() {
+      clearTimeout(hoverTimeout);
+      articlesDropdown.classList.add('show');
+      articlesNavItem.setAttribute('aria-expanded', 'true');
+    }
+
+    function hideDropdown() {
+      hoverTimeout = setTimeout(() => {
+        articlesDropdown.classList.remove('show');
+        articlesNavItem.setAttribute('aria-expanded', 'false');
+      }, 200);
+    }
+
+    articlesNavItem.addEventListener('mouseenter', showDropdown);
+    articlesNavItem.addEventListener('mouseleave', hideDropdown);
+    articlesDropdown.addEventListener('mouseenter', showDropdown);
+    articlesDropdown.addEventListener('mouseleave', hideDropdown);
+
+    articlesNavItem.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (articlesDropdown.classList.contains('show')) {
+        articlesDropdown.classList.remove('show');
+        articlesNavItem.setAttribute('aria-expanded', 'false');
+      } else {
+        showDropdown();
+      }
+    });
+  });
+</script>

@@ -9,8 +9,6 @@ nav {
 
 /* Navigation Bar */
 nav ul {
-    /*height: 100%;*/
-    /*width: 100%;*/
     flex-direction: column;
     transform: translateX(-50%);
     background-color: #eed9c4;
@@ -66,53 +64,63 @@ nav ul {
     font-size: 25px;
 }
 
-.dropdown-menu {
+.side-flyout {
     position: absolute;
-    left: 110%;
-    transform: translateY(-50%);
-    background-color: #eed9c4;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    top: 0; /* Align to top of nav-item */
+    left: 100%; /* Positioned to the right of nav-item */
+    margin-left: 10px; /* Optional spacing */
+    background-color: #f9f1e9;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
     min-width: 150px;
-    list-style: none;
-    border-radius: 8px;
     opacity: 0;
     pointer-events: none;
-    transition: all 0.3s ease-in-out;
+    transition: opacity 0.3s ease;
+    z-index: 100;
 }
 
-/* Show dropdown when active */
-.nav-item.active .dropdown-menu {
-    display: block;
-    opacity: 1;
+
+.side-flyout.show {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-/* Dropdown Items */
-.dropdown-menu li {
-    display: flex;
-    align-items: center;
-    padding: 3px;
-    gap: 10px;
-    transition: background 0.3s ease-in-out;
+.side-flyout a {
+  display: block;
+  padding: 8px;
+  color: #333;
+  text-decoration: none;
 }
 
-.dropdown-menu li a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 8px 12px;
+.side-flyout a:hover {
+  background-color: #e0d3c4;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .side-nav {
+    position: static;
     width: 100%;
-}
+    height: auto;
+    justify-content: center;
+  }
 
-.dropdown-menu li a:hover {
-    background-color: #f0d9b4;
-    border-radius: 5px;
-}
+  .side-nav ul {
+    flex-direction: row;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 0;
+  }
 
-.nav-item:hover .dropdown-menu {
-    opacity: 1;
-    transform: translateY(0); /* Moves into place */
-    pointer-events: auto; /* Enables interaction */
+  .nav-item {
+    width: auto;
+    margin: 0 10px;
+  }
+
+  .side-flyout {
+    position: static;
+    transform: none;
+    margin-top: 10px;
+  }
 }
