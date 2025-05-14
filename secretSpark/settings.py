@@ -34,7 +34,7 @@ MY_APPS = [
     'secretSpark.common',
     'secretSpark.accounts',
     'secretSpark.plans',
-    'secretSpark.notes',
+    'secretSpark.wellness',
     'secretSpark.articles'
 ]
 

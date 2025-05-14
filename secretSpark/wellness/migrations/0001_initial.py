@@ -37,8 +37,8 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('start_date', models.DateField()),
                 ('end_date', models.DateField()),
-                ('calendar', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='notes.cyclecalendar')),
-                ('phase', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='notes.cyclephase')),
+                ('calendar', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='wellness.cyclecalendar')),
+                ('phase', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='wellness.cyclephase')),
             ],
         ),
     ]

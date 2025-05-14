@@ -9,7 +9,6 @@ class Phases(models.TextChoices):
     OVULATION = 'O, Ovulation'
     LUTEAL = 'L, Luteal'
 
-
 class Symptoms(StrEnum):
     CRAMPS = "Cramps"
     HEADACHE = "Headache"
@@ -22,6 +21,9 @@ class Symptoms(StrEnum):
     INSOMNIA = "Insomnia"
     APPETITE_CHANGES = "Appetite Changes"
 
+    @classmethod
+    def choices(cls):
+        return [(item.name, item.value) for item in cls]
 
 
 
