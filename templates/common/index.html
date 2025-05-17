@@ -10,21 +10,35 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700&display=swap" rel="stylesheet">
 </head>
-    <header>
-        <h1 class="title">Secret Spark</h1>
-            <div class="auth-buttons">
-                <a href="{% url 'login' %}" class="button">Login</a>
-                <a href="{% url 'register' %}" class="button">Register</a>
-            </div>
-
-    </header>
 <body>
+    <header class="site-header">
+        <div class="header-content">
+            <h1 class="title">Secret Spark</h1>
+        </div>
+    </header>
 
     <hr class="divider">
 
-    {% include 'common/nav.html' %}
 
-        {% block content %}
-        <!-- This is where page-specific content will go -->
-        {% endblock %}
+    <!-- PAGE LAYOUT WRAPPER -->
+    <div class="layout-container">
+
+        <!-- SIDEBAR NAVIGATION -->
+        <nav class="sidebar">
+            {% include 'common/nav.html' %}
+        </nav>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+            {% block content %}
+            <!-- Page-specific content will be injected here -->
+            {% endblock %}
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <p>&copy; 2025 Secret Spark. All rights reserved.</p>
+    </footer>
+
 </body>

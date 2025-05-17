@@ -27,9 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
 MY_APPS = [
     'secretSpark.common',
     'secretSpark.accounts',

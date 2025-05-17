@@ -16,10 +16,10 @@ class CyclePhase(models.Model):
 
 
 class CycleCalendar(models.Model):
-    user = models.ForeignKey(
-        'User',
-        on_delete=models.CASCADE
-    )
+    # user = models.ForeignKey(
+    #     'User',
+    #     on_delete=models.CASCADE
+    # )
     cycle_length = models.SmallIntegerField() # Varying from 28 to 35 days
     period_length = models.SmallIntegerField() # Varying from 3 to 7 days
     last_period_date = models.DateField()
@@ -27,10 +27,10 @@ class CycleCalendar(models.Model):
 
 class Diary(models.Model):
 
-    user = models.ForeignKey(
-        to='User',
-        on_delete=models.CASCADE
-    )
+    # user = models.ForeignKey(
+    #     to='User',
+    #     on_delete=models.CASCADE
+    # )
     created_at = models.DateField(
         auto_now_add=True
     )
@@ -41,9 +41,9 @@ class Diary(models.Model):
         default=list
     )
 
-
-    class Meta:
-        unique_together = ('user', 'created_at')
+    #
+    # class Meta:
+    #     unique_together = ('user', 'created_at')
 
 
 
