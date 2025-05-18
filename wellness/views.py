@@ -1,7 +1,6 @@
+from datetime import timedelta
+
 from django.shortcuts import render
-from django.http import JsonResponse
-from datetime import timedelta, date
-from .models import CycleCalendar  # Assuming this is your model
 
 
 def generate_cycle_events(cycle):

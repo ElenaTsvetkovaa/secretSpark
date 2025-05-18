@@ -7,11 +7,13 @@
 
 /* Sidebar container */
 .sidebar {
-  width: 200px;
+  width: 100px;
   padding: 30px 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
+  z-index: 10;
 }
 
 /* Nav List */

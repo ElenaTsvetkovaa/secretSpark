@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
-from secretSpark.articles.forms import ArticleCreateForm
-from secretSpark.articles.models import Article
+from articles.forms import ArticleCreateForm
+from articles.models import Article
 
 
 def create_article(request):

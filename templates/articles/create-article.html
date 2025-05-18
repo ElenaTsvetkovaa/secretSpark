@@ -1,15 +1,45 @@
 {% extends "common/index.html" %}
 {% load static %}
 
-{% block title %}Create Article{% endblock %}
-
 {% block content %}
 
-    <form action="{% url 'create-article' %}" method="post">
+    <section class="article-form-section" aria-labelledby="article-form-title">
+        <h2 id="article-form-title">Create New Article</h2>
 
-        {{ form }}
-        {% csrf_token %}
-        <button class="button"> Create </button>
-    </form>
+            <form  action="{% url 'create-article' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="article-form-grid">
+
+                    <div class="form-column form-left">
+                        <div class="form-field">
+                            <label for="{{ form.title.id_for_label }}">Title</label>
+                            {{ form.title }}
+                        </div>
+
+                        <div class="form-field">
+                            <label for="{{ form.content.id_for_label }}">Content</label>
+                            {{ form.content }}
+                        </div>
+                    </div>
+
+                    <aside class="form-column form-right">
+                        <div class="form-field">
+                            <label for="{{ form.image.id_for_label }}">Upload Image</label>
+                            {{ form.image }}
+                        </div>
+
+                        <div class="form-field">
+                            <label for="{{ form.category.id_for_label }}">Category</label>
+                            {{ form.category }}
+                        </div>
+
+                        <footer class="form-actions">
+                            <button type="submit" class="button">Create</button>
+                        </footer>
+                    </aside>
+
+                </fieldset>
+            </form>
+    </section>
 
 {% endblock %}

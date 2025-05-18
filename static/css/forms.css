@@ -1,137 +1,88 @@
-
-form {
-    font-family: 'Georgia', serif;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: 60px;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    max-width: 600px;
-    padding: 25px;
-    background: rgba(255, 245, 238, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
+.article-form-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fffaf6;
+  border-radius: 16px;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
 }
 
-/* Spacing between form elements */
-form div {
-    margin-bottom: 18px;
+.article-form-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #5c3d2e;
+  margin-bottom: 2rem;
 }
 
-/* Labels */
-form label {
-    color: #721f49;
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-    font-size: 1rem;
+.article-form {
+  display: flex;
+  flex-direction: column;
 }
 
-/* Input & Textarea Styling */
-form input[type="text"],
-form input[type="password"],
-form input[type="email"],
-form textarea,
-form select {
-    width: 100%;
-    font-size: 16px;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid #b78a73;
-    padding: 8px;
-    transition: border-color 0.3s ease-in-out;
-    color: #333;
-    outline: none;
+.article-form-grid {
+  display: flex;
+  gap: 2rem;
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* Input & Textarea Focus Effect */
-form input[type="text"]:focus,
-form textarea:focus,
-form select:focus {
-    border-bottom: 2px solid #721f49;
-    background: rgba(255, 245, 238, 0.5);
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-/* Textarea Resizing */
-form textarea {
-    resize: vertical;
-    min-height: 100px;
-    max-height: 300px;
+.form-left {
+  flex: 2;
 }
 
-/* Submit Button */
-form input[type="submit"],
+.form-right {
+  flex: 1;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #3a2e2a;
+}
+
+.form-field input[type="text"],
+.form-field textarea,
+.form-field select,
+.form-field input[type="file"] {
+  font-size: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 200px;
+}
+
+.form-actions {
+  margin-top: auto;
+}
+
 .button {
-    padding: 12px 24px;
-    font-family: 'Georgia', serif;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    background: linear-gradient(135deg, #B78A73, #9c6c5b);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    text-align: center;
-    display: block;
-    width: 100%;
+  background-color: #dcac8c;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* Submit Button Hover Effect */
-form input[type="submit"]:hover,
 .button:hover {
-    background: linear-gradient(135deg, #9c6c5b, #721f49);
-    transform: scale(1.03);
-}
-
-/* Disabled Button */
-.button:disabled {
-    background: #b3a5a0;
-    cursor: default;
-}
-
-/* Select Fieldset Styling */
-fieldset {
-    border: 2px solid rgba(183, 138, 115, 0.5);
-    border-radius: 12px;
-    padding: 15px;
-    background: rgba(255, 245, 238, 0.4);
-}
-
-/* Select Dropdown */
-select {
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    border-bottom: 2px solid #b78a73;
-    border-radius: 4px;
-    background: transparent;
-    color: #333;
-    outline: none;
-}
-
-/* Select Hover & Focus Effects */
-select:hover {
-    border-bottom: 2px solid #721f49;
-}
-
-select:focus {
-    border-bottom: 2px solid #9c6c5b;
-}
-
-/* Option Elements */
-select option {
-    padding: 10px;
-    background: white;
-    color: #333;
-}
-
-/* Responsive Form */
-@media (max-width: 768px) {
-    form {
-        max-width: 90%;
-        padding: 20px;
-    }
+  background-color: #cc987a;
 }

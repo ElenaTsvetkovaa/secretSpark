@@ -1,7 +1,7 @@
 from django.contrib.postgres.fields import ArrayField
-from django.core.validators import MinValueValidator
 from django.db import models
-from secretSpark.wellness.choices import Phases, Symptoms
+from wellness.choices import Phases, MoodChoices
+
 
 class CyclePhase(models.Model):
 
@@ -15,35 +15,43 @@ class CyclePhase(models.Model):
         return self.phase_name
 
 
-class CycleCalendar(models.Model):
+class CycleProfile(models.Model):
+
+    # TODO when I create user roles
     # user = models.ForeignKey(
     #     'User',
     #     on_delete=models.CASCADE
     # )
-    cycle_length = models.SmallIntegerField() # Varying from 28 to 35 days
-    period_length = models.SmallIntegerField() # Varying from 3 to 7 days
+    cycle_length = models.PositiveSmallIntegerField(
+        default=28
+    )
+    period_length = models.PositiveSmallIntegerField(
+        default=5
+    )
     last_period_date = models.DateField()
 
 
 class Diary(models.Model):
 
+    # TODO when I create user roles
     # user = models.ForeignKey(
     #     to='User',
     #     on_delete=models.CASCADE
     # )
-    created_at = models.DateField(
-        auto_now_add=True
+    date = models.DateField(
+        auto_now=True
     )
     content = models.TextField()
-    symptoms = ArrayField(
-        base_field=models.CharField(max_length=30, choices=Symptoms.choices()),
+    mood = models.CharField(
+        max_length=50,
+        choices=MoodChoices,
         blank=True,
-        default=list
     )
 
     #
     # class Meta:
     #     unique_together = ('user', 'created_at')
+#         ordering = ['-date']
 
 
 

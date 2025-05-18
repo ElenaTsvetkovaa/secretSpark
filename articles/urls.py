@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from secretSpark.articles.views import create_article, edit_article, delete_article, details_article
+from articles.views import create_article, edit_article, delete_article, details_article
 
 urlpatterns = [
     path('create-article/', create_article, name='create-article'),

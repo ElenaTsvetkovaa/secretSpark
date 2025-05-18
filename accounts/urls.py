@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from secretSpark.accounts import views
+from accounts import views
 
 urlpatterns = [
     path('register/', views.register, name='register'),

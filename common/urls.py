@@ -1,5 +1,5 @@
 from django.urls import path
-from secretSpark.common.views import home, index
+from common.views import home, index
 
 urlpatterns = [
     path('', index, name='index'),

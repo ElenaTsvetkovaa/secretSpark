@@ -1,5 +1,5 @@
 from django import forms
-from secretSpark.articles.models import Article
+from articles.models import Article
 
 
 class ArticleBaseForm(forms.ModelForm):

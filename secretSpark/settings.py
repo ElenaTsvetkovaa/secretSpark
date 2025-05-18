@@ -28,12 +28,12 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
-MY_APPS = [
-    'secretSpark.common',
-    'secretSpark.accounts',
-    'secretSpark.plans',
-    'secretSpark.wellness',
-    'secretSpark.articles'
+PROJECT_APPS = [
+    'common',
+    'accounts',
+    'plans',
+    'wellness',
+    'articles'
 ]
 
 INSTALLED_APPS = [
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-] + MY_APPS
+] + PROJECT_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
