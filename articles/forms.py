@@ -7,6 +7,10 @@ class ArticleBaseForm(forms.ModelForm):
     class Meta:
         model = Article
         fields = "__all__"
+        widgets = {
+            "title": forms.TextInput(attrs={"placeholder": "Title"}),
+            "content": forms.Textarea(attrs={"placeholder": "Enter text..."}),
+        }
 
 
 class ArticleCreateForm(ArticleBaseForm):

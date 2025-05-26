@@ -33,7 +33,7 @@ PROJECT_APPS = [
     'accounts',
     'plans',
     'wellness',
-    'articles'
+    'articles',
 ]
 
 INSTALLED_APPS = [
