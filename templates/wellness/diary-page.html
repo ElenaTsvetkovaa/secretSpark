@@ -1,0 +1,75 @@
+{% extends "common/index.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="diary-layout">
+        <form class="basis-[35vw] relative h-[48rem] size-full mx-12">
+
+                {{ diary_form.content }}
+{#            <div class="max-w-xl mx-auto bg-white shadow-lg rounded-md p-6 relative notebook-paper font-serif">#}
+{#              <div class="absolute left-4 top-0 bottom-0 w-1 bg-red-400 rounded"></div> <!-- Margin line -->#}
+            <div class="prose text-gray-800"></div>
+
+            <fieldset class="card__color-picker">
+                <legend>Select a color:</legend>
+
+                <input type="radio" id="red" name="color" value="red" />
+                <label for="red">Red</label>
+
+                <input type="radio" id="dark-pink" name="color" value="dark-pink" />
+                <label for="dark-pink">Dark Pink</label>
+
+                <input type="radio" id="baby-pink" name="color" value="baby-pink" />
+                <label for="baby-pink">Baby Pink</label>
+
+                <input type="radio" id="purple" name="color" value="purple" />
+                <label for="purple">Purple</label>
+
+                <input type="radio" id="light-pink" name="color" value="light-pink" />
+                <label for="light-pink">Light Pink</label>
+            </fieldset>
+
+            <div class="hearts">
+                <div class="heart heart--is-purple heart--top-left"></div>
+                <div class="heart heart--with-dots heart--is-dark-purple heart--left-center"></div>
+                <div class="heart heart--with-dots heart--is-red heart--top-center"></div>
+                <div class="heart heart--is-pink heart--bottom-center"></div>
+                <div class="heart heart--is-dark-purple heart--bottom-right"></div>
+                <div class="heart heart--is-dark-pink heart--with-lines heart--top-right"></div>
+            </div>
+
+        </form>
+
+        <form class="basis-[35vw] w-full justify-items-center mx-20">
+            <div class="max-w-md rounded-lg overflow-hidden shadow-lg flex flex-col h-fill bg-white">
+                  <div class="relative h-24 w-full">
+                      <img src="/static/images/pink-marble.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Pink marble background">
+                      <h1 class="relative z-10 text-center text-4xl pt-6">MOOD TRACKER</h1>
+                  </div>
+
+                  <!-- Main content area -->
+                  <div class="flex-1 px-6 py-10 bg-white">
+                      <ul class="grid grid-cols-3 mb-5 gap-2 place-content-center">
+                          {% for db_value, choice in mood_form.mood.field.choices %}
+                              {% if db_value %}
+                                  <li class="p-2 text-center">{{ choice }}</li>
+                              {% endif %}
+                          {% endfor %}
+                      </ul>
+                  </div>
+
+                  <!-- Pink marble footer -->
+                  <div class="bg-[url('/static/images/pink-marble.jpg')] bg-cover bg-center h-12 flex items-center justify-center">
+                      <p class="text-black text-sm">Cathy Campbell Designs Etsy</p>
+                  </div>
+            </div>
+        </form>
+    </div>
+
+
+
+{% endblock %}
+
+
+

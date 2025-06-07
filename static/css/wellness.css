@@ -1,0 +1,345 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat&display=swap");
+
+
+.diary-and-moods {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 2rem;
+}
+
+.diary-layout {
+    display: flex;
+    width: 100%;
+	height: 90%;
+	justify-content: center;
+	margin-top: 50px;
+}
+
+/*.diary-layout {*/
+/*    flex: 1;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*align-content: stretch;*/
+	/*position: relative;*/
+	/*width: 100%;*/
+	/*background: repeating-linear-gradient(*/
+	/*	transparent 0 calc(2rem - 1px),*/
+	/*	#721f49 0 2rem);*/
+	/*background-color: #f7f7f7;*/
+	/*border-radius: 10px;*/
+	/*box-shadow: 0 0 0 6px rgba(255 255 255 / 0.1) inset,*/
+	/*	2px 4px 10px 0 rgba(0 0 0 / 0.025);*/
+}
+
+.diary-layout textarea {
+    /*max-width: 100%;*/
+    /*background: white;*/
+    /*shadow*/
+    /*background-image: repeating-linear-gradient(*/
+    /*    to bottom,*/
+    /*    #fefefe,*/
+    /*    #fefefe 22px,*/
+    /*    #d1d5db 23px*/
+    /*);*/
+    /*background-size: 100% 24px;*/
+    /*line-height: 24px;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*box-sizing: border-box;*/
+    /*padding: 1.3rem 3rem 0 1.25rem;*/
+	/*font-size: 0.875rem;*/
+	/*line-height: 1.25rem;*/
+    /*background: transparent;*/
+    /*border: none;*/
+    /*max-width: 90%;*/
+    /*max-height: 90%;*/
+}
+
+
+
+textarea.notebook-paper {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #fefefe,
+    #fefefe 22px,
+    #d1d5db 23px
+  );
+  background-size: 100% 24px;
+  line-height: 24px;
+}
+
+fieldset {
+	--gap: 9px;
+	position: absolute;
+	top: calc(20px - var(--gap));
+	right: -5px;
+	border: none;
+	margin: 0;
+	padding: 0;
+	width: 40px;
+
+	legend {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0;
+	}
+
+	input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: 0;
+	}
+
+	label {
+		position: relative;
+		display: block;
+		width: 40px;
+		height: 30px;
+		background: var(--bg-color);
+		margin: var(--gap) 0;
+		border-top-left-radius: 2px;
+		border-top-right-radius: 2px;
+		border-bottom-left-radius: 2px;
+		font-size: 0;
+		box-shadow: -2px 1px 3px rgba(0 0 0 / 0.2);
+		cursor: pointer;
+		transform: translate(0, 0) scaleX(1);
+		transform-origin: left center;
+		filter: brightness(90%);
+		transition-property: transform filter;
+		transition-duration: 0.2s;
+		transition-timing-function: cubic-bezier(1, 1, 0.5, 1.3333);
+
+		&:hover {
+			transform: translate(0, 0) scaleX(1.25);
+		}
+
+		&:after {
+			content: "";
+			position: absolute;
+			top: 100%;
+			right: 0;
+			width: 0;
+			height: 0;
+			border-top: 5px solid var(--bg-color);
+			border-right: 5px solid transparent;
+			border-left: 0px solid transparent;
+			border-bottom: 5px solid transparent;
+			filter: brightness(62%);
+			transition-property: border-right filter;
+			transition-duration: 0.2s;
+			transition-timing-function: cubic-bezier(1, 1, 0.5, 1.3333);
+		}
+
+		&:hover:after {
+			border-right: 12px solid transparent;
+		}
+	}
+
+	input:checked + label,
+	input:focus + label {
+		transform: translate(0, 0) scaleX(1.25);
+		filter: brightness(100%);
+
+		&:after {
+			border-right: 12px solid transparent;
+			filter: brightness(50%);
+		}
+	}
+
+	label:nth-of-type(1) {
+		--bg-color: #7c1200;
+	}
+
+	label:nth-of-type(2) {
+		--bg-color: #BE5985;
+	}
+
+	label:nth-of-type(3) {
+		--bg-color: #FFB8E0;
+	}
+
+	label:nth-of-type(4) {
+		--bg-color: #bb84bf;
+	}
+
+	label:nth-of-type(5) {
+		--bg-color: #f6d0cf;
+	}
+}
+
+
+.heart {
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	clip-path: path(
+		"M12 20a1 1 0 0 1-.437-.1C11.214 19.73 3 15.671 3 9a5 5 0 0 1 8.535-3.536l.465.465.465-.465A5 5 0 0 1 21 9c0 6.646-8.212 10.728-8.562 10.9A1 1 0 0 1 12 20z"
+	);
+	background: #a00;
+	transform: scale(0);
+	animation: 30s pop 0.5s linear forwards;
+
+	&:after {
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: var(--bg-color);
+		transition-property: background;
+		transition-duration: 0.2s;
+		transition-timing-function: cubic-bezier(1, 1, 0.5, 1.3333);
+	}
+}
+
+.heart--with-dots:after {
+	transform: translate(-50%, -50%) rotate(36deg);
+	background-image: radial-gradient(#efefef 20%, transparent 25%);
+	background-position: 0 0, 2px 2px;
+	background-size: 4px 4px;
+}
+
+.heart--with-lines:after {
+	background-image: repeating-linear-gradient(
+		35deg,
+		rgba(255 255 255 / 0.25),
+		rgba(255 255 255 / 0.25) 2px,
+		transparent 2px,
+		transparent 4px
+	);
+	background-position: center;
+	background-size: auto;
+}
+
+.heart--is-purple:after {
+	--bg-color: #bb84bf;
+}
+
+.heart--is-baby-pink:after {
+	--bg-color: #FFB8E0;
+}
+
+.heart--is-red:after {
+	--bg-color: #7c1200;
+}
+
+.heart--is-pink:after {
+	--bg-color: #e8559f;
+}
+
+.heart--is-dark-pink:after {
+	--bg-color: #BE5985;
+}
+
+.heart--is-dark-purple:after {
+	--bg-color: #742748;
+}
+
+.heart--top-left {
+    left: -5%;
+    top: 2%;
+    rotate: -25deg;
+    z-index: 2;
+    --scale: 5.3;
+    animation-delay: 0.1s;
+}
+
+.heart--top-center {
+	left: 64%;
+	top: -3%;
+    rotate: -35deg;
+	z-index: -1;
+	--scale: 4.6;
+	animation-delay: 0.2s;
+}
+
+.heart--top-right {
+	left: 106%;
+	top: 8%;
+	rotate: 10deg;
+	z-index: -1;
+	--scale: 3.6;
+	animation-delay: 0.3s;
+}
+
+.heart--left-center {
+	left: -5%;
+	top: 97%;
+	rotate: -23deg;
+	z-index: 2;
+	--scale: 6.2;
+	animation-delay: 0.2s;
+}
+
+.heart--bottom-center {
+	--scale: 4.2;
+	left: 38%;
+	top: 101%;
+	rotate: 40deg;
+	animation-delay: 0.3s;
+}
+
+.heart--bottom-right {
+	left: 102%;
+	top: 78%;
+	rotate: 12deg;
+	z-index: -1;
+	--scale: 9;
+	animation-delay: 0.4s;
+}
+
+.diary-layout:has(#red:checked) .heart:after {
+	--bg-color: #7c1200;
+}
+
+.diary-layout:has(#dark-pink:checked) .heart:after {
+	--bg-color:  #BE5985;
+}
+
+.diary-layout:has(#baby-pink:checked) .heart:after {
+	--bg-color: #FFB8E0;
+}
+
+.diary-layout:has(#purple:checked) .heart:after {
+	--bg-color: #bb84bf;
+}
+
+.diary-layout:has(#light-pink:checked) .heart:after {
+	--bg-color: #f6d0cf;
+}
+
+@keyframes pop {
+	0 {
+		transform: scale(0);
+	}
+	1% {
+		transform: scale(var(--scale));
+	}
+	2%,
+	34%,
+	64%,
+	100% {
+		transform: scale(var(--scale)) translate(0, 0);
+	}
+	10%,
+	42%,
+	72% {
+		transform: scale(var(--scale)) translate(-1px, -1px);
+	}
+	18%,
+	50%,
+	80% {
+		transform: scale(var(--scale)) translate(-1px, 2px);
+	}
+	26%,
+	58%,
+	88% {
+		transform: scale(var(--scale)) translate(1px, 1px);
+	}
+}
