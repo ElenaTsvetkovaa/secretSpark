@@ -1,4 +1,6 @@
-
+* {
+    font-family: 'Bodoni Moda', serif;
+}
 body {
     margin: 0;
     font-family: 'Bodoni Moda', serif;
@@ -6,20 +8,14 @@ body {
 }
 
 .site-header {
+    background: var(--primary-bg);
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #eed9c4;
     scroll-padding-top: 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.title {
-    flex: 1;
-    text-align: center;
-    font-size: 45px;
-    font-optical-sizing: auto;
-    font-family: 'Bodoni Moda', sans-serif;
+    height: 120px;
 }
 
 .divider {

@@ -1,3 +1,11 @@
 from django.contrib import admin
+from django.contrib.admin import register
 
-# Register your models here.
+from wellness.models import Moods
+
+
+@register(Moods)
+class MoodsAdmin(admin.ModelAdmin):
+    pass
+
+

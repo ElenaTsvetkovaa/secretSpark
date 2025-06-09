@@ -39,19 +39,25 @@ class Diary(models.Model):
     #     on_delete=models.CASCADE
     # )
     date = models.DateField(
-        auto_now=True
+        auto_now=True,
     )
     content = models.TextField()
+
+
+class Moods(models.Model):
+
     mood = models.CharField(
         max_length=50,
-        choices=MoodChoices,
+        choices=MoodChoices.choices,
         blank=True,
+        unique=True
     )
-
-    #
-    # class Meta:
-    #     unique_together = ('user', 'created_at')
-#         ordering = ['-date']
+    reminder = models.CharField(
+        max_length=200,
+    )
+    image = models.ImageField(
+        upload_to='static/images/moods/'
+    )
 
 
 

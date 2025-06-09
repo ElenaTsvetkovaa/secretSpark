@@ -1,6 +1,13 @@
 from datetime import timedelta
 
+from django.db.models import Case, When, Value
 from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from wellness.forms import DiaryForm, MoodsForm
+from wellness.models import Moods
+from wellness.serializers import MoodsSerializer
 
 
 def generate_cycle_events(cycle):
@@ -34,4 +41,40 @@ def generate_cycle_events(cycle):
 #     return JsonResponse([], safe=False)
 
 def cycle_calendar_view(request):
-    return render(request, 'notes/cycle-calendar-events.html')
+    return render(request, 'wellness/cycle-calendar-events.html')
+
+
+def diary_page(request):
+    diary_form = DiaryForm(request.POST or None)
+    mood_form = MoodsForm(request.POST or None)
+
+    if diary_form.is_valid():
+        diary_form.save()
+
+    if mood_form.is_valid():
+        mood_form.save()
+
+    context = {
+        "diary_form": diary_form,
+        "mood_form": mood_form,
+    }
+
+    return render(request, 'wellness/diary-page.html', context)
+
+class MoodListView(APIView):
+
+    def get(self, request):
+        moods = Moods.objects.annotate(
+            custom_order=Case(
+                When(mood='Heartbroken', then=Value(0)),
+                When(mood='Angry', then=Value(1)),
+                When(mood='In Period', then=Value(2)),
+                When(mood='Calm', then=Value(3)),
+                When(mood='Happy', then=Value(4)),
+            )
+        ).order_by('custom_order')
+        serializer = MoodsSerializer(moods, many=True)
+
+        return Response(serializer.data)
+
+

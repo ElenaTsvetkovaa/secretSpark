@@ -4,7 +4,7 @@
 {% block content %}
 
     <div class="diary-layout">
-        <form class="basis-[35vw] relative h-[48rem] size-full mx-12">
+        <form class="basis-[35vw] relative h-[48rem] size-full rounded-lg shadow-lg mx-12">
 
                 {{ diary_form.content }}
 {#            <div class="max-w-xl mx-auto bg-white shadow-lg rounded-md p-6 relative notebook-paper font-serif">#}
@@ -41,33 +41,49 @@
 
         </form>
 
-        <form class="basis-[35vw] w-full justify-items-center mx-20">
-            <div class="max-w-md rounded-lg overflow-hidden shadow-lg flex flex-col h-fill bg-white">
-                  <div class="relative h-24 w-full">
-                      <img src="/static/images/pink-marble.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Pink marble background">
-                      <h1 class="relative z-10 text-center text-4xl pt-6">MOOD TRACKER</h1>
-                  </div>
+        <div id="mood-tracker" class="basis-[35vw] w-full content-center justify-items-center mx-20">
+            <form class="w-full max-w-[32rem] max-h-full rounded-lg overflow-hidden shadow-lg flex flex-col bg-white">
+                <div class="relative h-24 w-full">
+                    <img src="{% static 'images/pink-marble.jpg' %}" class="absolute inset-0 w-full h-full object-cover" alt="Pink marble background">
+                    <h1 class="relative z-10 text-center color-[#610d31] text-4xl pt-6">MOOD TRACKER</h1>
+                </div>
 
-                  <!-- Main content area -->
-                  <div class="flex-1 px-6 py-10 bg-white">
-                      <ul class="grid grid-cols-3 mb-5 gap-2 place-content-center">
-                          {% for db_value, choice in mood_form.mood.field.choices %}
-                              {% if db_value %}
-                                  <li class="p-2 text-center">{{ choice }}</li>
-                              {% endif %}
-                          {% endfor %}
-                      </ul>
-                  </div>
+
+                <div class="flex flex-col items-center mt-10">
+                    <!-- Mood Display -->
+                    <div id="mood-display" class="text-center mb-6" data-api-url="{% url 'mood-list' %}">
+                        <img id="mood-image" src="" class="h-56 w-56 object-cover m-5 will-change-[opacity] transition-opacity duration-500
+                        opacity-0 animate-[gentle-pulse_1.2s_ease-in-out_infinite]" />
+                        <p id="mood-label" class="text-xl font-bold text-pink-700 transition-opacity duration-500 opacity-0"></p>
+                    </div>
+
+                    <!-- Slider -->
+                    <input id="mood-slider" type="range" min="0" max="100" step="1" class="w-2/3 accent-pink-500 mb-6 rounded-lg
+                    appearance-none transition-opacity duration-500 opacity-0 cursor-pointer bg-[#f4e1e5] ease-in-out" />
+
+                    <!-- Continue Button -->
+                    <button id="continue-btn" class="bg-[#ec4899] m-6 text-white px-6 py-2 rounded shadow hover:bg-pink-600 transition">
+                        Continue
+                    </button>
+
+                    <!-- Reminder Display -->
+                    <div id="reminder-container" class="m-6 flex flex-col items-center opacity-0 hidden transition-opacity duration-500">
+                        <span id="reminder-label" class="p-3 text-center text-md italic text-gray-700 transition-opacity duration-500 opacity-0">Reminder</span>
+                        <p id="reminder-message" class="m-3 text-center text-md italic text-gray-700 transition-opacity duration-500 opacity-0"></p>
+                    </div>
+                </div>
 
                   <!-- Pink marble footer -->
-                  <div class="bg-[url('/static/images/pink-marble.jpg')] bg-cover bg-center h-12 flex items-center justify-center">
+                  <div class="bg-[url('/static/images/pink-marble.jpg')] bg-cover bg-center h-12 flex items-center justify-center mt-auto">
                       <p class="text-black text-sm">Cathy Campbell Designs Etsy</p>
                   </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 
-
+    {% block script %}
+        <script src="{% static 'js/mood-selector.js' %}"></script>
+    {% endblock %}
 
 {% endblock %}
 

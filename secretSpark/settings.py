@@ -34,6 +34,7 @@ PROJECT_APPS = [
     'plans',
     'wellness',
     'articles',
+    'rest_framework',
 ]
 
 INSTALLED_APPS = [
