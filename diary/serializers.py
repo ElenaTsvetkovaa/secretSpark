@@ -1,7 +1,6 @@
 from rest_framework import serializers
-
-from wellness.choices import MoodChoices
-from wellness.models import Moods
+from diary.choices import MoodChoices
+from diary.models import Moods
 
 
 class MoodsSerializer(serializers.ModelSerializer):

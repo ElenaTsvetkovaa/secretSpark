@@ -1,0 +1,128 @@
+{% extends "common/index.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="diary-layout">
+        <form method="post" class="flex flex-row  w-full gap-x-8">
+           {% csrf_token %}
+            <div class="basis-1/2 relative m-h-full w-[80%] rounded-lg shadow-lg m-5">
+
+                <div class="relative h-18 bg-[#f2e1e7] w-full">
+{#                    <img src="{% static 'images/pink-marble.jpg' %}" class="absolute inset-0 w-full h-full object-cover" alt="Pink marble background">#}
+                    <h1 class="relative z-10 text-center text-[#610d31] text-4xl p-3">Diary</h1>
+                </div>
+                    {{ form.content }}
+
+                <div class="prose text-gray-800"></div>
+
+                <fieldset class="card__color-picker">
+                    <legend>Select a color:</legend>
+
+                    <input type="radio" id="red" name="color" value="red" />
+                    <label for="red">Red</label>
+
+                    <input type="radio" id="dark-pink" name="color" value="dark-pink" />
+                    <label for="dark-pink">Dark Pink</label>
+
+                    <input type="radio" id="baby-pink" name="color" value="baby-pink" />
+                    <label for="baby-pink">Baby Pink</label>
+
+                    <input type="radio" id="purple" name="color" value="purple" />
+                    <label for="purple">Purple</label>
+
+                    <input type="radio" id="light-pink" name="color" value="light-pink" />
+                    <label for="light-pink">Light Pink</label>
+                </fieldset>
+
+                <div class="hearts">
+                    <div class="heart heart--is-purple heart--top-left"></div>
+                    <div class="heart heart--with-dots heart--is-dark-purple heart--left-center"></div>
+                    <div class="heart heart--with-dots heart--is-red heart--top-center"></div>
+                    <div class="heart heart--is-pink heart--bottom-center"></div>
+                    <div class="heart heart--is-dark-purple heart--bottom-right"></div>
+                    <div class="heart heart--is-dark-pink heart--with-lines heart--top-right"></div>
+                </div>
+            </div>
+
+            <div id="mood-tracker" class="basis-1/2 gap-6 flex flex-row w-full content-center items-center justify-items-center ml-5">
+
+                <!-- Calendar Section (Smaller) -->
+                <div class="flex flex-col basis-[30%] max-w-[20rem] w-full">
+                    <div class="p-2 bg-transparent">
+                        <div id="calendarCard" class="p-4 bg-white border border-purple-200 rounded-lg shadow-lg">
+                            <div id="datePicker" class="flex flex-col items-center relative">
+                                <div class="flex flex-row items-center gap-2">
+                                    <iconify-icon icon="bx:calendar-heart" class="nav-icon"></iconify-icon>
+                                    <h2 class="text-gray-900 font-medium">Date:</h2>
+                                    <input id="dateInput" type="text" class="w-36 p-2 border rounded" />
+                                </div>
+                                <div id="calendarDisplay" class="m-3 w-full"></div>
+
+                                 <button id="saveButton" class="inline-flex items-center gap-1 text-white font-medium
+                                 cursor-pointer bg-[#ED92BF] mb-3 px-4 py-1 text-sm rounded shadow hover:bg-[#D77BA9] transition rounded shadow">
+                                    <iconify-icon icon="game-icons:heart-key" class="nav-icon"></iconify-icon>
+                                    Save
+                                 </button>
+                                <input type="hidden" name="selected_date" id="selectedDateInput" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mood Tracker Form -->
+                <div class="flex flex-col basis-[55%] max-w-[32rem] w-full rounded-lg items-center justify-items-center overflow-hidden shadow-lg bg-white">
+                    <!-- Header -->
+                    <div class="relative h-16 w-full">
+                        <img src="{% static 'images/pink-marble.jpg' %}" class="absolute inset-0 w-full h-full object-cover" alt="Pink marble background">
+                        <h1 class="relative z-10 text-center text-[#610d31] text-2xl p-3">MOOD TRACKER</h1>
+                    </div>
+
+                    <!-- Mood Contents -->
+                    <div class="flex flex-col items-center mt-4">
+                        <!-- Mood Display -->
+                        <div id="mood-display" class="text-center mb-4" data-api-url="{% url 'moods-tracker' %}">
+                            <img id="mood-image" src="" class="h-36 w-36 object-cover m-3 will-change-[opacity] transition-opacity duration-500 opacity-0 animate-[gentle-pulse_1.2s_ease-in-out_infinite]" />
+                            <p id="mood-label" class="text-lg font-bold text-pink-700 transition-opacity duration-500 opacity-0"></p>
+                        </div>
+
+                        <!-- Slider -->
+                        <input id="mood-slider" type="range" min="0" max="100" step="1"
+                            class="w-[14rem] accent-pink-500 mb-4 rounded-lg appearance-none transition-opacity duration-500 opacity-0 cursor-pointer bg-[#f4e1e5] ease-in-out" />
+
+                        <!-- Continue Button -->
+                        <button id="continue-btn"
+                            class="bg-[#ED92BF] mb-3 text-white px-4 py-1 text-sm rounded shadow hover:bg-[#D77BA9]  transition">
+                            Continue
+                        </button>
+
+                        <!-- TODO when mood is selected to save it -->
+                        <input type="hidden" name="selected_mood" id="selectedMoodInput" />
+
+                        <!-- Reminder Display -->
+                        <div id="reminder-container"
+                            class="m-2 flex flex-col items-center opacity-0 hidden transition-opacity duration-500">
+                            <span id="reminder-label"
+                                class="p-2 text-center text-sm italic text-gray-700 transition-opacity duration-500 opacity-0">Reminder:</span>
+                            <p id="reminder-message"
+                                class="m-2 text-center text-sm italic text-gray-700 transition-opacity duration-500 opacity-0"></p>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="relative h-12 w-full">
+                        <img src="{% static 'images/pink-marble.jpg' %}" class="absolute inset-0 w-full h-full object-cover"
+                             alt="Pink marble background">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% block script %}
+        <script src="{% static 'js/diary-page.js' %}"></script>
+    {% endblock %}
+
+{% endblock %}
+
+
+

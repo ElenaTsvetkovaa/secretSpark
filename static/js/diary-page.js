@@ -1,6 +1,5 @@
 
 document.addEventListener('DOMContentLoaded', function() {
-    const moodTracker = document.getElementById('mood-tracker');
     const moodDisplay = document.getElementById('mood-display');
     const apiUrl = moodDisplay.dataset.apiUrl;
     const moodImage = document.getElementById('mood-image');
@@ -67,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function setMood(index) {
             selectedMood = moods[index];
+            document.getElementById("selectedMoodInput").value = selectedMood.id;
 
             // Fade out
             moodImage.classList.remove('opacity-100');
@@ -104,6 +104,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 moodLabel.classList.remove("opacity-0");
                 moodSlider.classList.remove("opacity-0");
             }, 250);
+        }
+
+        // Date Flatpickr
+
+        const datePicker = document.getElementById("datePicker");
+        const dateInput = document.getElementById("dateInput");
+        const saveButton = document.getElementById("saveButton");
+
+        const fp = flatpickr(dateInput, {
+            appendTo: document.getElementById("calendarDisplay"),
+            inline: true,
+            altInput: true,
+            altFormat: "J M Y",
+            dateFormat: "Y-m-d",
+            onReady: () => {
+                dateInput.classList.add("opacity-100")
+            },
+        });
+
+        datePicker.addEventListener("click", () => {
+            fp.open();
+        });
+
+        saveButton.onclick = () => {
+            const selectedDate = fp.input.value;
+            document.getElementById("selectedDateInput").value = selectedDate;
+            document.getElementById("selectedMoodInput").value = selectedMood.id;
         }
 });
 
