@@ -1,33 +1,39 @@
 from django import forms
+from wellness.models import CycleCalendar
 
-from wellness.models import Diary, Moods
 
-
-class DiaryForm(forms.ModelForm):
+class CalendarCycleForm(forms.ModelForm):
 
     class Meta:
-        model = Diary
-        fields = ("content", )
+        model = CycleCalendar
+        fields = ["last_period_date", "period_length", "cycle_length"]
 
-        widgets = {
-            "content": forms.Textarea(
-                attrs={
-                    "class": "relative outline-none resize-none size-full mx-auto bg-white "
-                             "shadow-lg rounded-md py-12 pl-12 pr-8 notebook-paper",
-                }
-            ),
+        labels = {
+            "last_period_date": "When did your last period start?",
+            "cycle_length": "How long does your menstrual cycle last?",
+            "period_length": "What is the standard length of your period?"
         }
 
-
-class MoodsForm(forms.ModelForm):
-
-    class Meta:
-        model = Moods
-        fields = "__all__"
-
-
-
-
-
-
-
+        widgets = {
+            "last_period_date": forms.DateInput(
+                attrs={
+                    "type": "date",
+                    "class": "w-full appearance-none border border-pink-300 cursor-pointer rounded-md px-4 py-2 bg-white "
+                             "text-gray-700 text-center focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400"
+                }
+            ),
+            "period_length": forms.Select(
+                choices=[(i, str(i)) for i in range (1, 11)],
+                attrs={
+                    "class": "w-full appearance-none border border-pink-300 cursor-pointer rounded-md px-4 py-2 bg-white "
+                             "text-gray-700 text-center focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400"
+                }
+            ),
+            "cycle_length": forms.Select(
+                choices=[(i, str(i)) for i in range(21, 40)],
+                attrs={
+                    "class": "w-full appearance-none border border-pink-300 cursor-pointer rounded-md px-4 py-2 px-5 bg-white "
+                             "text-gray-700 text-center focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400"
+                }
+            )
+        }

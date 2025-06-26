@@ -27,6 +27,7 @@ textarea.notebook-paper {
 }
 
 fieldset {
+	z-index: 100;
 	--gap: 9px;
 	position: absolute;
 	top: calc(20px - var(--gap));
@@ -200,7 +201,7 @@ fieldset {
 }
 
 .heart--top-left {
-    left: -5%;
+    left: 0%;
     top: 2%;
     rotate: -25deg;
     z-index: 2;
@@ -218,7 +219,7 @@ fieldset {
 }
 
 .heart--top-right {
-	left: 106%;
+	left: 105%;
 	top: 8%;
 	rotate: 10deg;
 	z-index: -1;
@@ -228,7 +229,7 @@ fieldset {
 
 .heart--left-center {
 	left: -5%;
-	top: 97%;
+	top: 110%;
 	rotate: -23deg;
 	z-index: 2;
 	--scale: 6.2;
@@ -238,14 +239,14 @@ fieldset {
 .heart--bottom-center {
 	--scale: 4.2;
 	left: 38%;
-	top: 101%;
+	top: 120%;
 	rotate: 40deg;
 	animation-delay: 0.3s;
 }
 
 .heart--bottom-right {
 	left: 102%;
-	top: 78%;
+	top: 99%;
 	rotate: 12deg;
 	z-index: -1;
 	--scale: 9;
@@ -309,4 +310,9 @@ fieldset {
   50% {
     transform: scale(1.01); /* subtle and smooth */
   }
+}
+
+.flatpickr-calendar {
+  transform: scale(0.9);
+  transform-origin: top left;
 }

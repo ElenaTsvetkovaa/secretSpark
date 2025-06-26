@@ -9,14 +9,5 @@ class Phases(models.TextChoices):
     OVULATION = 'O', 'Ovulation'
     LUTEAL = 'L', 'Luteal'
 
-class MoodChoices(models.TextChoices):
-
-    HAPPY = 'Happy', 'Happy'
-    IN_PERIOD = 'In Period', 'In Period'
-    CALM = 'Calm', 'Calm'
-    ANGRY = 'Angry', 'Angry'
-    HEARTBROKEN = 'Heartbroken', 'Heartbroken'
-
-
 
 

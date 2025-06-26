@@ -63,10 +63,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
-
+        // Setting the mood
         function setMood(index) {
             selectedMood = moods[index];
-            document.getElementById("selectedMoodInput").value = selectedMood.id;
+            // document.getElementById("selectedMoodInput").value = selectedMood.id;
 
             // Fade out
             moodImage.classList.remove('opacity-100');
@@ -85,11 +85,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 moodLabel.classList.add('opacity-100');
             }, 250);
         }
+        // Calculate the idx of mood because i use larger range
         function getMoodIndexFromSlider(value) {
-            const percent = value / 100;
-            const moodIndex = Math.floor(percent * moods.length); // or tweak to bias happy earlier
+            const percent = value / 100; // v = 30; percent = 0.3
+            const moodIndex = Math.floor(percent * moods.length); // idx = 1 -> which is mood at idx 2
             return Math.min(moodIndex, moods.length - 1);
         }
+        // Loading the Mood tracker elements
         function loadMoodDisplay() {
 
             const defaultIndex = moods.findIndex(m => m.is_default);
@@ -106,15 +108,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 250);
         }
 
-        // Date Flatpickr
 
-        const datePicker = document.getElementById("datePicker");
         const dateInput = document.getElementById("dateInput");
-        const saveButton = document.getElementById("saveButton");
-
+        const diaryForm = document.getElementById("diaryForm");
+        const formDate =   document.getElementById("selectedDateInput");
+        const formMood =  document.getElementById("selectedMoodInput");
+        // Instantiating date Flatpickr calendar
         const fp = flatpickr(dateInput, {
             appendTo: document.getElementById("calendarDisplay"),
             inline: true,
+            defaultDate: new Date(),
             altInput: true,
             altFormat: "J M Y",
             dateFormat: "Y-m-d",
@@ -123,16 +126,79 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         });
 
-        datePicker.addEventListener("click", () => {
-            fp.open();
-        });
+        dateInput.addEventListener('change', function (event){
+            formDate.value = this.value;
 
-        saveButton.onclick = () => {
-            const selectedDate = fp.input.value;
-            document.getElementById("selectedDateInput").value = selectedDate;
-            document.getElementById("selectedMoodInput").value = selectedMood.id;
-        }
+            fetch(`/diary/entry/?date=${formDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        window.location.href = `/diary/${data.diary_id}`
+                    } else {
+                        window.location.href = `/diary`
+                    }
+                });
+        });
 });
+        // Make a post request
+        // let postTimeOut;
+        // diaryForm.addEventListener('change', () => {
+        //     clearTimeout(postTimeOut);
+        //     postTimeOut = setTimeout(sendPostRequest, 500);
+        // });
+        //
+        // function sendPostRequest() {
+        //     formMood.value = selectedMood.id;
+        //
+        //     const form = new FormData(diaryForm);
+        //     fetch('/diary/', {
+        //         method: 'POST',
+        //         body: form,
+        //     })
+        //         .then(res => res.json())
+        //         .catch(error => console.log('Error:', error));
+        // }
+
+
+        // function sendGetRequest() {
+        //
+        //     fetch('/diary/', {
+        //         method: "GET",
+        //         date:  fp.input.value,
+        //     })
+        //         .then(res => res.json())
+        //         .catch(error => console.error('Error:', error));
+        // }
+        //
+        // const diaryForm = document.getElementById('diaryForm');
+        // let postTimeOut;
+        //
+        // diaryForm.addEventListener('input', () => {
+        //     clearTimeout(postTimeOut);
+        //     postTimeOut = setTimeout(sendPostRequest, 500);
+        // });
+        //
+
+
+        //
+        // datePicker.addEventListener("click", () => {
+        //     fp.open();
+        //     document.getElementById("selectedDateInput").value = fp.input.value;
+        //     sendGetRequest();
+        // });
+
+
+
+        // don't have submit button
+        // sendPostRequest();
+
+        //   saveButton.click = () => {
+        //         const selectedDate = fp.input.value;
+        //         document.getElementById("selectedDateInput").value = fp.input.value;
+        //         document.getElementById("selectedMoodInput").value = selectedMood.id;
+        // }
+
+
 
 
 

@@ -34,6 +34,7 @@ PROJECT_APPS = [
     'plans',
     'wellness',
     'articles',
+    'diary',
     'rest_framework',
 ]
 
