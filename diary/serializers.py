@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from diary.choices import MoodChoices
 from diary.models import Moods
+from django.templatetags.static import static
 
 
 class MoodsSerializer(serializers.ModelSerializer):
@@ -12,6 +13,5 @@ class MoodsSerializer(serializers.ModelSerializer):
 
     def get_is_default(self, obj):
         return obj.mood == MoodChoices.CALM
-
 
 

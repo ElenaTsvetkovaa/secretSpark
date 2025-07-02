@@ -31,5 +31,5 @@ class Moods(models.Model):
         max_length=200,
     )
     image = models.ImageField(
-        upload_to='static/images/moods/'
+        upload_to='mood-images/'
     )

@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(response => response.json())
                     .then(data => {
                         if (data.exists) {
-                            // If record exist we add populate the form
+                            // If record exist we populate the form
                             document.querySelector('[name="content"]').value = data.content;
                             formMood.value = data.mood_id;
 

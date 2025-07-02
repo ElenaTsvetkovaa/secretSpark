@@ -17,19 +17,19 @@
         </li>
 
     <li class="nav-item" id="articles-nav-item" aria-haspopup="true" aria-expanded="false">
-        <a href="#" class="toggle-articles">
+        <a href="{% url 'articles-list' %}" class="toggle-articles">
             <iconify-icon icon="mdi:newspaper" class="nav-icon"></iconify-icon>
             <span>Articles</span>
         </a>
             <div class="side-flyout" id="articles-dropdown">
-                <a href="#">
+                <a href="{% url 'article-category' category="SIM" %}">
                     <iconify-icon icon="mdi:meditation" class="flyout-icon"></iconify-icon>
                     Self-Improvement
                 </a>
-                <a href="#"><iconify-icon icon="mdi:cash-multiple" class="flyout-icon"></iconify-icon>
+                <a href="{% url 'article-category' category="WAM" %}"><iconify-icon icon="mdi:cash-multiple" class="flyout-icon"></iconify-icon>
                     <span>Work & Money</span>
                 </a>
-                <a href="#"><iconify-icon icon="mdi:tshirt-crew" class="flyout-icon"></iconify-icon>
+                <a href="{% url 'article-category' category="STY"%}"><iconify-icon icon="mdi:tshirt-crew" class="flyout-icon"></iconify-icon>
                     <span>Style</span>
                 </a>
             </div>
@@ -75,8 +75,7 @@
         articlesDropdown.addEventListener('mouseenter', showDropdown);
         articlesDropdown.addEventListener('mouseleave', hideDropdown);
 
-        articlesNavItem.addEventListener('click', function (e) {
-            e.preventDefault();
+        articlesNavItem.addEventListener('click', function () {
             if (articlesDropdown.classList.contains('show')) {
                 articlesDropdown.classList.remove('show');
                 articlesNavItem.setAttribute('aria-expanded', 'false');

@@ -1,0 +1,32 @@
+{% block article-card %}
+
+    <article class="group flex flex-col max-w-[350px] w-full bg-white border border-gray-200 rounded-lg
+                    overflow-hidden transition duration-300">
+        <a href="#" class="w-full h-full object-cover">
+            <div class="w-full aspect-[4/5] overflow-hidden rounded-t">
+                <img
+                  src="{{ article.banner.url }}"
+                  alt="{{ article.title }}"
+                  class="w-full h-full object-cover rounded-lg overflow-hidden max-w-[350px]
+                   transition-transform duration-300 hover:scale-105 group-hover:opacity-80"
+                />
+            </div>
+
+        <!-- Article content -->
+            <div class="p-6 flex flex-col justify-between flex-1">
+              <!-- Category and Date -->
+                  <div class="text-center uppercase text-[11px] tracking-widest text-gray-400 font-medium mb-4">
+                      <p>{{ article.get_category_display }}</p>
+                      <p>{{ article.updated_at|date:"d M Y" }}</p>
+                  </div>
+
+              <!-- Title -->
+                  <h2 class="text-lg md:text-xl text-center font-serif font-semibold text-gray-800 leading-snug
+                   transition-colors duration-300 group-hover:text-stone-500 group-hover:underline">
+                    {{ article.title }}
+                  </h2>
+            </div>
+        </a>
+    </article>
+
+{% endblock %}

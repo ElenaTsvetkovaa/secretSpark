@@ -1,0 +1,40 @@
+{% extends 'common/index.html' %}
+{% load static %}
+{% block  content %}
+
+    <div class="flex flex-col mx-32 px-8 sm:px-6 lg:px-8">
+      <!-- Category Header -->
+
+            <div class="mb-10 text-center">
+                <h6 class="font-serif text-center tracking-tight my-5">Featured from</h6>
+                <h1 class="font-serif text-center text-5xl tracking-wide">{{ article_list.0.get_category_display }}</h1>
+            </div>
+
+          <!-- Articles Grid -->
+          <section class="flex flex-wrap justify-between gap-y-10 px-4 pb-16 mb-12">
+
+                {% for article in article_list.all|slice:":3" %}
+                    <!-- Article Card -->
+
+                     {% include 'articles/article-card.html' %}
+
+                {% endfor %}
+          </section>
+        <hr>
+    </div>
+
+    <div class="my-12 text-center">
+        <h1 class="font-serif text-center text-4xl tracking-wide">Most Recent</h1>
+    </div>
+
+    <div class="grid grid-cols-4 gap-8">
+
+        {% for article in article_list.all %}
+
+            {% include 'articles/article-card.html' %}
+
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

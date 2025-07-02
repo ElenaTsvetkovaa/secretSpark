@@ -3,82 +3,97 @@
 
 {% block content %}
 
-    <section class="article-form-section">
-        <h2 id="article-form-title">Create New Article</h2>
 
-            <form  action="{% url 'create-article' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <fieldset class="article-form-grid">
+<div class="min-h-screen flex items-start justify-center px-4 py-8">
+      <form method="post" enctype="multipart/form-data" class="w-full max-w-6xl bg-[#f8f5f7] rounded-lg shadow-md overflow-hidden flex flex-col">
+            {% csrf_token %}
+            {{ formset.management_form }}
 
-                    <div class="form-column form-left">
-                        <div class="form-field">
-                             {{ form.title }}
-                        </div>
+            <div class="article-form-field text-center text-2xl m-5 font-semibold text-[#3b2920] outline-none">
+                {{ form.title }}
+            </div>
 
-                        <div class="form-field">
-                            {{ form.content }}
-                        </div>
+            <div  class="flex flex-col lg:flex-row gap-8 px-6 py-4">
+                <div class="flex flex-row gap-12 w-full px-10 py-4">
+
+
+                    <div class="flex flex-col basis-2/3 w-full gap-2">
+                            {% for form in formset %}
+                                {% include 'articles/article-section-item.html' with form=form %}
+                            {% endfor %}
                     </div>
 
-                    <aside class="form-column form-right">
-                        <div class="form-field">
-                            <div class="image-container">
-                              <div class="folder">
-                                <div class="front-side">
-                                  <div class="tip"></div>
-                                  <div class="cover"></div>
+                    <aside class="flex flex-col justify-evenly items-center h-full basis-1/3 space-y-6">
+
+                            <div class="article-form-field">
+                                <div class="image-container">
+                                    <div class="folder">
+                                        <div class="front-side">
+                                            <div class="tip"></div>
+                                            <div class="cover"></div>
+                                        </div>
+                                        <div class="back-side cover"></div>
+                                    </div>
+
+                                    <label class="custom-file-upload">
+                                                    Upload Article Banner
+                                        <input type="file" name="images" multiple>
+                                    </label>
                                 </div>
-                                <div class="back-side cover"></div>
-                              </div>
-
-                                <label for="{{ form.photo.id_for_label }}" class="custom-file-upload">
-                                    Upload Image
-                                    {{ form.photo }}
-                                </label>
+                                <span id="file-name" class="text-gray-600 text-sm mt-6 inline-flex"></span>
                             </div>
-                        </div>
 
-                        <div class="form-field category-wrapper">
+                            <div class="article-form-field a-category-wrapper">
+                                    <label class="a-category-label">Choose category</label>
+                                        <ul class="a-category-list">
+                                            {% for db_value, label in form.category.field.choices %}
+                                               {% if db_value %}
+                                                    <li class="a-category-item" data-value="{{ db_value }}">{{ label }}</li>
+                                                {% endif %}
 
-                                <label class="category-label">Choose category</label>
-                                    <ul class="category-list">
-                                        {% for db_value, label in form.category.field.choices %}
-                                           {% if db_value %}
-                                                <li class="category-item" data-value="{{ db_value }}">{{ label }}</li>
-                                            {% endif %}
-
-                                        {% endfor %}
-                                    </ul>
-                            <input type="hidden" name="category" id="category-input">
-                        </div>
-
-                        <footer class="form-actions">
-                           <div class="button-group">
-                              <button type="submit" class="btn">Create</button>
-                              <button type="button" class="btn" onclick="/* тук добави логика за отказ */">Cancel</button>
+                                            {% endfor %}
+                                        </ul>
+                                <input type="hidden" name="category" id="a-category-input">
                             </div>
-                        </footer>
+
+                            <footer class="form-actions">
+                               <div class="button-group">
+                                  <button type="submit" class="btn">Create</button>
+                                  <a href="{% url 'articles-list' %}" type="button" class="btn">Cancel</a>
+                                </div>
+                            </footer>
                     </aside>
-
-                </fieldset>
-            </form>
-    </section>
+                </div>
+            </div>
+      </form>
+</div>
 
 
 <script>
-  const items = document.querySelectorAll('.category-item');
-  const hiddenInput = document.getElementById('category-input');
+        const items = document.querySelectorAll('.a-category-item');
+        const hiddenInput = document.getElementById('a-category-input');
 
-  items.forEach(item => {
-    item.addEventListener('click', () => {
-      // премахни избора от другите
-      items.forEach(el => el.classList.remove('selected'));
-      item.classList.add('selected');
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+              items.forEach(el => el.classList.remove('selected'));
+              item.classList.add('selected');
 
-      // запиши стойността
-      hiddenInput.value = item.dataset.value;
-    });
-  });
+              hiddenInput.value = item.dataset.value;
+            });
+        });
+
+        const imageInputs = document.querySelectorAll('input[type="file"]');
+            const spanFiles = document.querySelectorAll('#file-name');
+
+            spanFiles.forEach(span => {
+                span.textContent = "No file selected...";
+            });
+
+            imageInputs.forEach((input, index) => {
+                input.addEventListener("change", function () {
+                    spanFiles[index].textContent = this.files[0]?.name || "No file selected...";
+                });
+            });
 </script>
 
 {% endblock %}

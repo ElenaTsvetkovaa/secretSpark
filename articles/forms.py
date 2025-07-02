@@ -1,20 +1,24 @@
 from django import forms
-from articles.models import Article
+from articles.models import Article, ArticleSection
 
 
 class ArticleBaseForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        fields = "__all__"
-        widgets = {
-            "title": forms.TextInput(attrs={"placeholder": "Title"}),
-            "content": forms.Textarea(attrs={"placeholder": "Enter text..."}),
-        }
+        fields = ('title', 'category', 'banner', )
+
 
 
 class ArticleCreateForm(ArticleBaseForm):
-    pass
+
+    class Meta(ArticleBaseForm.Meta):
+        widgets = {
+            "title": forms.TextInput(attrs={
+                "placeholder": "Create New Article..."
+            }),
+        }
+
 
 class ArticleEditForm(ArticleBaseForm):
     pass
@@ -27,7 +31,8 @@ class ArticleDeleteForm(ArticleBaseForm):
         for field in self.fields:
             self.fields[field].disabled = True
 
-
+class ArticleDisplayForm(ArticleBaseForm):
+    pass
 
 
 
