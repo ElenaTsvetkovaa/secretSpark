@@ -1,16 +1,27 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
-def register(request):
-    return render(request, 'accounts/register-page.html')
+from accounts.forms import CustomRegistrationForm
+
+UserModel = get_user_model()
+
+
+class RegisterView(CreateView):
+    model = UserModel
+    form_class = CustomRegistrationForm
+    template_name = 'registration/register.html'
+    success_url = reverse_lazy('home')
 
 def login(request):
-    return render(request, 'accounts/login-page.html')
+    return render(request, 'registration/login.html')
 
 def profile_details(request, pk: int):
-    return render(request, 'accounts/profile-details-page.html')
+    return render(request, 'registration/profile-details-page.html')
 
 def profile_edit(request, pk: int):
-    return render(request, 'accounts/profile-edit-page.html')
+    return render(request, 'registration/profile-edit-page.html')
 
 def profile_delete(request, pk: int):
-    return render(request, 'accounts/profile-delete-page.html')
+    return render(request, 'registration/profile-delete-page.html')

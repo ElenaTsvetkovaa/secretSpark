@@ -1,0 +1,62 @@
+{% extends 'common/index.html' %}
+{% block content %}
+
+
+    <div class="login-register-div">
+        <div class="login-register-box">
+            <h1>Register</h1>
+
+            <!-- Start Register Form -->
+            <form method="post">
+                {% csrf_token %}
+
+{#                <div>#}
+{#                    {{ form.first_name }}#}
+{#                </div>#}
+{##}
+{#                <div>#}
+{#                    {{ form.last_name }}#}
+{#                </div>#}
+{##}
+{#                <div>#}
+{#                    {{ form.username }}#}
+{#                </div>#}
+{##}
+{#                <div>#}
+{#                    {{ form.email }}#}
+{#                </div>#}
+{##}
+{#                <div>#}
+{#                    {{ form.password1 }}#}
+{#                </div>#}
+{##}
+{#                <div>#}
+{#                    {{ form.password2 }}#}
+{#                </div>#}
+                    {% for field in form %}
+                        <div>
+                            {{ field }}
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <p style="color: red;">{{ error }}</p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                <!-- Register Button -->
+                <button type="submit">Register</button>
+            </form>
+            <!-- End Register Form -->
+
+        </div>
+
+        <div class="second-option">
+
+            <!-- Link to Login Page -->
+            <p>Have an account? <a href="{% url 'login' %}">Log in</a></p>
+        </div>
+    </div>
+
+
+{% endblock %}

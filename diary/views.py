@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import When, Value, Case
 from django.http import JsonResponse
 from django.views.generic import CreateView, UpdateView
@@ -28,7 +29,7 @@ class MoodListView(APIView):
         return Response(serializer.data)
 
 
-class DiaryPageCreateView(DiaryFormMixin, CreateView):
+class DiaryPageCreateView(LoginRequiredMixin, DiaryFormMixin, CreateView):
     model = Diary
     form_class = DiaryForm
     template_name = 'diary/diary-page.html'
@@ -38,7 +39,7 @@ class DiaryPageCreateView(DiaryFormMixin, CreateView):
         return JsonResponse({"success": True, "diary_id": self.object.id})
 
 
-class DiaryPageUpdateView(DiaryFormMixin, UpdateView):
+class DiaryPageUpdateView(LoginRequiredMixin, DiaryFormMixin, UpdateView):
     model = Diary
     form_class = DiaryForm
     template_name = 'diary/diary-page.html'
