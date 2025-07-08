@@ -10,35 +10,12 @@
             <form method="post">
                 {% csrf_token %}
 
-{#                <div>#}
-{#                    {{ form.first_name }}#}
-{#                </div>#}
-{##}
-{#                <div>#}
-{#                    {{ form.last_name }}#}
-{#                </div>#}
-{##}
-{#                <div>#}
-{#                    {{ form.username }}#}
-{#                </div>#}
-{##}
-{#                <div>#}
-{#                    {{ form.email }}#}
-{#                </div>#}
-{##}
-{#                <div>#}
-{#                    {{ form.password1 }}#}
-{#                </div>#}
-{##}
-{#                <div>#}
-{#                    {{ form.password2 }}#}
-{#                </div>#}
                     {% for field in form %}
                         <div>
                             {{ field }}
                             {% if field.errors %}
                                 {% for error in field.errors %}
-                                    <p style="color: red;">{{ error }}</p>
+                                    <p class="mt-2 text-red-500 font-medium">{{ error }}</p>
                                 {% endfor %}
                             {% endif %}
                         </div>

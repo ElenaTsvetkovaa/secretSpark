@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView
 
-from accounts.forms import CustomRegistrationForm, ProfileEditForm
+from accounts.forms import CustomRegistrationForm, ProfileEditForm, CustomLoginForm
 from accounts.models import Profile
 
 UserModel = get_user_model()
@@ -16,6 +17,12 @@ class RegisterView(CreateView):
     template_name = 'registration/register.html'
     success_url = reverse_lazy('home')
 
+class CustomLoginView(LoginView):
+    form_class = CustomLoginForm
+
+    def get_success_url(self):
+        profile = Profile.objects.get(user_id=self.request.user.pk)
+        return reverse_lazy('profile-details', kwargs={'pk': profile.pk})
 
 class ProfileEditView(UpdateView):
     model = Profile
@@ -30,13 +37,7 @@ class ProfileEditView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('profile-details', kwargs={'pk': self.object.pk})
 
+
 class ProfileDetailsView(DetailView):
     model = Profile
     template_name = 'registration/profile-details-page.html'
-
-
-def profile_details(request, pk: int):
-    return render(request, 'registration/profile-details-page.html')
-
-def profile_delete(request, pk: int):
-    return render(request, 'registration/profile-delete-page.html')

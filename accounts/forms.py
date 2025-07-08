@@ -49,6 +49,7 @@ class CustomLoginForm(AuthenticationForm):
             'placeholder': 'Password'
         })
 
+
 class BaseProfileForm(forms.ModelForm):
     DEFAULT_STYLE = 'flex-1 px-3 py-1 border border-pink-200 rounded-md outline-none focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent'
     first_name = forms.CharField(
