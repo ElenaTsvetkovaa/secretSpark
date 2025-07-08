@@ -27,7 +27,7 @@
   transition: all 0.3s ease;
 }
 
-input[type="text"]:focus,
+.article-form-field input[type="text"]:focus,
 .article-form-field textarea:focus,
 .article-form-field select:focus {
   outline: none;
