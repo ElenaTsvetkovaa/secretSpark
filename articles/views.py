@@ -1,6 +1,6 @@
 from django.forms.models import modelformset_factory, inlineformset_factory
 from django.shortcuts import redirect, render
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from rest_framework.reverse import reverse_lazy
 from unicodedata import category
 
@@ -15,10 +15,6 @@ class ListArticlesByCategory(ListView):
     form = ArticleDisplayForm
     template_name = 'articles/list-articles-by-category.html'
     paginate_by = 4
-
-    def get_ordering(self):
-        """Return the field or fields to use for ordering the queryset."""
-        return '-updated_at'
 
     def get_queryset(self):
         queryset = Article.objects.filter(category=self.kwargs['category'])
@@ -92,6 +88,14 @@ class ArticleCreateView(CreateView):
             return super().form_invalid(form)
 
 
+class ArticleDetailView(DetailView):
+    model = Article
+    template_name = 'articles/details-article.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sections'] = self.object.articlesection_set.all()
+        return context
 
 def edit_article(request, pk: int):
     pass

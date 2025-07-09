@@ -11,6 +11,9 @@ class Article(BaseContent):
         choices=ArticleCategories.choices
     )
 
+    class Meta:
+        ordering =  ('-updated_at', )
+
 class ArticleSection(models.Model):
 
     article = models.ForeignKey(

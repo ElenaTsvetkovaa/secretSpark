@@ -1,11 +1,60 @@
 {% extends 'common/index.html' %}
 {% load static %}
 
+{% block content %}
+<article class="max-w-screen-lg w-full mx-auto px-6 sm:px-12 py-24 font-serif text-neutral-800 leading-relaxed">
+
+      <!-- Header: Banner | Title -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+              <div>
+                <img src="{{ article.banner.url }}" alt="{{ article.title }}"
+                     class="w-full rounded-full object-contain" />
+              </div>
+
+            <div class="space-y-4">
+                  <h1 class="text-5xl font-bold text-neutral-900">
+                    {{ article.title }}
+                  </h1>
+                  <p class="text-sm text-neutral-500">
+                    Published on {{ article.created_at|date:"F j, Y" }}
+                  </p>
+            </div>
+      </div>
+
+  <!-- Article Sections -->
+      {% for item in sections %}
+        {% with section=item.section %}
+        <section class="mb-24">
+
+              <!-- Section Title -->
+            <h2 class="text-3xl font-semibold text-neutral-900 mb-6">
+                {{ section.title }}
+            </h2>
+
+              <!-- Side-by-side Image | Text -->
+            <div class="flex flex-col items-center md:flex-row md:gap-12">
+
+                <!-- Image -->
+                  <div class="flex-shrink-0 w-full md:w-1/2 mb-6 md:mb-0">
+                        <img src="{{ section.image.url }}" alt="{{ section.title }}"
+                             class="w-full object-contain rounded-full" />
+                  </div>
+
+                <!-- Text -->
+                    <div class="prose prose-lg max-w-none text-neutral-700 md:w-1/2">
+                        {{ section.content|linebreaks }}
+                    </div>
+            </div>
+
+        </section>
 
 
+        <!-- Divider -->
+        {% if not forloop.last %}
+          <hr class="border-t border-neutral-300 my-16">
+        {% endif %}
+        {% endwith %}
+      {% endfor %}
 
-
-
-
-
-
+</article>
+{% endblock %}

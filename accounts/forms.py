@@ -82,7 +82,7 @@ class BaseProfileForm(forms.ModelForm):
             }),
             'profile_picture': forms.ClearableFileInput(attrs={
                 'class': 'block mx-auto mt-2 text-sm text-pink-600 file:mr-4 file:py-2 file:px-4 file:rounded-full'
-                         ' file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100'
+                         ' file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100',
             })
         }
 
