@@ -4,11 +4,6 @@ from diary.choices import MoodChoices
 
 class Diary(models.Model):
 
-    # TODO when I create user roles
-    # user = models.ForeignKey(
-    #     to='User',
-    #     on_delete=models.CASCADE
-    # )
     date = models.DateField()
     content = models.TextField()
     mood = models.ForeignKey(
