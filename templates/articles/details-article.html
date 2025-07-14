@@ -3,6 +3,14 @@
 
 {% block content %}
 <article class="max-w-screen-lg w-full mx-auto px-6 sm:px-12 py-24 font-serif text-neutral-800 leading-relaxed">
+{#    {% if request.user.is_staff or request.user.is_superuser %}#}
+        <div class="flex justify-end">
+              <a href="{% url 'edit-article' pk=article.pk %}"
+                 class="p-3 my-3 text-center bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition duration-200 shadow">
+                Edit Article
+              </a>
+        </div>
+{#    {% endif %}#}
 
       <!-- Header: Banner | Title -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
@@ -27,7 +35,7 @@
         <section class="mb-24">
 
               <!-- Section Title -->
-            <h2 class="text-3xl font-semibold text-neutral-900 mb-6">
+            <h2 class="text-3xl text-center font-semibold text-neutral-900 mb-6">
                 {{ section.title }}
             </h2>
 

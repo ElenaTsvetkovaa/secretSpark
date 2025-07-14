@@ -1,10 +1,10 @@
 from django.forms.models import modelformset_factory, inlineformset_factory
 from django.shortcuts import redirect, render
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from rest_framework.reverse import reverse_lazy
 from unicodedata import category
 
-from articles.forms import ArticleCreateForm, ArticleDisplayForm
+from articles.forms import ArticleCreateForm, ArticleDisplayForm, EditArticleForm
 from articles.models import Article, ArticleSection
 from common.forms import ArticleSectionItemForm
 from common.models import Section
@@ -29,10 +29,6 @@ class ListArticlesByCategory(ListView):
         return context
 
 
-class ListAllArticles(ListView):
-    model = Article
-    form = ArticleDisplayForm
-    template_name = 'articles/articles-list.html'
 
 class ArticleCreateView(CreateView):
     model = Article
@@ -85,6 +81,7 @@ class ArticleCreateView(CreateView):
 
             return super().form_valid(form)
         else:
+            print("Formset errors:", formset.errors)
             return super().form_invalid(form)
 
 
@@ -96,6 +93,23 @@ class ArticleDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['sections'] = self.object.articlesection_set.all()
         return context
+
+class EditArticleView(UpdateView):
+    model = Article
+    form_class = EditArticleForm
+    template_name = 'articles/edit-article.html'
+
+    def get_success_url(self):
+        return reverse_lazy('details-article', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['formset'] = self.object.articlesection_set.all()
+
+
+        return context
+
+
 
 def edit_article(request, pk: int):
     pass

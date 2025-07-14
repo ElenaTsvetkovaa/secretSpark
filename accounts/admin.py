@@ -1,3 +1,12 @@
 from django.contrib import admin
 
-# Register your models here.
+from accounts.models import Profile, CustomUser
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(CustomUser)
+class CustomUseruAdmin(admin.ModelAdmin):
+    pass

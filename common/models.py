@@ -30,5 +30,6 @@ class Section(models.Model):
         upload_to='section-images/'
     )
 
-
+    def __str__(self):
+        return f"{self.articlesection.article.title} - {self.id}"
 

@@ -14,6 +14,11 @@ class Article(BaseContent):
     class Meta:
         ordering =  ('-updated_at', )
 
+
+    def __str__(self):
+        return f"{self.title} - {self.id}"
+
+
 class ArticleSection(models.Model):
 
     article = models.ForeignKey(

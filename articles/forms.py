@@ -20,7 +20,7 @@ class ArticleCreateForm(ArticleBaseForm):
         }
 
 
-class ArticleEditForm(ArticleBaseForm):
+class EditArticleForm(ArticleBaseForm):
     pass
 
 class ArticleDeleteForm(ArticleBaseForm):

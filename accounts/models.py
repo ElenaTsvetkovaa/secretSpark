@@ -6,6 +6,10 @@ from django.db import models
 class CustomUser(AbstractUser):
     pass
 
+    def __str__(self):
+        return f"{self.username} - {self.id}"
+
+
 UserModel = get_user_model()
 
 
@@ -25,3 +29,7 @@ class Profile(models.Model):
         blank=True,
         null=True
     )
+
+
+    def __str__(self):
+        return f"{self.user.username} - {self.id}"

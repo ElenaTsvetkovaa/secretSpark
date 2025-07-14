@@ -8,11 +8,6 @@
       <form method="post" enctype="multipart/form-data" class="w-full max-w-6xl bg-[#f8f5f7] rounded-lg shadow-md overflow-hidden flex flex-col">
             {% csrf_token %}
             {{ formset.management_form }}
-              {% if form.non_field_errors %}
-              <div class="text-red-500 text-sm">
-                {{ form.non_field_errors }}
-              </div>
-            {% endif %}
 
             <div class="article-form-field text-center text-2xl m-5 font-semibold text-[#3b2920] outline-none">
                 {{ form.title }}
@@ -23,8 +18,8 @@
 
 
                     <div class="flex flex-col basis-2/3 w-full gap-2">
-                            {% for section_form  in formset %}
-                                {% include 'articles/article-section-item.html' with form=section_form %}
+                            {% for form in formset %}
+                                {% include 'articles/article-section-item.html' with form=form %}
                             {% endfor %}
                     </div>
 
@@ -42,7 +37,6 @@
 
                                     <label class="custom-file-upload">
                                                     Upload Article Banner
-                                         {{ form.banner }}
                                         <input type="file" name="images" multiple>
                                     </label>
                                 </div>
@@ -64,8 +58,8 @@
 
                             <footer class="form-actions">
                                <div class="button-group">
-                                  <button type="submit" class="btn">Create</button>
-                                  <a href="{% url 'articles-list' %}" type="button" class="btn">Cancel</a>
+                                  <button type="submit" class="btn">Save</button>
+                                  <a href="{% url 'details-article' pk=article.pk %}" type="button" class="btn">Cancel</a>
                                 </div>
                             </footer>
                     </aside>

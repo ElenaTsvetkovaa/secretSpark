@@ -5,10 +5,16 @@
 
                      <div class="article-form-field">
                          {{ form.title }}
+                            {% for error in form.title.errors %}
+                              <div class="field-error">{{ error }}</div>
+                            {% endfor %}
                      </div>
 
                     <div class="article-form-field">
                         {{ form.content }}
+                            {% for error in form.content.errors %}
+                                <div class="field-error">{{ error }}</div>
+                            {% endfor %}
                     </div>
 
                 </div>
@@ -27,6 +33,9 @@
                                 <label class="custom-file-upload">
                                     Upload Image
                                     {{ form.image }}
+                                    {% for error in form.image.errors %}
+                                <div class="field-error">{{ error }}</div>
+                            {% endfor %}
                                 </label>
 
 
