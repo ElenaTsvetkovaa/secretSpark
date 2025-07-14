@@ -1,0 +1,179 @@
+{% extends 'common/index.html' %}
+{% load static %}
+{% block content %}
+
+<div class="flex flex-col mx-32 px-8 sm:px-6 lg:px-8">
+
+  {% if request.user.is_staff or request.user.is_superuser %}
+  <div class="flex justify-end">
+    <a href="{% url 'create-article' %}"
+       class="p-3 my-3 text-center bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition duration-200 shadow">
+      Create Article
+    </a>
+  </div>
+  {% endif %}
+
+  <div class="mb-10 text-center">
+    <h6 class="font-serif my-5">Featured from</h6>
+    <h1 class="font-serif text-5xl tracking-wide capitalize">{{ category }}</h1>
+  </div>
+
+  <section id="featured-articles" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 pb-16 mb-12">
+  </section>
+
+  <hr class="mb-12">
+</div>
+
+<div class="my-12 text-center">
+  <h1 class="font-serif text-4xl tracking-wide">Most Recent</h1>
+</div>
+
+<!-- Carousel Container -->
+<div class="relative w-full overflow-x-hidden my-5 px-4 pb-12 mx-8">
+  <div id="carousel-wrapper" class="overflow-x-hidden">
+    <div id="carousel-track"
+           class="flex transition-transform duration-500 ease-in-out will-change-transform gap-8 min-w-full">
+      <!-- Articles cards will be injected here -->
+    </div>
+  </div>
+</div>
+
+<!-- Navigation Buttons -->
+<div class="flex justify-center mt-6 space-x-4">
+  <button id="prev-btn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50" disabled>← Previous</button>
+  <button id="next-btn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50" disabled>Next →</button>
+</div>
+
+<script>
+  const category = "{{ category }}";
+  let articles = [];
+  let startIndex = 0;
+  const visibleCount = 4;
+  const track = document.getElementById("carousel-track");
+  const prevBtn = document.getElementById("prev-btn");
+  const nextBtn = document.getElementById("next-btn");
+
+  function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+  }
+
+  function createCard(article) {
+    return `
+      <article class="group flex flex-col w-full h-full bg-white border border-gray-200 rounded-lg overflow-hidden transition duration-300">
+        <a href="/articles/${article.id}/details-article" class="flex flex-col h-full">
+          <div class="w-full aspect-[3/4] overflow-hidden rounded-t">
+            <img src="${article.banner}" alt="${article.title}"
+              class="w-full h-full object-cover rounded-t-lg transition-transform duration-300 hover:scale-105 group-hover:opacity-80" />
+          </div>
+          <div class="p-6 flex flex-col flex-grow justify-between min-h-[200px]">
+            <div class="text-center uppercase text-[11px] tracking-widest text-gray-400 font-medium mb-4">
+              <p>${article.category}</p>
+              <p>${formatDate(article.updated_at)}</p>
+            </div>
+            <h2 class="text-lg md:text-xl text-center font-serif font-semibold text-gray-800 leading-snug transition-colors duration-300 group-hover:text-stone-500 group-hover:underline">
+              ${article.title}
+            </h2>
+          </div>
+        </a>
+      </article>
+    `;
+  }
+
+  function renderCarousel() {
+     track.innerHTML = "";
+
+     for (let i = 0; i < visibleCount + 1; i++) {
+        const idx = (startIndex + i) % articles.length;
+        const wrapper = document.createElement("div");
+        wrapper.className =  "w-[23.5%] flex-shrink-0";
+        wrapper.innerHTML = createCard(articles[idx]);
+        track.appendChild(wrapper);
+    }
+
+    track.style.transition = "none";
+    track.style.transform = "translateX(0)";
+    void track.offsetWidth;
+    track.style.transition = "transform 0.5s ease-in-out";
+  }
+
+  function slideNext() {
+    track.style.transform =  `translateX(-25%)`;
+    track.addEventListener("transitionend", onTransitionEndNext, { once: true });
+  }
+
+  function onTransitionEndNext() {
+    startIndex = (startIndex + 1) % articles.length;
+    renderCarousel();
+  }
+
+  function slidePrev() {
+    startIndex = (startIndex - 1 + articles.length) % articles.length;
+    track.innerHTML = "";
+
+    for (let i = 0; i < visibleCount + 1; i++) {
+      const idx = (startIndex + i) % articles.length;
+      const wrapper = document.createElement("div");
+      wrapper.className = "w-[23.5%] flex-shrink-0";
+      wrapper.innerHTML = createCard(articles[idx]);
+      track.appendChild(wrapper);
+    }
+    track.style.transition = "none";
+    track.style.transform = "translateX(-25%)";
+    void track.offsetWidth;
+    track.style.transition = "transform 0.5s ease-in-out";
+    track.style.transform = "translateX(0)";
+    track.addEventListener("transitionend", () => {
+      // no further action needed on prev transition end
+    }, { once: true });
+  }
+
+  function renderFeatured() {
+    const featured = document.getElementById("featured-articles");
+    featured.innerHTML = "";
+    articles.slice(0, 3).forEach(article => {
+      featured.innerHTML += createCard(article);
+    });
+  }
+
+  function loadAllArticles() {
+    fetch(`/articles/api/${category}/`)
+      .then(response => response.json())
+      .then(data => {
+        articles = Array.isArray(data) ? data : data.results;
+
+        // Enable or disable nav buttons based on article count
+        if (articles.length <= visibleCount) {
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
+        } else {
+          prevBtn.disabled = false;
+          nextBtn.disabled = false;
+        }
+
+        renderCarousel();
+        renderFeatured();
+      })
+      .catch(err => console.error("Error loading articles:", err));
+  }
+
+  nextBtn.addEventListener("click", () => {
+    if (!nextBtn.disabled) {
+      slideNext();
+    }
+  });
+
+  prevBtn.addEventListener("click", () => {
+    if (!prevBtn.disabled) {
+      slidePrev();
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", loadAllArticles);
+</script>
+
+{% endblock %}
