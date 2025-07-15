@@ -13,6 +13,15 @@
   </div>
   {% endif %}
 
+    {% if request.GET.deleted %}
+      <div id="deleteMessage"
+           class="absolute top-20 right-5 bg-green-100 text-green-800 px-6 py-4 rounded-lg shadow-lg flex items-center gap-2 z-50 transition-opacity duration-500">
+          <iconify-icon icon="icon-park-outline:success" class="text-xl"></iconify-icon>
+          <span>Article successfully deleted.</span>
+      </div>
+    {% endif %}
+
+
   <div class="mb-10 text-center">
     <h6 class="font-serif my-5">Featured from</h6>
     <h1 class="font-serif text-5xl tracking-wide capitalize">{{ category }}</h1>
@@ -174,6 +183,16 @@
   });
 
   document.addEventListener("DOMContentLoaded", loadAllArticles);
+
+    setTimeout(() => {
+      const msg = document.getElementById('deleteMessage');
+      if (msg) {
+        msg.style.transition = 'opacity 0.5s ease';
+        msg.style.opacity = '0';
+        setTimeout(() => msg.remove(), 500);
+      }
+    }, 2000); // disappears after 4 seconds
+
 </script>
 
 {% endblock %}

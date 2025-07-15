@@ -33,20 +33,41 @@ class ArticleSectionItemForm(forms.ModelForm):
 
     class Meta(SectionForm.Meta):
         model = ArticleSection
-        fields = []
+        fields = '__all__'
 
-    # def save(self, commit = True):
-    #     # Getting the obj to link the fields to the Section
-    #     article_section = super().save(commit=False)
-    #
-    #     section = article_section.section
-    #     section.title =  self.cleaned_data['title']
-    #     section.content =  self.cleaned_data['content']
-    #     section.image =  self.cleaned_data['image']
-    #     section.save()
-    #
-    #     article_section.section = section
-    #     if commit:
-    #         article_section.save()
-    #
-    #     return article_section
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+        if self.instance and self.instance.section_id:
+            self.fields['title'].initial = self.instance.section.title
+            self.fields['content'].initial = self.instance.section.content
+            self.fields['image'].initial = self.instance.section.image
+
+
+    def save(self, commit=True):
+        section_data = {
+            'title': self.cleaned_data['title'],
+            'content': self.cleaned_data['content'],
+            'image': self.cleaned_data.get('image') or self.instance.section.image,
+        }
+
+        if self.instance.section_id:
+            section = self.instance.section
+            for key, value in section_data.items():
+                setattr(section, key, value)
+            section.save()
+        else:
+            section = Section.objects.create(**section_data)
+
+        self.instance.section = section
+        return super().save(commit)
+
+class EditArticleSectionForm(ArticleSectionItemForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # If editing an existing instance, make image field not required
+        if self.instance and self.instance.pk:
+            self.fields['image'].required = False

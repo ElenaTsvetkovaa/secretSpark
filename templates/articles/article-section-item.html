@@ -2,6 +2,7 @@
         <div class="flex flex-row w-full">
             <div class="flex flex-row gap-12 w-full items-center">
                 <div class="flex flex-col basis-2/3 gap-2">
+                      {{ form.id }}
 
                      <div class="article-form-field">
                          {{ form.title }}
@@ -20,7 +21,7 @@
                 </div>
 
                     <aside class="flex flex-col basis-1/3">
-                        <div class="article-form-field">
+                        <div class="section-image-formfield article-form-field">
                             <div class="image-container">
                               <div class="folder">
                                 <div class="front-side">
@@ -41,7 +42,15 @@
 
                             </div>
                         </div>
-                         <span id="file-name" class="text-gray-600 text-sm mt-6 inline-flex"></span>
+
+                         <span class="file-name-display text-sm text-gray-600 mt-6 inline-flex">
+                            {% if form.image.value %}
+                                Currently: {{ form.image.value.url }}
+                            {% else %}
+                                No file selected...
+                            {% endif %}
+                        </span>
+
                     </aside>
                 </div>
         </div>

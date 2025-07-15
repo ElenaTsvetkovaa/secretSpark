@@ -1,41 +1,40 @@
-from django.forms.models import modelformset_factory, inlineformset_factory
-from django.shortcuts import redirect, render
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, TemplateView
-from rest_framework.generics import ListAPIView
-from rest_framework.pagination import PageNumberPagination
+from django.forms.models import inlineformset_factory
+from django.shortcuts import redirect
+from django.views.generic import CreateView, DetailView, UpdateView, TemplateView, DeleteView
+from rest_framework import status
+from rest_framework.generics import ListAPIView, DestroyAPIView
+from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
-from unicodedata import category
-from articles.forms import ArticleCreateForm, ArticleDisplayForm, EditArticleForm
-from articles.models import Article, ArticleSection
-from articles.serializers import ArticleSerializer
-from common.forms import ArticleSectionItemForm
-from common.models import Section
 
+
+from articles.forms import ArticleCreateForm, EditArticleForm, SectionForm
+from articles.models import Article
+from articles.serializers import ArticleSerializer
+from articles.models import Section
+
+
+SectionFormSet = inlineformset_factory(
+    parent_model=Article,
+    model=Section,
+    form=SectionForm,
+    extra=3,
+    can_delete=True
+)
 
 class ArticleCreateView(CreateView):
     model = Article
     form_class = ArticleCreateForm
-    template_name = 'articles/create-article.html'
-    success_url = reverse_lazy('home')
+    template_name = 'articles/edit-article.html'
+
+    def get_success_url(self):
+        return reverse_lazy('article-category', kwargs={'category': self.object.category})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        SectionFormSet = inlineformset_factory(
-            parent_model=Article,
-            model=ArticleSection,
-            form=ArticleSectionItemForm,
-            extra=3,
-            can_delete=True
-        )
-
         if self.request.POST:
-            context['formset'] = SectionFormSet(
-                self.request.POST,
-                self.request.FILES
-            )
+            context['formset'] = SectionFormSet(self.request.POST, self.request.FILES)
         else:
             context['formset'] = SectionFormSet()
-
         return context
 
     def form_valid(self, form):
@@ -43,28 +42,12 @@ class ArticleCreateView(CreateView):
         formset = context['formset']
 
         if formset.is_valid():
-            self.object = form.save() # this is the Article instance
-
-            for section_form in formset:
-                title = section_form.cleaned_data.get('title')
-                content = section_form.cleaned_data.get('content')
-                image = section_form.cleaned_data.get('image')
-
-                section = Section.objects.create(
-                    title=title,
-                    content=content,
-                    image=image
-                )
-
-                ArticleSection.objects.create(
-                    article=self.object,
-                    section=section
-                )
-
+            self.object = form.save()
+            formset.instance = self.object
+            formset.save()
             return super().form_valid(form)
         else:
-            print("Formset errors:", formset.errors)
-            return super().form_invalid(form)
+            return self.form_invalid(form)
 
 
 class ArticleDetailView(DetailView):
@@ -73,7 +56,7 @@ class ArticleDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sections'] = self.object.articlesection_set.all()
+        context['sections'] = self.object.sections.all()
         return context
 
 class EditArticleView(UpdateView):
@@ -86,10 +69,37 @@ class EditArticleView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['formset'] = self.object.articlesection_set.all()
+        if self.request.POST:
+            formset = SectionFormSet(
+                self.request.POST,
+                self.request.FILES,
+                instance=self.object
+            )
+        else:
+            # Dynamically override factory to set extra=0 during edit
+            SectionFormSetNoExtra = inlineformset_factory(
+                parent_model=Article,
+                model=Section,
+                form=SectionForm,
+                extra=0,
+                can_delete=True
+            )
+            formset = SectionFormSetNoExtra(instance=self.object)
 
-
+        context['formset'] = formset
         return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+
+        if formset.is_valid():
+            self.object = form.save()
+            formset.instance = self.object
+            formset.save()
+            return super().form_valid(form)
+
+        return self.form_invalid(form)
 
 class ListArticlesByCategory(TemplateView):
     template_name = 'articles/list-articles.html'
@@ -97,6 +107,7 @@ class ListArticlesByCategory(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category = self.kwargs['category']
+
         featured_articles = Article.objects.filter(category=category)[:3]
         context['category'] = category
         context['featured_articles'] = featured_articles
@@ -109,5 +120,23 @@ class ArticleListAPIView(ListAPIView):
     def get_queryset(self):
         category = self.kwargs['category']
         return Article.objects.filter(category=category)
+
+
+
+
+class DeleteAPIView(DestroyAPIView):
+    queryset = Article.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        category = instance.category
+        self.perform_destroy(instance)
+        return Response(
+            {
+                "message": "Article successfully deleted.",
+                "redirect_url": f"/articles/{category}/"
+            },
+            status=status.HTTP_200_OK
+        )
 
 

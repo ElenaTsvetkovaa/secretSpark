@@ -4,12 +4,20 @@
 {% block content %}
 <article class="max-w-screen-lg w-full mx-auto px-6 sm:px-12 py-24 font-serif text-neutral-800 leading-relaxed">
 {#    {% if request.user.is_staff or request.user.is_superuser %}#}
-        <div class="flex justify-end">
+        <div class="flex justify-end gap-3">
               <a href="{% url 'edit-article' pk=article.pk %}"
                  class="p-3 my-3 text-center bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition duration-200 shadow">
                 Edit Article
               </a>
+
+
+                <button id="delete-article-btn" onclick="openDeleteModal()"
+                         data-delete-url="{% url 'delete-article' pk=article.pk %}"
+                        class="p-3 my-3 text-center bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition duration-200 shadow">
+                    Delete Article
+                </button>
         </div>
+
 {#    {% endif %}#}
 
       <!-- Header: Banner | Title -->
@@ -30,8 +38,7 @@
       </div>
 
   <!-- Article Sections -->
-      {% for item in sections %}
-        {% with section=item.section %}
+      {% for section in sections %}
         <section class="mb-24">
 
               <!-- Section Title -->
@@ -61,8 +68,69 @@
         {% if not forloop.last %}
           <hr class="border-t border-neutral-300 my-16">
         {% endif %}
-        {% endwith %}
       {% endfor %}
 
+        <!-- Delete Confirmation Modal -->
+        <div id="deleteModal"
+             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+              <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+                    <h2 class="text-xl font-semibold mb-4">Are you sure you want to delete this article?</h2>
+                    <form id="deleteForm" method="POST" action="{% url 'delete-article' pk=article.pk %}">
+                          {% csrf_token %}
+                          <div class="flex justify-center gap-4 mt-6">
+                                <button type="button" onclick="closeDeleteModal()"
+                                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded">
+                                  Cancel
+                                </button>
+                          <button type="button" onclick="confirmDelete({{ article.pk }})"
+                                    class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded">
+                              Yes, Delete
+                          </button>
+
+                          </div>
+                    </form>
+              </div>
+        </div>
+
 </article>
+
+    <script>
+
+        function openDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('hidden');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.add('hidden');
+        }
+
+        function confirmDelete(articleId) {
+             const btn = document.getElementById('delete-article-btn');
+              const url = btn.getAttribute('data-delete-url');
+
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                  'X-CSRFToken': '{{ csrf_token }}',
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    alert('Error deleting article.');
+                }
+            })
+            .then(data => {
+                if (data.redirect_url) {
+                    window.location.href = data.redirect_url + '?deleted=true';
+                }
+            })
+              .catch(error => {
+                alert(error.message);
+              });
+          }
+
+    </script>
 {% endblock %}
+

@@ -27,9 +27,11 @@ class Section(models.Model):
     )
     content = models.TextField()
     image = models.ImageField(
-        upload_to='section-images/'
+        upload_to='section-images/',
+        blank=True,
+        null=True
     )
 
     def __str__(self):
-        return f"{self.articlesection.article.title} - {self.id}"
+        return f"{self.title} - {self.id}"
 

@@ -1,17 +1,14 @@
 from django import forms
-from articles.models import Article, ArticleSection
+from articles.models import Article, Section
 
 
 class ArticleBaseForm(forms.ModelForm):
-
     class Meta:
         model = Article
-        fields = ('title', 'category', 'banner', )
-
+        fields = ('title', 'category', 'banner')
 
 
 class ArticleCreateForm(ArticleBaseForm):
-
     class Meta(ArticleBaseForm.Meta):
         widgets = {
             "title": forms.TextInput(attrs={
@@ -21,18 +18,28 @@ class ArticleCreateForm(ArticleBaseForm):
 
 
 class EditArticleForm(ArticleBaseForm):
-    pass
-
-class ArticleDeleteForm(ArticleBaseForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        for field in self.fields:
-            self.fields[field].disabled = True
-
-class ArticleDisplayForm(ArticleBaseForm):
-    pass
+    class Meta(ArticleBaseForm.Meta):
+        widgets = {
+            "banner": forms.FileInput(attrs={
+                "class": "hidden"
+            }),
+        }
 
 
-
+class SectionForm(forms.ModelForm):
+    class Meta:
+        model = Section
+        fields = ['title', 'content', 'image']
+        widgets = {
+            "title": forms.TextInput(attrs={
+                "placeholder": "Section heading...",
+                "class": "text-sm px-2 py-1 border border-gray-300 rounded w-full outline-none"
+            }),
+            "content": forms.Textarea(attrs={
+                "placeholder": "Enter text...",
+                "class": "text-sm px-2 py-1 border border-gray-300 rounded w-full h-24 outline-none"
+            }),
+            "image": forms.FileInput(attrs={
+                "class": "text-sm"
+            })
+        }

@@ -4,8 +4,20 @@ from articles.mixins import TimeStampMixin
 from common.models import BaseContent
 
 
-class Article(BaseContent):
+class Article(models.Model):
 
+    title = models.CharField(
+        max_length=200
+    )
+    banner = models.ImageField(
+        upload_to='section-images/'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
     category = models.CharField(
         max_length=50,
         choices=ArticleCategories.choices
@@ -19,15 +31,25 @@ class Article(BaseContent):
         return f"{self.title} - {self.id}"
 
 
-class ArticleSection(models.Model):
+class Section(models.Model):
 
+    title = models.CharField(
+        max_length=150
+    )
+    content = models.TextField()
+    image = models.ImageField(
+        upload_to='section-images/',
+        blank=True,
+        null=True
+    )
     article = models.ForeignKey(
         to=Article,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='sections'
     )
-    section = models.OneToOneField(
-        to='common.Section',
-        on_delete=models.CASCADE
-    )
+
+    def __str__(self):
+        return f"{self.title} - {self.id}"
+
 
 
