@@ -2,5 +2,7 @@ from django.urls import path, include
 from wellness import views
 
 urlpatterns = [
-    path('track-period/', views.TrackPeriodView.as_view(), name='track-period'),
+    path('', views.TrackPeriodView.as_view(), name='track-period'),
+    path('api/track-period/', views.TrackPeriodAPIView.as_view(), name='api-track-period'),
+    path('api/show-results/', views.CyclePhasesResultsAPIView.as_view(), name='api-show-results')
 ]

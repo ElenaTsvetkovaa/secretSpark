@@ -16,20 +16,19 @@ class CyclePhase(models.Model):
         return self.name
 
 
-User = get_user_model()
-
 class CycleCalendar(models.Model):
 
-    user = models.ForeignKey(
-        to=User,
+    profile = models.ForeignKey(
+        to="accounts.Profile",
         on_delete=models.CASCADE
     )
-    last_period_date = models.DateField()
+    last_period_date = models.DateField(
+    )
     cycle_length = models.PositiveSmallIntegerField(
-        default=28
+        default=28,
     )
     period_length = models.PositiveSmallIntegerField(
-        default=5
+        default=5,
     )
 
 

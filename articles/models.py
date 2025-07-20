@@ -1,7 +1,6 @@
 from django.db import models
 from articles.choices import ArticleCategories
 from articles.mixins import TimeStampMixin
-from common.models import BaseContent
 
 
 class Article(models.Model):

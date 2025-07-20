@@ -1,0 +1,94 @@
+{% extends 'common/index.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="flex w-full my-10 justify-center items-center">
+        <div class="flex flex-col mx-24 px-5 w-6xl border border-[#edd8dcc7] shadow-lg rounded-2xl">
+            <div class="w-full pt-10 px-5 mb-12">
+                <h1 class="text-[#721f49] font-serif text-center text-2xl font-bold"> Track your period </h1>
+            </div>
+            <div class="w-full h-full p-4 mb-5">
+                    <form id="cycleForm" class="grid grid-cols-3 gap-12 items-center mx-20">
+                        {% csrf_token %}
+                        <div class="flex flex-col justify-center items-center w-full bg-[#edd8dcc7] h-48 p-4 rounded-md shadow-md">
+                            <span class="mb-2 p-6 text-[#721f49] text-center text-md font-semibold break-words">
+                                When did your last period start?
+                            </span>
+                            <input type="date" name="last_period_date" class="w-full appearance-none border border-pink-300 cursor-pointer rounded-md px-4 py-2 bg-white
+                                        text-gray-700 text-center focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400"
+                                required>
+                        </div>
+
+                        <div class="flex flex-col justify-center items-center w-full bg-[#edd8dcc7] h-48 p-4 rounded-md shadow-md">
+                            <span class="mb-2 p-6 text-[#721f49] text-center text-md font-semibold break-words">
+                                How long does your menstrual cycle last?
+                            </span>
+                            <select
+                                id="cycleLength"
+                                name="cycle_length"
+                                class="w-full max-h-48 appearance-none border border-pink-300 cursor-pointer rounded-md px-4 py-2 bg-white
+                                       text-gray-700 text-center focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400"
+                                required
+                            ></select>
+                        </div>
+
+                        <div class="flex flex-col justify-center items-center w-full bg-[#edd8dcc7] h-48 p-4 rounded-md shadow-md">
+                            <span class="mb-2 p-6 text-[#721f49] text-center text-md font-semibold break-words">
+                                What is the standard length of your period?
+                            </span>
+                            <select
+                                id="periodLength"
+                                name="period_length"
+                                class="w-full appearance-none border border-pink-300 cursor-pointer rounded-md px-4 py-2 bg-white
+                                       text-gray-700 text-center focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400"
+                                required
+                            ></select>
+                        </div>
+
+                        <button id="resultsBtn" type="submit" class="col-span-3 w-fit-content border border-pink-300 rounded-full px-4 py-2 bg-white
+                                        text-[#721f49] text-center shadow-xs font-semibold focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400">
+                            Show results
+                        </button>
+                    </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="cycleResults" class="w-full mt-20 mb-8 opacity-0 transition-opacity duration-700">
+        <div class="w-full mb-8 flex justify-center items-center">
+            <span class="text-[#721f49] text-center font-bold text-3xl"> Your results </span>
+        </div>
+
+        <div class="flex flex-col gap-10 w-full my-10 justify-center items-center">
+            <div class="w-full max-w-6xl mx-24 px-5 border border-[#edd8dcc7] shadow-lg rounded-2xl
+                        bg-[#edd8dcc7] p-6 flex flex-col items-center justify-center">
+
+                <!-- Arrows -->
+                <div class="flex justify-between w-full items-center mb-4">
+                    <button id="prevBtn" class="text-2xl font-bold text-[#721f49] hover:text-[#a1366c]">&larr;</button>
+                    <span class="text-[#721f49] font-semibold">Cycle View</span>
+                    <button id="nextBtn" class="text-2xl font-bold text-[#721f49] hover:text-[#a1366c]">&rarr;</button>
+                </div>
+
+                <!-- Calendars -->
+                <div id="calendar" class="flex flex-row items-center justify-center gap-x-6 w-full">
+                    <!-- Calendars will be injected here -->
+                </div>
+
+                <!-- Phase Legend -->
+                <div id="phaseLegend" class="flex gap-4 mt-6">
+                    <!-- Legend items will be generated by JavaScript -->
+                </div>
+            </div>
+
+            <div id="currentPhase" class="w-full max-w-4xl mx-auto px-6 py-8">
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/track-calendar.js' %}"></script>
+
+
+{% endblock %}

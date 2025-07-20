@@ -105,8 +105,8 @@
         }
 
         function confirmDelete(articleId) {
-             const btn = document.getElementById('delete-article-btn');
-              const url = btn.getAttribute('data-delete-url');
+            const btn = document.getElementById('delete-article-btn');
+            const url = btn.getAttribute('data-delete-url');
 
             fetch(url, {
                 method: 'DELETE',
