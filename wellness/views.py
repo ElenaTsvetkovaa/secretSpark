@@ -13,7 +13,7 @@ class TrackPeriodView(TemplateView):
     template_name = "wellness/period-tracker.html"
 
 
-class TrackPeriodAPIView(LoginRequiredMixin, generics.RetrieveUpdateAPIView):
+class TrackPeriodAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = CalendarDataSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -86,10 +86,11 @@ def generate_phases_around_date(last_period_date, period_length, cycle_length, w
     return phases_list
 
 
-class CyclePhasesResultsAPIView(RetrieveAPIView):
+class CyclePhasesResultsAPIView(LoginRequiredMixin, RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
-        profile = request.user.profile
+        user_obj = super().get_object()
+        profile = user_obj.profile
         cycle_data = CycleCalendar.objects.get(profile=profile)
 
         offset = int(request.GET.get("offset", 0))

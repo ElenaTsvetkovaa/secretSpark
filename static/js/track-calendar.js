@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const cycleLength = document.getElementById('cycleLength');
     const periodLength = document.getElementById('periodLength');
     const phaseDiv = document.getElementById("currentPhase");
+    const cycleResultsDiv = document.getElementById("cycleResults");
     let monthOffset = 0;
 
     // Helper function to populate select options
@@ -100,6 +101,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
             return updateCalendarData();
+        })
+        .then(() => {
+            observer.observe(cycleResultsDiv);
         });
     });
 
@@ -204,8 +208,5 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         { threshold: 0.1 }
     );
-    
-    const cycleResultsDiv = document.getElementById("cycleResults");
-    observer.observe(cycleResultsDiv);
 
 });
