@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,10 +11,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
+    {% block home %}
     <header class="site-header">
         <h1 class="relative text-center text-5xl p-6 text-white drop-shadow-[2px_2px_2px_#721f49]">Secret Spark</h1>
     </header>
+    {% endblock %}
+
 
     <!-- PAGE LAYOUT WRAPPER -->
     <div class="layout-container">
@@ -45,10 +48,11 @@
     <!-- Flatpickr -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-    <!-- FOOTER -->
-    <footer class="site-footer">
-        <p>&copy; 2025 Secret Spark. All rights reserved.</p>
-    </footer>
-
 </body>
+
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <p>&copy; 2025 Secret Spark. All rights reserved.</p>
+</footer>
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>

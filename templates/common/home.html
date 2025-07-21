@@ -1,42 +1,188 @@
-{% extends "common/index.html" %}
+{% extends 'common/home-base.html' %}
 
 {% block content %}
-    <section class="container">
-        <article>
-            <h1>Scroll this page to see the effect</h1>
-                <p>
-                    Lorem ipsum"Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatu
-                    r. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                    est laborum."
-                </p>
-        </article>
 
-        <article>
-            <h1>Scroll this page to see the effect</h1>
-                <p>
-                    Lorem ipsum"Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatu
-                    r. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                    est laborum."
-                </p>
-        </article>
+    <!-- Hero Section -->
+    <section class="celestial-bg hero-section relative">
+        <!-- Celestial Elements -->
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
 
-        <article>
-            <h1>Scroll this page to see the effect</h1>
-                <p>
-                    Lorem ipsum"Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatu
-                    r. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                    est laborum."
-                </p>
-        </article>
+        <!-- Moon Crescents -->
+        <div class="absolute top-16 left-16 moon-crescent hidden md:block"></div>
+        <div class="absolute bottom-24 right-20 moon-crescent hidden md:block"></div>
+
+        <div class="max-w-4xl mx-auto text-center relative z-10 px-6">
+            <h1 class="text-4xl md:text-6xl font-bold text-primary leading-tight mb-6" style="font-family: 'Bodoni Moda', serif;">
+                Unlock Your<br>
+                <span class="text-5xl md:text-7xl gradient-text">
+                    Glowing Era
+                </span>
+            </h1>
+
+            <p class="text-lg md:text-xl text-gray-700 mb-10 leading-relaxed">
+                A sacred space for women ready to rise —with<br>
+                secrets, science & self-love.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button class="btn-primary text-white font-medium px-8 py-3 rounded-full text-lg shadow-lg">
+                    Join the Circle
+                </button>
+                <button class="btn-secondary font-medium px-8 py-3 rounded-full text-lg">
+                    Explore the Spark
+                </button>
+            </div>
+        </div>
     </section>
-{% endblock %}
 
+    <!-- How It Works Section -->
+    <section class="content-section bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-primary mb-16" style="font-family: 'Bodoni Moda', serif;">
+                How It Works
+            </h2>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-pink-100 to-pink-200 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <span class="text-2xl font-bold text-primary" style="font-family: 'Bodoni Moda', serif;">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-primary mb-3" style="font-family: 'Bodoni Moda', serif;">Discover</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        Read secrets and<br>
+                        expert-backed articles
+                    </p>
+                    <div class="w-12 h-10 bg-gray-100 rounded-lg mx-auto flex items-center justify-center">
+                        <iconify-icon icon="mdi:book-open-variant" class="text-2xl text-primary"></iconify-icon>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-pink-100 to-pink-200 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <span class="text-2xl font-bold text-primary" style="font-family: 'Bodoni Moda', serif;">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-primary mb-3" style="font-family: 'Bodoni Moda', serif;">Track</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        Use your private diary<br>
+                        & menstrual calendar
+                    </p>
+                    <div class="w-12 h-10 bg-gray-100 rounded-lg mx-auto flex items-center justify-center">
+                        <iconify-icon icon="mdi:calendar-heart" class="text-2xl text-primary"></iconify-icon>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-pink-100 to-pink-200 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <span class="text-2xl font-bold text-primary" style="font-family: 'Bodoni Moda', serif;">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-primary mb-3" style="font-family: 'Bodoni Moda', serif;">Thrive</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        Receive personalized<br>
+                        insights and support
+                    </p>
+                    <div class="w-12 h-10 bg-gray-100 rounded-lg mx-auto flex items-center justify-center">
+                        <iconify-icon icon="mdi:sparkles" class="text-2xl text-primary"></iconify-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="content-section celestial-bg relative">
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+
+        <div class="max-w-6xl mx-auto relative z-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-primary mb-16" style="font-family: 'Bodoni Moda', serif;">
+                Core Features Preview
+            </h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Secret Articles -->
+                <div class="feature-card p-6 rounded-2xl text-center">
+                    <div class="w-16 h-12 bg-gradient-to-br from-pink-100 to-pink-200 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                        <iconify-icon icon="mdi:book-lock" class="text-2xl text-primary"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2" style="font-family: 'Bodoni Moda', serif;">Secret Articles</h3>
+                    <p class="text-sm text-gray-600">Exclusive insights and wisdom for your journey</p>
+                </div>
+
+                <!-- Menstrual Calendar -->
+                <div class="feature-card p-6 rounded-2xl text-center">
+                    <div class="w-16 h-12 bg-gradient-to-br from-pink-100 to-pink-200 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                        <iconify-icon icon="mdi:calendar-month" class="text-2xl text-primary"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2" style="font-family: 'Bodoni Moda', serif;">Menstrual Calendar</h3>
+                    <p class="text-sm text-gray-600">Track your cycle with intuitive tools</p>
+                </div>
+
+                <!-- Private Diary -->
+                <div class="feature-card p-6 rounded-2xl text-center">
+                    <div class="w-16 h-12 bg-gradient-to-br from-pink-100 to-pink-200 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                        <iconify-icon icon="mdi:notebook-heart" class="text-2xl text-primary"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2" style="font-family: 'Bodoni Moda', serif;">Private Diary</h3>
+                    <p class="text-sm text-gray-600">Your sacred space for reflection</p>
+                </div>
+
+                <!-- Self-Growth Plans -->
+                <div class="feature-card p-6 rounded-2xl text-center">
+                    <div class="w-16 h-12 bg-gradient-to-br from-pink-100 to-pink-200 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                        <iconify-icon icon="mdi:trending-up" class="text-2xl text-primary"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2" style="font-family: 'Bodoni Moda', serif;">Self-Growth Plans</h3>
+                    <p class="text-sm text-gray-600">Personalized paths to transformation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="content-section bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="w-full h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent mb-8 opacity-30"></div>
+
+            <blockquote class="text-xl md:text-2xl text-primary leading-relaxed mb-8 italic" style="font-family: 'Bodoni Moda', serif;">
+                "Secret Spark helped me understand myself<br>
+                on a whole new level."
+            </blockquote>
+
+            <div class="w-12 h-12 bg-gradient-to-br from-pink-100 to-pink-200 rounded-full mx-auto mb-6 flex items-center justify-center">
+                <iconify-icon icon="mdi:account-heart" class="text-xl text-primary"></iconify-icon>
+            </div>
+
+            <div class="w-full h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent opacity-30"></div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="content-section celestial-bg relative">
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h2 class="text-2xl md:text-3xl font-bold text-primary mb-6 leading-tight" style="font-family: 'Bodoni Moda', serif;">
+                Join hundreds of women entering their Glowing Era.
+            </h2>
+
+            <h3 class="text-xl md:text-2xl text-secondary mb-8 font-medium" style="font-family: 'Bodoni Moda', serif;">
+                Start Your Glow Journey
+            </h3>
+
+            <button class="btn-primary text-white font-medium px-10 py-4 rounded-full text-lg shadow-xl">
+                Begin Your Transformation
+            </button>
+        </div>
+    </section>
+
+{% endblock %}
