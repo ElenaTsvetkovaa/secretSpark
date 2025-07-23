@@ -1,5 +1,5 @@
 {% extends 'common/home-base.html' %}
-
+{% load static %}
 {% block content %}
 
     <!-- Hero Section -->
@@ -29,10 +29,11 @@
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <button class="btn-primary text-white font-medium px-8 py-3 rounded-full text-lg shadow-lg">
-                    Join the Circle
-                </button>
-                <button class="btn-secondary font-medium px-8 py-3 rounded-full text-lg">
+{#                <button onclick="window.location.assign('{% url 'register' %}')" class="btn-primary text-white font-medium px-8 py-3 rounded-full text-lg shadow-lg">#}
+{#                    Join the Circle#}
+{#                </button>#}
+                <button onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})"
+                        class="btn-primary text-white font-medium px-8 py-3 rounded-full text-lg shadow-lg">
                     Explore the Spark
                 </button>
             </div>
@@ -40,7 +41,7 @@
     </section>
 
     <!-- How It Works Section -->
-    <section class="content-section bg-white">
+    <section id="features" class="content-section bg-white">
         <div class="max-w-6xl mx-auto">
             <h2 class="text-3xl md:text-4xl font-bold text-center text-primary mb-16" style="font-family: 'Bodoni Moda', serif;">
                 How It Works
@@ -147,7 +148,7 @@
     </section>
 
     <!-- Testimonial Section -->
-    <section class="content-section bg-white">
+    <section id="testimonial-section" class="content-section bg-white">
         <div class="max-w-4xl mx-auto text-center">
             <div class="w-full h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent mb-8 opacity-30"></div>
 
@@ -179,10 +180,12 @@
                 Start Your Glow Journey
             </h3>
 
-            <button class="btn-primary text-white font-medium px-10 py-4 rounded-full text-lg shadow-xl">
+            <button  onclick="window.location.assign('{% url 'register' %}')" class="btn-primary text-white font-medium px-10 py-4 rounded-full text-lg shadow-xl">
                 Begin Your Transformation
             </button>
         </div>
     </section>
+
+    <script src="{% static 'js/home.js' %}"></script>
 
 {% endblock %}

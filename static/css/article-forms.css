@@ -36,39 +36,44 @@
   transition: 0.3s;
 }
 
-.article-form-field textarea {
-  resize: vertical;
-  min-height: 150px;
-  max-height: 90%;
-}
-
 .form-actions {
   margin-top: auto;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
-/* From Uiverse.io by 3bdel3ziz-T */
-.article-form-field .image-container {
+.article-form-field .image-container,
+.banner-image-formfield .image-container {
   --transition: 350ms;
-  --folder-W: 120px;
-  --folder-H: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   padding: 10px;
-   background: linear-gradient(135deg, #f0e9e1, #f9a2c8);
+  background: linear-gradient(135deg, #f0e9e1, #f9a2c8);
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  height: calc(var(--folder-H) * 1.7);
   position: relative;
+}
+
+.article-form-field .image-container {
+  --folder-W: 120px;
+  --folder-H: 80px;
+  width: calc(var(--folder-W) * 2.5);
+  min-height: calc(var(--folder-H) * 1.7);
+}
+
+.banner-image-formfield .image-container {
+  --folder-W: 180px;
+  --folder-H: 100px;
+  width: calc(var(--folder-W) * 2.5);
+  height: calc(var(--folder-H) * 1.7);
 }
 
 .article-form-field .image-container .folder {
   position: absolute;
   top: -20px;
-  left: calc(50% - 60px);
+  left: calc(50% - var(--folder-W) / 2);
   animation: float 2.5s infinite ease-in-out;
   transition: transform var(--transition) ease;
 }
@@ -172,7 +177,7 @@
 }
 
 .a-category-wrapper {
-  margin: 20px;
+  margin: 2rem;
   width: 90%;
   max-width: 400px;
   text-align: center;
@@ -181,7 +186,7 @@
 .a-category-list {
   list-style: none;
   border-radius: 10px;
-  margin: 0;
+  margin: 2rem 0;
   padding: 0;
   display: grid;
   grid-template-columns: 1fr;
@@ -189,9 +194,8 @@
 }
 
 .a-category-label {
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: #444;
-  margin-bottom: 10px;
   display: block;
 }
 
@@ -237,9 +241,9 @@
 }
 
 .btn {
-  padding: 12px 28px;
+  padding: 16px 36px;
   font-family: 'Bodoni Moda', serif;
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 600;
   border-radius: 12px;
   cursor: pointer;

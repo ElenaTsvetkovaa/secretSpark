@@ -127,7 +127,7 @@
 
 .side-flyout a:hover,
 .side-flyout a:focus {
-  background-color: var(--hover-bg);
+  /*background-color: var(--hover-bg);*/
   outline: none;
     transform: scale(1.05);
 }

@@ -3,7 +3,7 @@
 
 {% block content %}
 <article class="max-w-screen-lg w-full mx-auto px-6 sm:px-12 py-24 font-serif text-neutral-800 leading-relaxed">
-{#    {% if request.user.is_staff or request.user.is_superuser %}#}
+    {% if request.user.is_staff or request.user.is_superuser %}
         <div class="flex justify-end gap-3">
               <a href="{% url 'edit-article' pk=article.pk %}"
                  class="p-3 my-3 text-center bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition duration-200 shadow">
@@ -18,12 +18,12 @@
                 </button>
         </div>
 
-{#    {% endif %}#}
+    {% endif %}
 
       <!-- Header: Banner | Title -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
               <div>
-                <img src="{{ article.banner.url }}" alt="{{ article.title }}"
+                <img src="{{ article.banner_url }}" alt="{{ article.title }}"
                      class="w-full rounded-full object-contain" />
               </div>
 
@@ -51,7 +51,7 @@
 
                 <!-- Image -->
                   <div class="flex-shrink-0 w-full md:w-1/2 mb-6 md:mb-0">
-                        <img src="{{ section.image.url }}" alt="{{ section.title }}"
+                        <img src="{{ section.image_url }}" alt="{{ section.title }}"
                              class="w-full object-contain rounded-full" />
                   </div>
 
@@ -94,6 +94,7 @@
 
 </article>
 
+    <!-- Delete pop up -->
     <script>
 
         function openDeleteModal() {

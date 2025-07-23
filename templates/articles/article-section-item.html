@@ -1,7 +1,6 @@
 
-        <div class="flex flex-row w-full">
-            <div class="flex flex-row gap-12 w-full items-center">
-                <div class="flex flex-col basis-2/3 gap-2">
+        <div class="flex flex-row w-full gap-12 items-center">
+                <div class="flex flex-col basis-2/3 min-w-0 gap-4">
                       {{ form.id }}
 
                      <div class="article-form-field">
@@ -20,7 +19,7 @@
 
                 </div>
 
-                    <aside class="flex flex-col basis-1/3">
+                <aside class="flex flex-col basis-1/3 min-w-0 gap-4">
                         <div class="section-image-formfield article-form-field">
                             <div class="image-container">
                               <div class="folder">
@@ -43,16 +42,16 @@
                             </div>
                         </div>
 
-                         <span class="file-name-display text-sm text-gray-600 mt-6 inline-flex">
-                            {% if form.image.value %}
-                                Currently: {{ form.image.value.url }}
-                            {% else %}
-                                No file selected...
-                            {% endif %}
-                        </span>
-
-                    </aside>
-                </div>
+                    <div class="w-full max-w-full">
+                      <span class="file-name-display text-sm text-gray-600 mt-6 block break-all">
+                              {% if form.image.value %}
+                                  Currently: {{ form.image.value.url }}
+                              {% else %}
+                                  No file selected...
+                              {% endif %}
+                            </span>
+                    </div>
+                </aside>
         </div>
 
 

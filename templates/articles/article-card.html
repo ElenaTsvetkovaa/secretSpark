@@ -5,7 +5,7 @@
         <a href="{% url 'details-article' pk=article.pk %}" class="w-full h-full object-cover">
             <div class="w-full aspect-[4/5] overflow-hidden rounded-t">
                 <img
-                  src="{{ article.banner.url }}"
+                  src="{{ article.banner_url }}"
                   alt="{{ article.title }}"
                   class="w-full h-full object-cover rounded-lg overflow-hidden max-w-[350px]
                    transition-transform duration-300 hover:scale-105 group-hover:opacity-80"

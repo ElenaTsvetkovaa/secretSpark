@@ -4,33 +4,27 @@
 {% block content %}
 
 
-<div class="min-h-screen flex items-start justify-center px-4 py-8">
-      <form method="post" enctype="multipart/form-data" class="w-full max-w-6xl bg-[#f8f5f7] rounded-lg shadow-md overflow-hidden flex flex-col">
+<div class="flex items-center justify-center px-12 mx-14 py-8 min-h-screen">
+      <form method="post" enctype="multipart/form-data" class="w-full bg-[#f8f5f7] overflow-visible rounded-lg shadow-md flex flex-col">
             {% csrf_token %}
             {{ formset.management_form }}
-              {% if form.non_field_errors %}
-              <div class="text-red-500 text-sm">
-                {{ form.non_field_errors }}
-              </div>
-            {% endif %}
 
-            <div class="article-form-field text-center text-2xl m-5 font-semibold text-[#3b2920] outline-none">
+            <div class="article-form-field text-center text-3xl m-5 font-semibold text-[#3b2920] outline-none">
                 {{ form.title }}
             </div>
 
             <div  class="flex flex-col lg:flex-row gap-8 px-6 py-4">
                 <div class="flex flex-row gap-12 w-full px-10 py-4">
 
-
                     <div class="flex flex-col basis-2/3 w-full gap-2">
-                            {% for section_form  in formset %}
+                            {% for section_form in formset %}
                                 {% include 'articles/article-section-item.html' with form=section_form %}
                             {% endfor %}
                     </div>
 
-                    <aside class="flex flex-col justify-evenly items-center h-full basis-1/3 space-y-6">
+                    <aside class="flex flex-col justify-evenly items-center basis-1/3 space-y-6">
 
-                            <div class="article-form-field">
+                            <div class="banner-image-formfield article-form-field">
                                 <div class="image-container">
                                     <div class="folder">
                                         <div class="front-side">
@@ -41,13 +35,25 @@
                                     </div>
 
                                     <label class="custom-file-upload">
-                                                    Upload Article Banner
-                                         {{ form.banner }}
-                                        <input type="file" name="images" multiple>
+                                        Upload Article Banner
+                                    {{ form.banner }}
+                                        {% for error in form.banner.errors %}
+                                            <div class="field-error">{{ error }}</div>
+                                        {% endfor %}
                                     </label>
+
                                 </div>
-                                <span id="file-name" class="text-gray-600 text-sm mt-6 inline-flex"></span>
+                                <div class="w-full max-w-full">
+                                            <span class="file-name-display text-gray-600 text-sm mt-6 inline-flex">
+                                                    {% if form.banner.value %}
+                                                        Currently: {{ form.banner.value }}
+                                                    {% else %}
+                                                        No file selected...
+                                                    {% endif %}
+                                            </span>
+                                    </div>
                             </div>
+
 
                             <div class="article-form-field a-category-wrapper">
                                     <label class="a-category-label">Choose category</label>
@@ -64,8 +70,8 @@
 
                             <footer class="form-actions">
                                <div class="button-group">
-                                  <button type="submit" class="btn">Create</button>
-                                  <a href="{% url 'articles-list' %}" type="button" class="btn">Cancel</a>
+                                  <button type="submit" class="btn">Save</button>
+                                  <button type="button" class="btn" onclick="history.back()">Cancel</button>
                                 </div>
                             </footer>
                     </aside>
@@ -74,32 +80,50 @@
       </form>
 </div>
 
-
 <script>
-        const items = document.querySelectorAll('.a-category-item');
-        const hiddenInput = document.getElementById('a-category-input');
+document.addEventListener("DOMContentLoaded", () => {
+    // Handle category selection
+    const items = document.querySelectorAll('.a-category-item');
+    const hiddenInput = document.getElementById('a-category-input');
+    const currentCategory = "{{ form.category.value }}";
 
+    if (currentCategory) {
         items.forEach(item => {
-            item.addEventListener('click', () => {
-              items.forEach(el => el.classList.remove('selected'));
-              item.classList.add('selected');
-
-              hiddenInput.value = item.dataset.value;
-            });
+            if (item.dataset.value === currentCategory) {
+                item.classList.add('selected');
+                hiddenInput.value = currentCategory;
+            }
         });
+    }
 
-        const imageInputs = document.querySelectorAll('input[type="file"]');
-            const spanFiles = document.querySelectorAll('#file-name');
+    items.forEach(item => {
+        item.addEventListener('click', () => {
+            items.forEach(el => el.classList.remove('selected'));
+            item.classList.add('selected');
+            hiddenInput.value = item.dataset.value;
+        });
+    });
 
-            spanFiles.forEach(span => {
-                span.textContent = "No file selected...";
-            });
+    // Handle file inputs and update the correct span
+    const imageInputs = document.querySelectorAll('input[type="file"]');
 
-            imageInputs.forEach((input, index) => {
-                input.addEventListener("change", function () {
-                    spanFiles[index].textContent = this.files[0]?.name || "No file selected...";
-                });
-            });
+    imageInputs.forEach(input => {
+        input.addEventListener("change", function () {
+            const wrapper = input.closest('.section-image-formfield, .banner-image-formfield');
+            if (!wrapper) return;
+
+            let span = wrapper.nextElementSibling;
+            while (span && !span.classList.contains('file-name-display')) {
+              span = span.nextElementSibling;
+            }
+
+            if (span) {
+                span.textContent = this.files.length > 0 ? this.files[0].name : "No file selected...";
+            }
+        });
+    });
+});
+
 </script>
 
 {% endblock %}
