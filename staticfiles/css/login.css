@@ -1,0 +1,117 @@
+/* Base layout */
+.login-register-div {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #fffdfb;
+    font-family: 'Open Sans', 'Georgia', serif;
+}
+
+.login-register-box div {
+    margin: 1em;
+}
+
+/* Form container */
+.login-register-box, .second-option {
+    width: 100%;
+    max-width: 360px;
+    background-color: #edd8dcc7; /* Dusty pink */
+    border: 1.5px solid #e8c9c9;
+    padding: 30px 25px;
+    margin-bottom: 20px;
+    border-radius: 16px;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+/* Title */
+.login-register-box h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: bold;
+    color: #721f49; /* Plum */
+    margin-bottom: 20px;
+}
+
+/* Input fields */
+.login-register-box input {
+    border: 1px solid #bc98a9;
+    border-radius: 8px;
+    height: 36px;
+    width: 100%;
+    padding: 0 10px;
+    margin-top: 14px;
+    font-size: 16px;
+    color: #4A3F35;
+    font-family: 'Open Sans', serif;
+}
+
+.login-register-box input:focus {
+    outline: none;
+    border-color: #eab9c3;
+}
+
+/* Submit button */
+.login-register-box button {
+    background-color: #fff;
+    color: #721f49;
+    font-weight: 600;
+    border: 2px solid #bc98a9;
+    width: 100%;
+    border-radius: 9999px;
+    margin-top: 20px;
+    height: 42px;
+    font-size: 16px;
+    font-family: 'Open Sans', serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-register-box button:hover {
+    border-color: #f5b7c5;
+}
+
+/* Second option link box */
+.second-option {
+    text-align: center;
+    font-size: 18px;
+    padding: 18px 20px;
+    background-color: #edd8dcc7;
+    border-radius: 12px;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.second-option a {
+    color: #721f49;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Open Sans', serif;
+}
+
+.second-option a:hover {
+    text-decoration: underline;
+}
+
+/* Media Query */
+@media (max-width: 480px) {
+    .login-register-box,
+    .second-option {
+        padding: 25px 20px;
+    }
+
+    .login-register-box h1 {
+        font-size: 24px;
+    }
+
+    .login-register-box input {
+        font-size: 15px;
+        height: 34px;
+    }
+
+    .login-register-box button {
+        height: 40px;
+        font-size: 15px;
+    }
+}

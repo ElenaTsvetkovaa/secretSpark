@@ -9,7 +9,7 @@ UserModel = get_user_model()
 
 class CustomRegistrationForm(UserCreationForm):
 
-    # In the Base form only username field is set so we add the other fields in the form
+    # In the Base form only username field is set -> add the other fields in the form
     email = forms.EmailField(
         required=True,
     )

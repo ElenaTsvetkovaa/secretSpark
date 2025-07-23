@@ -1,5 +1,4 @@
 from django.forms.models import inlineformset_factory
-from django.shortcuts import redirect
 from django.views.generic import CreateView, DetailView, UpdateView, TemplateView, DeleteView
 from rest_framework import status
 from rest_framework.generics import ListAPIView, DestroyAPIView
@@ -120,9 +119,6 @@ class ArticleListAPIView(ListAPIView):
     def get_queryset(self):
         category = self.kwargs['category']
         return Article.objects.filter(category=category)
-
-
-
 
 class DeleteAPIView(DestroyAPIView):
     queryset = Article.objects.all()

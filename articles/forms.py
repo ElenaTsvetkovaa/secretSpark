@@ -37,7 +37,7 @@ class SectionForm(forms.ModelForm):
             }),
             "content": forms.Textarea(attrs={
                 "placeholder": "Enter text...",
-                "class": "text-sm px-2 py-1 border border-gray-300 rounded w-full h-24 outline-none"
+                "class": "text-sm px-2 py-1 border border-gray-300 rounded w-full min-h-[40vh] resize-y outline-none"
             }),
             "image": forms.FileInput(attrs={
                 "class": "text-sm"

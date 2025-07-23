@@ -1,6 +1,8 @@
+from cloudinary.utils import cloudinary_url
 from django.db import models
 from articles.choices import ArticleCategories
 from articles.mixins import TimeStampMixin
+from cloudinary.models import CloudinaryField
 
 
 class Article(models.Model):
@@ -8,8 +10,9 @@ class Article(models.Model):
     title = models.CharField(
         max_length=200
     )
-    banner = models.ImageField(
-        upload_to='section-images/'
+    banner = CloudinaryField(
+        'image',
+        folder='section-images'
     )
     created_at = models.DateTimeField(
         auto_now_add=True
@@ -29,6 +32,13 @@ class Article(models.Model):
     def __str__(self):
         return f"{self.title} - {self.id}"
 
+    @property
+    def banner_url(self):
+        if not self.banner:
+            return None
+        url, _ = cloudinary_url(self.banner.public_id, secure=True)
+        return url
+
 
 class Section(models.Model):
 
@@ -36,8 +46,9 @@ class Section(models.Model):
         max_length=150
     )
     content = models.TextField()
-    image = models.ImageField(
-        upload_to='section-images/',
+    image = CloudinaryField(
+        'image',
+        folder='section-images',
         blank=True,
         null=True
     )
@@ -49,6 +60,13 @@ class Section(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.id}"
+
+    @property
+    def image_url(self):
+        if not self.image:
+            return None
+        url, _ = cloudinary_url(self.image.public_id, secure=True)
+        return url
 
 
 

@@ -89,8 +89,7 @@ def generate_phases_around_date(last_period_date, period_length, cycle_length, w
 class CyclePhasesResultsAPIView(LoginRequiredMixin, RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
-        user_obj = super().get_object()
-        profile = user_obj.profile
+        profile = request.user.profile
         cycle_data = CycleCalendar.objects.get(profile=profile)
 
         offset = int(request.GET.get("offset", 0))
