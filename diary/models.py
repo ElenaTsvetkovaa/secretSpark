@@ -1,9 +1,14 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from diary.choices import MoodChoices
 
 
 class Diary(models.Model):
 
+    profile = models.ForeignKey(
+        to="accounts.Profile",
+        on_delete=models.CASCADE
+    )
     date = models.DateField()
     content = models.TextField()
     mood = models.ForeignKey(

@@ -4,6 +4,13 @@
 {% block content %}
 
     <div class="diary-layout">
+
+        <div id="successMessage"
+           class="opacity-0 absolute top-20 right-5 bg-pink-100 text-pink-800 m-16 px-6 py-4 rounded-lg shadow-lg flex items-center gap-2 z-50 transition-opacity duration-500">
+            <iconify-icon icon="icon-park-outline:success" class="text-xl"></iconify-icon>
+            <span>Your diary has been saved!</span>
+        </div>
+
         <form id="diaryForm" method="post" class="flex flex-row  w-full gap-x-8">
            {% csrf_token %}
             <div class="basis-1/2 relative m-h-full w-[80%] rounded-lg shadow-lg m-5">
@@ -11,7 +18,9 @@
                 <div class="relative h-18 bg-[#f2e1e7] w-full">
                     <h1 class="relative z-10 text-center text-[#610d31] text-4xl p-3">Diary</h1>
                 </div>
-                    {{ form.content }}
+                <textarea name="content" 
+                          class="relative outline-none resize-none size-full mx-auto bg-white shadow-lg rounded-md py-6 pl-12 pr-8 notebook-paper"
+                          placeholder="Write your diary entry here..."></textarea>
 
                 <div class="prose text-gray-800"></div>
 

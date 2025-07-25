@@ -1,21 +1,24 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import When, Value, Case
-from django.http import JsonResponse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import TemplateView
+from rest_framework import viewsets, status, generics
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.reverse import reverse_lazy
-from rest_framework.views import APIView
-from diary.forms import DiaryForm
-from diary.mixins import DiaryFormMixin
 from diary.models import Moods, Diary
-from diary.serializers import MoodsSerializer
+from diary.serializers import MoodsSerializer, DiarySerializer
 
 
+class DiaryPageView(LoginRequiredMixin, TemplateView):
+    template_name = 'diary/diary-page.html'
 
-class MoodListView(APIView):
-
-    def get(self, request):
-        moods = Moods.objects.annotate(
+class MoodListView(generics.ListAPIView):
+    """API endpoint to list all moods in custom order"""
+    permission_classes = [IsAuthenticated]
+    serializer_class = MoodsSerializer
+    
+    def get_queryset(self):
+        return Moods.objects.annotate(
             custom_order=Case(
                 When(mood='Heartbroken', then=Value(0)),
                 When(mood='Angry', then=Value(1)),
@@ -24,43 +27,41 @@ class MoodListView(APIView):
                 When(mood='Happy', then=Value(4)),
             )
         ).order_by('custom_order')
-        serializer = MoodsSerializer(moods, many=True)
-
-        return Response(serializer.data)
 
 
-class DiaryPageCreateView(LoginRequiredMixin, DiaryFormMixin, CreateView):
-    model = Diary
-    form_class = DiaryForm
-    template_name = 'diary/diary-page.html'
+class DiaryViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for diary entries with full CRUD operations and custom date lookup.
+    Custom endpoint: GET /diary/by-date/?date=2023-01-01
+    """
+    serializer_class = DiarySerializer
+    permission_classes = [IsAuthenticated]
 
-    def form_valid(self, form):
-        self.object = form.save()
-        return JsonResponse({"success": True, "diary_id": self.object.id})
+    def get_queryset(self):
+        queryset = Diary.objects.filter(profile=self.request.user.profile)
+        return queryset
 
+    def perform_update(self, serializer):
+        serializer.save(profile=self.request.user.profile)
 
-class DiaryPageUpdateView(LoginRequiredMixin, DiaryFormMixin, UpdateView):
-    model = Diary
-    form_class = DiaryForm
-    template_name = 'diary/diary-page.html'
+    def perform_create(self, serializer):
+        serializer.save(profile=self.request.user.profile)
 
-    def form_valid(self, form):
-        self.object = form.save()
-        return JsonResponse({"success": True, "diary_id": self.object.id})
-
-
-def get_entry_by_date(request):
-    selected_date = request.GET.get("date")
-    try:
-        diary = Diary.objects.get(date=selected_date)
-        return JsonResponse(data={
-            "exists": True,
-            "diary_id": diary.id,  # ← used for redirecting to update view
-            "content": diary.content,
-            "mood_id": diary.mood_id,
-        })
-    except Diary.DoesNotExist:
-        return JsonResponse(data={
-            "exists": False,
-        })
-
+    @action(detail=False, methods=['get'], url_path='by-date')
+    def get_by_date(self, request):
+        selected_date = request.query_params.get('date')
+        if not selected_date:
+            return Response(
+                {'error': 'Date parameter is required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            diary = Diary.objects.get(profile=self.request.user.profile, date=selected_date)
+            serializer = self.get_serializer(diary)
+            return Response({
+                'exists': True,
+                'data': serializer.data
+            })
+        except Diary.DoesNotExist:
+            return Response({'exists': False})

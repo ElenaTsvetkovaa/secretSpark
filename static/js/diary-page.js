@@ -67,27 +67,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 const selectedDate = this.value;
                 formDate.value = selectedDate;
 
-                fetch(`/diary/entry/?date=${selectedDate}`)
+                fetch(`/diary/by-date/?date=${selectedDate}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.exists) {
-                            // If record exist we populate the form
-                            document.querySelector('[name="content"]').value = data.content;
-                            formMood.value = data.mood_id;
+                            // If record exists, populate the form with REST API data
+                            const diaryData = data.data;
+                            document.querySelector('[name="content"]').value = diaryData.content;
+                            formMood.value = diaryData.mood;
 
-                            const moodIndex = moods.findIndex(m => m.id === data.mood_id);
+                            // Use mood_data from the enhanced serializer
+                            const moodIndex = moods.findIndex(m => m.id === diaryData.mood_data.id);
                             if (moodIndex !== -1) {
                                 setMood(moodIndex);
                                 moodSlider.value = moodIndex * 20;
                             }
                             continueBtn.click();
-                            diaryForm.action = `/diary/${data.diary_id}/`;
+                            
+                            // Store diary ID for updates
+                            diaryForm.dataset.diaryId = diaryData.id;
+                            diaryForm.dataset.isUpdate = 'true';
                         } else {
-                            // fetch empty form
+                            // No existing entry - prepare for creation
                             reminderContainer.classList.add('hidden');
                             document.querySelector('[name="content"]').value = '';
                             formMood.value = '';
-                            diaryForm.action = `/diary/`;
+                            
+                            // Clear update flags
+                            delete diaryForm.dataset.diaryId;
+                            delete diaryForm.dataset.isUpdate;
 
                             const defaultIndex = moods.findIndex(m => m.is_default);
                             setMood(defaultIndex);
@@ -161,20 +169,63 @@ document.addEventListener('DOMContentLoaded', function () {
     saveButton.addEventListener("click", function (event) {
         event.preventDefault();
 
-        const formData = new FormData(diaryForm);
-        const url = diaryForm.action;
+        const content = document.querySelector('[name="content"]').value;
+        const selectedDate = formDate.value;
+        const moodId = formMood.value;
+
+        // Prepare JSON data for REST API - use default mood if none selected  
+        const requestData = {
+            date: selectedDate ? selectedDate : new Date(),
+            content: content,
+            mood: moodId ? parseInt(moodId) : selectedMood.id  // Default to mood ID 4 (Calm)
+        };
+
+        // Determine if this is create or update
+        const isUpdate = diaryForm.dataset.isUpdate === 'true';
+        const diaryId = diaryForm.dataset.diaryId;
+
+        let url, method;
+        if (isUpdate && diaryId) {
+            url = `/diary/${diaryId}/`;
+            method = 'PUT';
+        } else {
+            url = `/diary/`;
+            method = 'POST';
+        }
 
         fetch(url, {
-            method: 'POST',
-            body: formData,
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify(requestData)
         })
             .then(response => response.json())
             .then(data => {
-                 alert("Saved ✅");
-                 diaryForm.action = `/diary/${data.diary_id}/`;
+                showSuccessMessage();
+                // Store the ID for future updates
+                diaryForm.dataset.diaryId = data.id;
+                diaryForm.dataset.isUpdate = 'true';
+            })
+            .catch(err => {
+                console.error("Error saving diary entry:", err);
+                alert("Error saving entry");
             })
 
     })
+
+    function showSuccessMessage() {
+        const msg = document.getElementById('successMessage');
+        if (msg) {
+            msg.style.opacity = '1';
+            msg.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                msg.style.opacity = '0';
+            }, 2000);
+        }
+    }
 
 
 });
