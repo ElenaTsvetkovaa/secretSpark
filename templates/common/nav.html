@@ -4,55 +4,56 @@
 <ul class="nav-list">
     <li class="nav-item">
         <a href="{% url 'home' %}">
-            <iconify-icon icon="mdi:home" class="nav-icon"></iconify-icon>
+            <iconify-icon icon="mdi:home-heart" class="nav-icon"></iconify-icon>
             <span>Home</span>
         </a>
-
     </li>
-        <li class="nav-item">
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'profile-details' pk=user.profile.id %}">
-                   <iconify-icon icon="hugeicons:add-female" class="nav-icon"></iconify-icon>
-                   <span>Profile</span>
-                </a>
-            {% else %}
-                <a href="{% url 'login' %}">
-                   <iconify-icon icon="hugeicons:add-female" class="nav-icon"></iconify-icon>
-                   <span>Profile</span>
-                </a>
-            {% endif %}
-        </li>
+    <li class="nav-item">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'profile-details' pk=user.profile.id %}">
+               <iconify-icon icon="mdi:account-heart" class="nav-icon"></iconify-icon>
+               <span>Profile</span>
+            </a>
+        {% else %}
+            <a href="{% url 'login' %}">
+               <iconify-icon icon="mdi:account-heart" class="nav-icon"></iconify-icon>
+               <span>Profile</span>
+            </a>
+        {% endif %}
+    </li>
 
     <li class="nav-item" id="articles-nav-item" aria-haspopup="true" aria-expanded="false">
         <a href="#" class="toggle-articles">
-            <iconify-icon icon="mdi:newspaper" class="nav-icon"></iconify-icon>
+            <iconify-icon icon="mdi:book-lock" class="nav-icon"></iconify-icon>
             <span>Articles</span>
         </a>
-            <div class="side-flyout" id="articles-dropdown">
-                <a href="{% url 'article-category' category="self-improvement" %}">
-                    <iconify-icon icon="mdi:meditation" class="flyout-icon"></iconify-icon>
-                    Self-Improvement
-                </a>
-                <a href="{% url 'article-category' category="work-and-money" %}"><iconify-icon icon="mdi:cash-multiple" class="flyout-icon"></iconify-icon>
-                    <span>Work & Money</span>
-                </a>
-                <a href="{% url 'article-category' category="style"%}"><iconify-icon icon="mdi:tshirt-crew" class="flyout-icon"></iconify-icon>
-                    <span>Style</span>
-                </a>
-            </div>
+        <div class="side-flyout" id="articles-dropdown">
+            <a href="{% url 'article-category' category="self-improvement" %}">
+                <iconify-icon icon="mdi:meditation" class="flyout-icon"></iconify-icon>
+                <span>Self-Improvement</span>
+            </a>
+            <a href="{% url 'article-category' category="work-and-money" %}">
+                <iconify-icon icon="mdi:cash-multiple" class="flyout-icon"></iconify-icon>
+                <span>Work & Money</span>
+            </a>
+            <a href="{% url 'article-category' category="style" %}">
+                <iconify-icon icon="mdi:tshirt-crew" class="flyout-icon"></iconify-icon>
+                <span>Style</span>
+            </a>
+        </div>
     </li>
 
     <li class="nav-item">
         <a href="{% url 'diary-page' %}">
-            <iconify-icon icon="mdi:diary" class="nav-icon"></iconify-icon>
+            <iconify-icon icon="mdi:notebook-heart" class="nav-icon"></iconify-icon>
             <span>Diary</span>
         </a>
     </li>
 
     <li class="nav-item">
         <a href="{% url 'track-period' %}">
-            <iconify-icon icon="mdi:heart-pulse" class="nav-icon"></iconify-icon>
-            <span>Feminine Health</span>
+            <iconify-icon icon="mdi:calendar-heart" class="nav-icon"></iconify-icon>
+            <span>Wellness</span>
         </a>
     </li>
 </ul>
