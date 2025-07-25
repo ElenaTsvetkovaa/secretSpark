@@ -17,6 +17,9 @@ class Diary(models.Model):
         default=4,    # This is calm in the db
     )
 
+    def __str__(self):
+        return f'{self.profile.user.first_name} - {self.date}'
+
 
 class Moods(models.Model):
 
@@ -33,3 +36,6 @@ class Moods(models.Model):
     image = models.ImageField(
         upload_to='mood-images/'
     )
+
+    def __str__(self):
+        return f'{self.id} - {self.mood}'
