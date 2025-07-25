@@ -13,7 +13,7 @@ class TrackPeriodView(TemplateView):
     template_name = "wellness/period-tracker.html"
 
 
-class TrackPeriodAPIView(generics.RetrieveUpdateAPIView):
+class TrackPeriodAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CalendarDataSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -22,6 +22,13 @@ class TrackPeriodAPIView(generics.RetrieveUpdateAPIView):
             return CycleCalendar.objects.get(profile=self.request.user.profile)
         except CycleCalendar.DoesNotExist:
             return None
+    
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance is None:
+            return Response({})
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
