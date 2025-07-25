@@ -1,5 +1,6 @@
+{% load static %}
 {%  include 'common/head.html' %}
-<body>
+<body class="min-h-screen flex flex-col">
 
     <header class="site-header bg-[#f2e1e7] backdrop-blur-sm border-b border-pink-300/20">
         <div class="relative">
@@ -40,15 +41,32 @@
 
     <!-- Flatpickr -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
-</body>
 
 <!-- FOOTER -->
-    <footer class=" bg-[#f2e1e7] py-12 mt-20 relative text-center text-pink-800 font-sans">
-        <div class="container mx-auto px-6 max-w-6xl">
-        <nav class="mb-8 flex justify-center gap-8 text-pink-700 font-medium">
-              <a href="/contact" class="hover:text-pink-900 hover:underline transition-colors">Contact</a>
-        </nav>
+    <footer class="bg-[#f2e1e7] relative text-center text-pink-800 font-sans mt-auto">
+        <div class="container mx-auto px-6 max-w-4xl py-4">
+            <!-- Contact Information -->
+            <div class="text-center">
+                <h3 class="text-base font-semibold text-pink-900 mb-2">Contact Us</h3>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 text-sm text-pink-700">
+                    <div class="flex items-center gap-2">
+                        <iconify-icon icon="mdi:phone" class="text-base text-sm"></iconify-icon>
+                        <span class="whitespace-nowrap">+1 (555) 123-4567</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <iconify-icon icon="mdi:email" class="text-base text-sm"></iconify-icon>
+                        <span>contact@secretspark.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="flex justify-center items-center text-sm text-pink-600 text-center mt-2">
+                <span>&copy; 2024 Secret Spark. All rights reserved.</span>
+            </div>
         </div>
     </footer>
-<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</body>
+

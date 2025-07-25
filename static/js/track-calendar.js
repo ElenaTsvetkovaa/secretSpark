@@ -202,8 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const observer = new IntersectionObserver(
         ([entry]) => {
             if (entry.isIntersecting) {
-                entry.target.classList.add("opacity-100");
-                entry.target.classList.remove("opacity-0");
+                entry.target.classList.remove("hidden");
             }
         },
         { threshold: 0.1 }

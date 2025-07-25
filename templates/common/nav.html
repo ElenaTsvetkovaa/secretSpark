@@ -2,28 +2,28 @@
 
 
 <ul class="nav-list">
-    <li class="nav-item">
-        <a href="{% url 'home' %}">
+    <li>
+        <a href="{% url 'home' %}" class="nav-item">
             <iconify-icon icon="mdi:home-heart" class="nav-icon"></iconify-icon>
             <span>Home</span>
         </a>
     </li>
-    <li class="nav-item">
+    <li>
         {% if request.user.is_authenticated %}
-            <a href="{% url 'profile-details' pk=user.profile.id %}">
+            <a href="{% url 'profile-details' pk=user.profile.id %}" class="nav-item">
                <iconify-icon icon="mdi:account-heart" class="nav-icon"></iconify-icon>
                <span>Profile</span>
             </a>
         {% else %}
-            <a href="{% url 'login' %}">
+            <a href="{% url 'login' %}" class="nav-item">
                <iconify-icon icon="mdi:account-heart" class="nav-icon"></iconify-icon>
                <span>Profile</span>
             </a>
         {% endif %}
     </li>
 
-    <li class="nav-item" id="articles-nav-item" aria-haspopup="true" aria-expanded="false">
-        <a href="#" class="toggle-articles">
+    <li>
+        <a href="#" class="nav-item toggle-articles" id="articles-nav-item" aria-haspopup="true" aria-expanded="false">
             <iconify-icon icon="mdi:book-lock" class="nav-icon"></iconify-icon>
             <span>Articles</span>
         </a>
@@ -43,21 +43,20 @@
         </div>
     </li>
 
-    <li class="nav-item">
-        <a href="{% url 'diary-page' %}">
+    <li>
+        <a href="{% url 'diary-page' %}" class="nav-item">
             <iconify-icon icon="mdi:notebook-heart" class="nav-icon"></iconify-icon>
             <span>Diary</span>
         </a>
     </li>
 
-    <li class="nav-item">
-        <a href="{% url 'track-period' %}">
+    <li>
+        <a href="{% url 'track-period' %}" class="nav-item">
             <iconify-icon icon="mdi:calendar-heart" class="nav-icon"></iconify-icon>
             <span>Wellness</span>
         </a>
     </li>
 </ul>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
