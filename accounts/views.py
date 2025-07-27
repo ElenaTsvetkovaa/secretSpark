@@ -21,6 +21,10 @@ class CustomLoginView(LoginView):
     form_class = CustomLoginForm
 
     def get_success_url(self):
+        next_url = self.get_redirect_url()
+        if next_url:
+            return next_url
+
         profile = Profile.objects.get(user_id=self.request.user.pk)
         return reverse_lazy('profile-details', kwargs={'pk': profile.pk})
 

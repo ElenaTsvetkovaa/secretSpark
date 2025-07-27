@@ -27,7 +27,4 @@ class DiarySerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'mood': {'write_only': True}
         }
-    
-    def validate(self, data):
-        print(f"DEBUG - Serializer received data: {data}")
-        return data
+
