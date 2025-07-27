@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const reminderMessage = document.getElementById('reminder-message');
     const reminderLabel = document.getElementById('reminder-label');
     const saveButton = document.getElementById('saveButton');
+    const deleteButton = document.getElementById('deleteButton');
 
     // form fields to populate
     const dateInput = document.getElementById("dateInput");
@@ -26,6 +27,10 @@ document.addEventListener('DOMContentLoaded', function () {
             let currentMoodIndex = 0;
 
             loadMoodDisplay();
+            // loading today's diary if flatpickr is already ready
+            if (dateInput.classList.contains("opacity-100")) {
+                loadTodaysDiary();
+            }
 
             moodSlider.addEventListener('input', (event) => {
                 event.preventDefault();
@@ -54,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         reminderMessage.classList.remove('opacity-0');
                     }, 10);
                 } else {
-                    // If it's already visible, briefly fade out + back in for updated message
                     reminderMessage.classList.add('opacity-0');
                     setTimeout(() => {
                         reminderMessage.classList.remove('opacity-0');
@@ -66,50 +70,27 @@ document.addEventListener('DOMContentLoaded', function () {
             dateInput.addEventListener('change', function () {
                 const selectedDate = this.value;
                 formDate.value = selectedDate;
-
-                fetch(`/diary/by-date/?date=${selectedDate}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.exists) {
-                            // If record exists, populate the form with REST API data
-                            const diaryData = data.data;
-                            document.querySelector('[name="content"]').value = diaryData.content;
-                            formMood.value = diaryData.mood;
-
-                            // Use mood_data from the enhanced serializer
-                            const moodIndex = moods.findIndex(m => m.id === diaryData.mood_data.id);
-                            if (moodIndex !== -1) {
-                                setMood(moodIndex);
-                                moodSlider.value = moodIndex * 20;
-                            }
-                            continueBtn.click();
-                            
-                            // Store diary ID for updates
-                            diaryForm.dataset.diaryId = diaryData.id;
-                            diaryForm.dataset.isUpdate = 'true';
-                        } else {
-                            // No existing entry - prepare for creation
-                            reminderContainer.classList.add('hidden');
-                            document.querySelector('[name="content"]').value = '';
-                            formMood.value = '';
-                            
-                            // Clear update flags
-                            delete diaryForm.dataset.diaryId;
-                            delete diaryForm.dataset.isUpdate;
-
-                            const defaultIndex = moods.findIndex(m => m.is_default);
-                            setMood(defaultIndex);
-                            moodSlider.value = defaultIndex * 20;
-                        }
-                    })
-                    .catch(err => {
-                        console.error("Error fetching diary entry:", err);
-                    });
+                loadDiaryForDate(selectedDate);
             });
         });
 
+    // Flatpickr
+    const fp = flatpickr(dateInput, {
+        appendTo: document.getElementById("calendarDisplay"),
+        inline: true,
+        defaultDate: new Date(),
+        altInput: true,
+        altFormat: "J M Y",
+        dateFormat: "Y-m-d",
+        onReady: () => {
+            dateInput.classList.add("opacity-100");
+            // Load today's diary entry after flatpickr is ready
+            loadTodaysDiary();
+        },
+    });
+
     // Loading initial mood
-    function loadMoodDisplay() {
+    function loadMoodDisplay(){
         const defaultIndex = moods.findIndex(m => m.is_default);
         selectedMood = moods[defaultIndex];
 
@@ -122,6 +103,68 @@ document.addEventListener('DOMContentLoaded', function () {
             moodLabel.classList.remove("opacity-0");
             moodSlider.classList.remove("opacity-0");
         }, 250);
+    }
+
+    // Load diary entry for a specific date
+    function loadDiaryForDate(date) {
+        fetch(`/diary/by-date/?date=${date}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    // Populate form with existing diary data
+                    populateFormWithDiary(data.data);
+                } else {
+                    // Clear form for new entry
+                    clearFormForNewEntry();
+                }
+            })
+            .catch(err => {
+                console.error("Error fetching diary entry:", err);
+            });
+    }
+
+    // Populate form with existing diary data
+    function populateFormWithDiary(diaryData) {
+        document.querySelector('[name="content"]').value = diaryData.content;
+        formMood.value = diaryData.mood;
+
+        // Use mood_data from the enhanced serializer
+        const moodIndex = moods.findIndex(m => m.id === diaryData.mood_data.id);
+        if (moodIndex !== -1) {
+            setMood(moodIndex);
+            moodSlider.value = moodIndex * 20;
+        }
+        continueBtn.click();
+        
+        // Store diary ID for updates
+        diaryForm.dataset.diaryId = diaryData.id;
+        diaryForm.dataset.isUpdate = 'true';
+    }
+
+    // Clear form for new entry
+    function clearFormForNewEntry() {
+        reminderContainer.classList.add('hidden');
+        document.querySelector('[name="content"]').value = '';
+        formMood.value = '';
+        
+        // Clear update flags
+        delete diaryForm.dataset.diaryId;
+        delete diaryForm.dataset.isUpdate;
+
+        const defaultIndex = moods.findIndex(m => m.is_default);
+        setMood(defaultIndex);
+        moodSlider.value = defaultIndex * 20;
+    }
+
+    // Load today's diary entry if it exists
+    function loadTodaysDiary() {
+        if (moods.length === 0) return; // Wait for moods to be loaded
+        
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+        formDate.value = today;
+        
+        loadDiaryForDate(today);
     }
 
     // Setting the mood
@@ -151,19 +194,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const moodIndex = Math.floor(percent * moods.length);
         return Math.min(moodIndex, moods.length - 1);
     }
-
-    // Flatpickr
-    const fp = flatpickr(dateInput, {
-        appendTo: document.getElementById("calendarDisplay"),
-        inline: true,
-        defaultDate: new Date(),
-        altInput: true,
-        altFormat: "J M Y",
-        dateFormat: "Y-m-d",
-        onReady: () => {
-            dateInput.classList.add("opacity-100")
-        },
-    });
 
     // saving the form
     saveButton.addEventListener("click", function (event) {
@@ -203,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(response => response.json())
             .then(data => {
-                showSuccessMessage();
+                showSuccessMessage('Your diary has been saved!');
                 // Store the ID for future updates
                 diaryForm.dataset.diaryId = data.id;
                 diaryForm.dataset.isUpdate = 'true';
@@ -212,12 +242,47 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error("Error saving diary entry:", err);
                 alert("Error saving entry");
             })
+    });
 
+    deleteButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        const diaryId = diaryForm.dataset.diaryId;
+        if (!diaryId) {
+            alert('No diary entry to delete');
+            return;
+        }
+        
+        fetch(`/diary/${diaryId}/`, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+                }
+        })
+            .then(response => {
+                if (!response.ok) {
+                     throw new Error("Failed to delete data");
+                }
+                // Clear the form after successful deletion
+                document.querySelector('[name="content"]').value = '';
+                delete diaryForm.dataset.diaryId;
+                delete diaryForm.dataset.isUpdate;
+                showSuccessMessage('Your diary has been deleted successfully!');
+                
+                // Reset to default mood and hide reminder
+                const defaultIndex = moods.findIndex(m => m.is_default);
+                setMood(defaultIndex);
+                moodSlider.value = defaultIndex * 20;
+                reminderContainer.classList.add('hidden');
+            });
     })
 
-    function showSuccessMessage() {
+    function showSuccessMessage(message) {
         const msg = document.getElementById('successMessage');
         if (msg) {
+            const span = msg.querySelector('span[id="message"]');
+            if (span) {
+                span.textContent = message;
+            }
             msg.style.opacity = '1';
             msg.style.transition = 'opacity 0.5s ease';
             
@@ -226,6 +291,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 2000);
         }
     }
+
 
 
 });

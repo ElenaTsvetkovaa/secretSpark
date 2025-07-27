@@ -3,9 +3,10 @@ from django.views.generic import CreateView, DetailView, UpdateView, TemplateVie
 from rest_framework import status
 from rest_framework.generics import ListAPIView, DestroyAPIView
 from rest_framework.response import Response
+from django.http import Http404
 from rest_framework.reverse import reverse_lazy
 
-
+from articles.choices import ArticleCategories
 from articles.forms import ArticleCreateForm, EditArticleForm, SectionForm
 from articles.models import Article
 from articles.serializers import ArticleSerializer
@@ -23,7 +24,7 @@ SectionFormSet = inlineformset_factory(
 class ArticleCreateView(CreateView):
     model = Article
     form_class = ArticleCreateForm
-    template_name = 'articles/edit-article.html'
+    template_name = 'articles/create-article.html'
 
     def get_success_url(self):
         return reverse_lazy('article-category', kwargs={'category': self.object.category})
@@ -118,7 +119,9 @@ class ArticleListAPIView(ListAPIView):
 
     def get_queryset(self):
         category = self.kwargs['category']
-        return Article.objects.filter(category=category)
+        if category in [ArticleCategories.STYLE, ArticleCategories.SELF_IMPROVEMENT, ArticleCategories.WORK_AND_MONEY]:
+            return Article.objects.filter(category=category)
+        raise Http404("Category not found")
 
 class DeleteAPIView(DestroyAPIView):
     queryset = Article.objects.all()

@@ -151,7 +151,12 @@
 
   function loadAllArticles() {
     fetch(`/articles/api/${category}/`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
         articles = Array.isArray(data) ? data : data.results;
 
@@ -167,7 +172,10 @@
         renderCarousel();
         renderFeatured();
       })
-      .catch(err => console.error("Error loading articles:", err));
+      .catch(err => {
+        console.error("Error loading articles:", err);
+        window.location.href = '/404/';
+      });
   }
 
   nextBtn.addEventListener("click", () => {

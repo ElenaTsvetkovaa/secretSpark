@@ -9,7 +9,7 @@
         <div id="successMessage"
            class="opacity-0 absolute top-20 right-5 bg-pink-100 text-pink-800 m-16 px-6 py-4 rounded-lg shadow-lg flex items-center gap-2 z-50 transition-opacity duration-500">
             <iconify-icon icon="icon-park-outline:success" class="text-xl"></iconify-icon>
-            <span>Your diary has been saved!</span>
+            <span id="message"></span>
         </div>
 
         <form id="diaryForm" method="post" class="flex flex-row w-full gap-x-8 flex-1">
@@ -68,11 +68,19 @@
                                 </div>
                                 <div id="calendarDisplay" class="m-3 w-full"></div>
 
-                                 <button id="saveButton" class="inline-flex items-center gap-1 text-white font-medium
+                                <div class="flex flex-row items-center justify-center gap-5">
+                                    <button id="saveButton" class="inline-flex items-center gap-1 text-white font-medium
                                  cursor-pointer bg-[#ED92BF] mb-3 px-4 py-1 text-sm rounded shadow hover:bg-[#D77BA9] transition rounded shadow">
                                     <iconify-icon icon="game-icons:heart-key" class="nav-icon"></iconify-icon>
                                     Save
                                  </button>
+
+                                <button id="deleteButton" class="inline-flex items-center gap-1 text-white font-medium
+                                 cursor-pointer bg-[#ED92BF] mb-3 px-4 py-1 text-sm rounded shadow hover:bg-[#D77BA9] transition rounded shadow">
+                                    <iconify-icon icon="material-symbols-light:scan-delete-rounded" class="nav-icon"></iconify-icon>
+                                    Delete
+                                 </button>
+                                </div>
                                 <input type="hidden" name="selected_date" id="selectedDateInput" />
                             </div>
                         </div>

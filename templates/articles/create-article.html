@@ -112,10 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const wrapper = input.closest('.section-image-formfield, .banner-image-formfield');
             if (!wrapper) return;
 
-            let span = wrapper.nextElementSibling;
-            while (span && !span.classList.contains('file-name-display')) {
-              span = span.nextElementSibling;
-            }
+            let span = wrapper.parentElement.querySelector('.file-name-display');
 
             if (span) {
                 span.textContent = this.files.length > 0 ? this.files[0].name : "No file selected...";
