@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, TemplateView
 from rest_framework import generics, permissions
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from wellness.models import CycleCalendar, CyclePhase
 from wellness.serializers import CalendarDataSerializer
@@ -93,9 +94,10 @@ def generate_phases_around_date(last_period_date, period_length, cycle_length, w
     return phases_list
 
 
-class CyclePhasesResultsAPIView(LoginRequiredMixin, RetrieveAPIView):
+class CyclePhasesResultsView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
 
-    def get(self, request, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         profile = request.user.profile
         cycle_data = CycleCalendar.objects.get(profile=profile)
 

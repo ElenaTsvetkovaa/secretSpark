@@ -55,7 +55,13 @@ document.addEventListener('DOMContentLoaded', function () {
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             ...options
-        }).then(response => response.json());
+        }).then(response => {
+            if (response.status === 403 || response.status === 401) {
+                window.location.href = `/accounts/login/?next=${encodeURIComponent(window.location.pathname)}`;
+                return;
+            }
+            return response.json();
+        });
     }
 
     // Helper function to update calendar and phase
@@ -67,31 +73,74 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    apiCall(API_ENDPOINTS.tracker)
-        .then(data => {
-            lastPeriodDate.value = data.last_period_date || new Date();
+    // Check if user is authenticated by trying to load data
+    fetch(API_ENDPOINTS.tracker, {
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
+    })
+    .then(response => {
+        if (response.status === 403 || response.status === 401) {
+            // AnonymousUser - show empty form but on submit redirect to login
+            lastPeriodDate.value = "";
+            cycleLength.value = "28";
+            periodLength.value = "5";
+            return null;
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data) {
+            // User is authenticated
+            lastPeriodDate.value = data.last_period_date || "";
             cycleLength.value = data.cycle_length || '28';
             periodLength.value = data.period_length || '5';
-
-            if (data && data.last_period_date) {
-                // Add fade-in animation for results
-                cycleResultsDiv.style.opacity = "0";
-                cycleResultsDiv.classList.remove("hidden");
-                deleteDataBtn.classList.remove("hidden");
-                document.getElementById("resultsBtn").classList.remove("col-span-3");
-                document.getElementById("resultsBtn").classList.add("col-span-2");
-                
-                setTimeout(() => {
-                    cycleResultsDiv.style.transition = "opacity 0.5s ease-in-out";
-                    cycleResultsDiv.style.opacity = "1";
-                }, 50);
-                
-                return updateCalendarData();
+            
+            // Check for saved data after login and auto-submit
+            const unsavedData = localStorage.getItem('unsavedCycleData');
+            if (unsavedData) {
+                try {
+                    const savedPayload = JSON.parse(unsavedData);
+                    lastPeriodDate.value = savedPayload.last_period_date || "";
+                    cycleLength.value = savedPayload.cycle_length || '28';
+                    periodLength.value = savedPayload.period_length || '5';
+                    localStorage.removeItem('unsavedCycleData');
+                    
+                    // Auto-submit the saved data
+                    setTimeout(() => {
+                        document.getElementById("cycleForm").dispatchEvent(new Event('submit'));
+                    }, 100);
+                    return;
+                } catch (e) {
+                    localStorage.removeItem('unsavedCycleData');
+                }
             }
-        })
-        .then(() => {
+        }
+        
+        if (data && data.last_period_date) {
+            lastPeriodDate.value = data.last_period_date || "";
+            cycleLength.value = data.cycle_length || '28';
+            periodLength.value = data.period_length || '5';
+            // Add fade-in animation for results
+            cycleResultsDiv.style.opacity = "0";
+            cycleResultsDiv.classList.remove("hidden");
+            deleteDataBtn.classList.remove("hidden");
+            document.getElementById("resultsBtn").classList.remove("col-span-3");
+            document.getElementById("resultsBtn").classList.add("col-span-2");
+
+            setTimeout(() => {
+                cycleResultsDiv.style.transition = "opacity 0.5s ease-in-out";
+                cycleResultsDiv.style.opacity = "1";
+            }, 50);
+
+            return updateCalendarData();
+        }
+
+    })
+    .then(() => {
+        if (cycleResultsDiv && !cycleResultsDiv.classList.contains("hidden")) {
             observer.observe(cycleResultsDiv);
-        });
+        }
+    });
 
     // Form submission handler
     document.getElementById("cycleForm").addEventListener("submit", function (e) {
@@ -112,6 +161,12 @@ document.addEventListener('DOMContentLoaded', function () {
             credentials: "include"
         })
         .then(response => {
+            if (response.status === 403 || response.status === 401) {
+                // Save form data before redirecting
+                localStorage.setItem('unsavedCycleData', JSON.stringify(payload));
+                window.location.href = `/accounts/login/?next=${encodeURIComponent(window.location.pathname)}`;
+                return;
+            }
             if (!response.ok) {
                 return response.json().then(data => {
                     console.error("PUT error response:", data);
@@ -222,6 +277,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 credentials: "include"
             })
             .then(response => {
+                if (response.status === 403 || response.status === 401) {
+                    window.location.href = `/accounts/login/?next=${encodeURIComponent(window.location.pathname)}`;
+                    return;
+                }
                 if (response.ok) {
                     // Reset form
                     lastPeriodDate.value = "";
@@ -341,9 +400,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const observer = new IntersectionObserver(
         ([entry]) => {
             if (entry.isIntersecting && !entry.target.classList.contains("hidden")) {
-                // Observer is working but results are already visible
-                // This observer was meant to detect when results come into view
-                // but we're already handling visibility with the hidden class
             }
         },
         { threshold: 0.1 }
