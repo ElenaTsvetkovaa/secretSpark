@@ -47,7 +47,6 @@ ALLOWED_HOSTS = []
 PROJECT_APPS = [
     'common',
     'accounts',
-    'plans',
     'wellness',
     'articles',
     'diary',

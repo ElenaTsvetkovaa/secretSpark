@@ -1,13 +1,14 @@
 from datetime import timedelta, datetime
 from dateutil.relativedelta import relativedelta
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, TemplateView
 from rest_framework import generics, permissions
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from wellness.models import CycleCalendar, CyclePhase
-from wellness.serializers import CalendarDataSerializer
+from rest_framework import status
+from wellness.models import CycleCalendar, CyclePhase, NutritionPlan, TrainingPlan
+from wellness.serializers import CalendarDataSerializer, NutritionPlanSerializer, TrainingPlanSerializer, PhasePlansSerializer
+from wellness.services import PlanGeneratorService
 
 
 class TrackPeriodView(TemplateView):
@@ -117,7 +118,7 @@ class CyclePhasesResultsView(RetrieveAPIView):
         )
 
         # Calculate current phase independently of offset
-        current_phase = calculate_current_phase(
+        current_phase_data = calculate_current_phase_and_plans(
             last_period_date=cycle_data.last_period_date,
             period_length=cycle_data.period_length,
             cycle_length=cycle_data.cycle_length
@@ -130,14 +131,14 @@ class CyclePhasesResultsView(RetrieveAPIView):
 
         return Response({
             "phases": all_phases,
-            "current_phase": current_phase
+            "current_phase": current_phase_data
         })
 
 
-def calculate_current_phase(last_period_date, period_length, cycle_length):
+def calculate_current_phase_and_plans(last_period_date, period_length, cycle_length):
     """
     Calculate the current phase based on today's date and cycle data.
-    Returns a dict with current phase name and description.
+    Returns a dict with current phase info and related plans.
     """
     today = datetime.today().date()
     
@@ -158,17 +159,70 @@ def calculate_current_phase(last_period_date, period_length, cycle_length):
             current_phase_name = phase_name
             break
     
-    # Get phase description from database
+    # Get phase description and plans from database
     if current_phase_name:
         current_phase_obj = CyclePhase.objects.filter(name=current_phase_name).first()
         if current_phase_obj:
+            nutrition_plan = NutritionPlan.objects.filter(phase=current_phase_obj).order_by('-created_at').first()
+            training_plan = TrainingPlan.objects.filter(phase=current_phase_obj).order_by('-created_at').first()
+
+            if not nutrition_plan or not training_plan:
+                try:
+                    service = PlanGeneratorService()
+                    
+                    if not nutrition_plan:
+                        nutrition_plan = service.generate_nutrition_plans(current_phase_name)
+                    
+                    if not training_plan:
+                        training_plan = service.generate_training_plans(current_phase_name)
+                except Exception as e:
+                    print(f"Error generating plans: {e}")
+            
             return {
                 "name": current_phase_obj.name.capitalize(),
-                "description": current_phase_obj.description
+                "description": current_phase_obj.description,
+                "nutrition_plan": NutritionPlanSerializer(nutrition_plan).data if nutrition_plan else None,
+                "training_plan": TrainingPlanSerializer(training_plan).data if training_plan else None
             }
     
     # Fallback if no phase found
     return {
         "name": "Unknown",
-        "description": "Unable to determine current phase."
+        "description": "Unable to determine current phase.",
+        "nutrition_plan": None,
+        "training_plan": None
     }
+
+
+class GeneratePlansAPIView(generics.CreateAPIView):
+    VALID_PHASES =  ['menstrual', 'follicular', 'ovulation', 'luteal']
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        phase_name = kwargs['phase_name']
+        if phase_name not in self.VALID_PHASES:
+            return Response(
+                {"error": f"Invalid phase. Must be one of: {self.VALID_PHASES}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            service = PlanGeneratorService()
+
+            nutrition_plan = service.generate_nutrition_plans(phase_name)
+            training_plan = service.generate_training_plans(phase_name)
+
+            nutrition_data = NutritionPlanSerializer(nutrition_plan).data
+            training_data = TrainingPlanSerializer(training_plan).data
+
+            return Response({
+                "nutrition_plan": nutrition_data,
+                "training_plan": training_data,
+                "message": f"Plans generated successfully for {phase_name} phase"
+            },status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to generate plans: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+

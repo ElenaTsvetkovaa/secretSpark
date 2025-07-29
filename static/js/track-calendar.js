@@ -377,18 +377,155 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function displayCurrentPhase(phaseData) {
         phaseDiv.style.opacity = "0";
-        phaseDiv.innerHTML = `
-                 <h2 class="text-3xl font-bold text-[#721f49] text-center mb-6 flex items-center justify-center gap-2">
-                    <img src="/static/images/noto--lotus.svg" class="size-20">
-                    Current Phase
-                </h2>
-                <div class="relative border border-pink-300 p-6 rounded-xl shadow-md bg-white overflow-hidden">
-                    <h3 class="text-2xl font-semibold text-[#a1366c] mb-3 text-center z-10 relative">${phaseData.name}</h3>
-                    <p class="text-gray-700 text-base leading-relaxed font-['Open_Sans'] text-center z-10 relative">
-                        ${phaseData.description}
-                    </p>
+        
+        // Helper function to render meal suggestions
+        function renderMealSuggestions(mealSuggestions) {
+            if (!mealSuggestions) return '';
+            
+            return Object.entries(mealSuggestions).map(([mealType, suggestions]) => `
+                <div class="mb-4">
+                    <h5 class="text-md font-semibold text-[#721f49] capitalize mb-2">${mealType}</h5>
+                    <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        ${suggestions.map(suggestion => `<li>${suggestion}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+        }
+        
+        // Helper function to render supplements
+        function renderSupplements(supplements) {
+            if (!supplements || supplements.length === 0) return '';
+            
+            return `
+                <div class="mb-4">
+                    <h5 class="text-md font-semibold text-[#721f49] mb-2">Recommended Supplements</h5>
+                    <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        ${supplements.map(supplement => `<li>${supplement}</li>`).join('')}
+                    </ul>
                 </div>
             `;
+        }
+        
+        // Helper function to render exercises
+        function renderExercises(exercises, intensity, duration) {
+            if (!exercises || exercises.length === 0) return '';
+            
+            return `
+                <div class="mb-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <h5 class="text-md font-semibold text-[#721f49]">Recommended Exercises</h5>
+                        <div class="text-xs text-gray-500">
+                            <span class="bg-purple-100 px-2 py-1 rounded-full">${intensity}</span>
+                            <span class="bg-blue-100 px-2 py-1 rounded-full ml-1">${duration} min</span>
+                        </div>
+                    </div>
+                    <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        ${exercises.map(exercise => `<li>${exercise}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+        
+        // Helper function to render workout tips
+        function renderWorkoutTips(workoutTips) {
+            if (!workoutTips || workoutTips.length === 0) return '';
+            
+            return `
+                <div class="mb-4">
+                    <h5 class="text-md font-semibold text-[#721f49] mb-2">Workout Tips</h5>
+                    <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        ${workoutTips.map(tip => `<li>${tip}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+        
+        // Helper function to render recovery recommendations
+        function renderRecoveryTips(recoveryTips) {
+            if (!recoveryTips || recoveryTips.length === 0) return '';
+            
+            return `
+                <div class="mb-4">
+                    <h5 class="text-md font-semibold text-[#721f49] mb-2">Recovery & Rest</h5>
+                    <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        ${recoveryTips.map(tip => `<li>${tip}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+        
+        phaseDiv.innerHTML = `
+            <h2 class="text-3xl font-bold text-[#721f49] text-center mb-6 flex items-center justify-center gap-2">
+                <img src="/static/images/noto--lotus.svg" class="size-20">
+                Current Phase
+            </h2>
+            
+            <!-- Phase Info -->
+            <div class="relative border border-pink-300 p-6 rounded-xl shadow-md bg-white overflow-hidden mb-6">
+                <h3 class="text-2xl font-semibold text-[#a1366c] mb-3 text-center z-10 relative">${phaseData.name}</h3>
+                <p class="text-gray-700 text-base leading-relaxed font-['Open_Sans'] text-center z-10 relative">
+                    ${phaseData.description}
+                </p>
+            </div>
+            
+            <!-- Plans Section -->
+            ${phaseData.nutrition_plan || phaseData.training_plan ? `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Nutrition Plan -->
+                    ${phaseData.nutrition_plan ? `
+                        <div class="border border-emerald-200 p-6 rounded-xl shadow-lg bg-gradient-to-br from-emerald-50 to-green-50 h-full flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <svg class="w-8 h-8 text-emerald-700" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                <h4 class="text-xl font-semibold text-emerald-800">Nutrition Plan</h4>
+                            </div>
+                            
+                            <div class="flex-grow">
+                                <div class="nutrition-content">
+                                    ${renderMealSuggestions(phaseData.nutrition_plan.meal_suggestions)}
+                                    ${renderSupplements(phaseData.nutrition_plan.supplements)}
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    <!-- Training Plan -->
+                    ${phaseData.training_plan ? `
+                        <div class="border border-violet-200 p-6 rounded-xl shadow-lg bg-gradient-to-br from-violet-50 to-purple-50 h-full flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <svg class="w-8 h-8 text-violet-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                <h4 class="text-xl font-semibold text-violet-800">Training Plan</h4>
+                            </div>
+                            
+                            <div class="flex-grow training-content">
+                                ${renderExercises(phaseData.training_plan.exercises, phaseData.training_plan.intensity_level, 
+                                                    phaseData.training_plan.duration_minutes)}
+                                ${renderWorkoutTips(phaseData.training_plan.workout_tips)}
+                                ${renderRecoveryTips(phaseData.training_plan.recovery_tips)}
+                                
+                                <!-- Phase Focus Summary -->
+                                <div class="mb-4">
+                                    <h5 class="text-md font-semibold text-[#721f49] mb-2">Phase Focus</h5>
+                                    <p class="text-sm text-gray-600">
+                                        ${phaseData.name === 'Menstrual' ? 'Gentle recovery and self-care during your body\'s natural rest period' : 
+                                          phaseData.name === 'Follicular' ? 'Build energy and try new challenges as hormones support increased activity' :
+                                          phaseData.name === 'Ovulation' ? 'Peak performance time - your body is primed for high intensity workouts' :
+                                          'Consistent strength training and stress relief to support your body\'s transition'}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            ` : `
+                <div class="text-center p-6 bg-gray-50 rounded-xl border border-gray-200">
+                    <p class="text-gray-600">Loading personalized nutrition and training plans...</p>
+                </div>
+            `}
+        `;
         
         // Add subtle fade-in animation
         setTimeout(() => {

@@ -32,8 +32,48 @@ class CycleCalendar(models.Model):
     )
 
 
+class NutritionPlan(models.Model):
+    phase = models.ForeignKey(
+        to=CyclePhase,
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(
+        max_length=200
+    )
+    content = models.TextField()
+    meal_suggestions = models.JSONField(
+        default=dict
+    )
+    supplements = models.JSONField(
+        default=list
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
 
-
-
-
+class TrainingPlan(models.Model):
+    phase = models.ForeignKey(
+        to=CyclePhase,
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(
+        max_length=200
+    )
+    content = models.TextField()
+    exercises = models.JSONField(
+        default=list
+    )
+    workout_tips = models.JSONField(
+        default=list
+    )
+    recovery_tips = models.JSONField(
+        default=list
+    )
+    intensity_level = models.CharField(
+        max_length=20
+    )
+    duration_minutes = models.PositiveIntegerField()
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
