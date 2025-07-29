@@ -4,7 +4,7 @@ from unittest.mock import patch
 from django.test import TestCase
 
 from wellness.models import CyclePhase
-from wellness.views import calculate_current_phase
+from wellness.views import calculate_current_phase_and_plans
 
 
 class TestCurrentPhaseExtraction(TestCase):
@@ -22,7 +22,7 @@ class TestCurrentPhaseExtraction(TestCase):
     def test__calculate_current_phase__return_follicular_phase(self, mock_date):
         mock_date.today.return_value.date.return_value = date(2025, 1, 14)
 
-        result = calculate_current_phase(
+        result = calculate_current_phase_and_plans(
               last_period_date=self.last_period,
               period_length=5,
               cycle_length=28
@@ -35,7 +35,7 @@ class TestCurrentPhaseExtraction(TestCase):
     def test__calculate_current_phase__after_full_cycle_passed__return_menstrual(self, mock_date):
         mock_date.today.return_value.date.return_value = date(2025, 1,29)
 
-        result = calculate_current_phase(
+        result = calculate_current_phase_and_plans(
               last_period_date=self.last_period,
               period_length=5,
               cycle_length=28
@@ -48,7 +48,7 @@ class TestCurrentPhaseExtraction(TestCase):
         CyclePhase.objects.all().delete()
         mock_date.today.return_value.date.return_value = date(2025, 1, 1)
 
-        result = calculate_current_phase(
+        result = calculate_current_phase_and_plans(
               last_period_date=self.last_period,
               period_length=5,
               cycle_length=28

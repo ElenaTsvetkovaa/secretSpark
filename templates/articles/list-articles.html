@@ -73,20 +73,22 @@
 
   function createCard(article) {
     return `
-      <article class="group flex flex-col w-full h-full bg-white border border-gray-200 rounded-lg overflow-hidden transition duration-300">
+      <article class="group flex flex-col w-full h-[42rem] bg-white border border-gray-200 rounded-lg overflow-hidden transition duration-300">
         <a href="/articles/${article.id}/details-article" class="flex flex-col h-full">
-          <div class="w-full aspect-[3/4] overflow-hidden rounded-t">
+          <div class="w-full h-3/4 overflow-hidden rounded-t flex-shrink-0">
             <img src="${article.banner_url}" alt="${article.title}"
               class="w-full h-full object-cover rounded-t-lg transition-transform duration-300 hover:scale-105 group-hover:opacity-80" />
           </div>
-          <div class="p-6 flex flex-col flex-grow justify-between min-h-[200px]">
-            <div class="text-center uppercase text-[11px] tracking-widest text-gray-400 font-medium mb-4">
+          <div class="p-6 flex flex-col flex-grow justify-between h-1/4">
+            <div class="text-center uppercase text-[11px] tracking-widest text-gray-400 font-medium mb-4 flex-shrink-0">
               <p>${article.category}</p>
               <p>${formatDate(article.updated_at)}</p>
             </div>
-            <h2 class="text-lg md:text-xl text-center font-serif font-semibold text-gray-800 leading-snug transition-colors duration-300 group-hover:text-stone-500 group-hover:underline">
-              ${article.title}
-            </h2>
+            <div class="flex-grow flex items-center justify-center px-2">
+              <h2 class="text-lg md:text-base text-center font-serif font-semibold text-gray-800 leading-snug transition-colors duration-300 group-hover:text-stone-500 group-hover:underline line-clamp-3 break-words">
+                ${article.title}
+              </h2>
+            </div>
           </div>
         </a>
       </article>

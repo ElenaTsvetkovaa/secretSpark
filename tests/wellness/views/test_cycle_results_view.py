@@ -5,7 +5,7 @@ from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from rest_framework import status
 from wellness.models import CycleCalendar
-from wellness.views import CyclePhasesResultsView, calculate_phases, calculate_current_phase
+from wellness.views import CyclePhasesResultsView, calculate_phases, calculate_current_phase_and_plans
 
 UserModel = get_user_model()
 
