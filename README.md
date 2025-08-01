@@ -104,5 +104,11 @@ psql -U your_db_user -d your_db_name < full_backup.sql
 # Start development server
 python manage.py runserver
 ```
+## 🧪 Data for testing purposes
+- **Users**:
+  - **Email:** elenats@gmail.com; **password:** Elena123$$TS (superusers group)
+  - **Email:** ivayla_admin@gmail.com; **password:** Ivayla123!!AD (staff group)
+  - **Email:** lora@gmail.com; **password:** Lora123$$LL (basic user group)
+
 
 The application will be available at `http://localhost:8000` with a comprehensive wellness platform ready for women's health tracking and AI-powered personalized recommendations.
