@@ -114,7 +114,8 @@ import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"postgresql://{config('DATABASE_USER')}:{config('DATABASE_PASSWORD')}@127.0.0.1:5432/{config('DATABASE_NAME')}"
+        conn_max_age=600,
+        ssl_require=True
     )
 }
 
