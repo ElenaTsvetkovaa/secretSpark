@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     const PHASE_CONFIG = {
-        menstrual: { color: "bg-red-400 text-white font-semibold", label: "Menstrual" },
-        follicular: { color: "bg-blue-500 text-white font-semibold", label: "Follicular" },
-        ovulation: { color: "bg-amber-500 text-white font-semibold", label: "Ovulation" },
-        luteal: { color: "bg-purple-500 text-white font-semibold", label: "Luteal" },
+        menstrual: { color: "bg-pink-500 text-white font-semibold", label: "Menstrual" },
+        follicular: { color: "bg-blue-400 text-white font-semibold", label: "Follicular" },
+        ovulation: {  color: "bg-orange-300 text-white font-semibold", label: "Ovulation" },
+        luteal: { color: "bg-violet-500 text-white font-semibold", label: "Luteal" },
         default: { color: "bg-gray-200 text-gray-700", label: "" }
     };
 
