@@ -1,7 +1,6 @@
 from django.urls import path
-from common.views import index, health_check
+from common.views import index
 
 urlpatterns = [
     path('', index, name='home'),
-    path('health/', health_check, name='health_check'),
 ]
