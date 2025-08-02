@@ -58,6 +58,9 @@ class Section(models.Model):
         related_name='sections'
     )
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return f"{self.id} - {self.title}"
 
