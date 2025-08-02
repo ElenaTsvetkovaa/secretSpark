@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const PHASE_CONFIG = {
         menstrual: { color: "bg-pink-500 text-white font-semibold", label: "Menstrual" },
-        follicular: { color: "bg-blue-400 text-white font-semibold", label: "Follicular" },
+        follicular: { color: "bg-blue-300 text-white font-semibold", label: "Follicular" },
         ovulation: {  color: "bg-orange-300 text-white font-semibold", label: "Ovulation" },
-        luteal: { color: "bg-violet-500 text-white font-semibold", label: "Luteal" },
+        luteal: { color: "bg-violet-400 text-white font-semibold", label: "Luteal" },
         default: { color: "bg-gray-200 text-gray-700", label: "" }
     };
 
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const bgColor = config.color.split(' ')[0];
                 return `
                     <div class="flex items-center gap-1">
-                        <div class="w-4 h-4 ${bgColor} rounded border border-gray-300"></div>
+                        <div class="w-4 h-4 ${bgColor} rounded-full"></div>
                         <span class="text-sm font-medium">${config.label}</span>
                     </div>
                 `;
