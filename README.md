@@ -1,6 +1,9 @@
 # ✨ Secret Spark 
 
-A comprehensive women's wellness and lifestyle platform built with Django. Secret Spark empowers women to track their personal wellness journey through mood tracking, diary entries, menstrual cycle management, and access to curated wellness articles with AI-powered personalized recommendations.
+Secret Spark is a Django-based web application designed to empower women through curated content and personalized wellness tools. 
+In the diary section, women can reflect on their daily thoughts and track their mood. 
+The integrated menstrual calendar visualizes the different phases of the cycle and highlights the user's current phase. 
+For each phase, the app provides informative messages about physical and emotional changes, along with personalized nutrition and training recommendations - carefully tailored to support well-being throughout the cycle. 
 
 🌐 **Live Demo**: https://secretspark.up.railway.app
 
@@ -54,27 +57,25 @@ A comprehensive women's wellness and lifestyle platform built with Django. Secre
 - Phase-aware wellness insights (menstrual, follicular, ovulation, luteal)
 - Integration with mood tracking and diary entries
 
-**💼 Content & User Management**
-- Rich article system with media support
-- Secure user authentication with profile customization
-- Cloudinary integration for reliable media storage
-- Mobile-responsive design with interactive elements
+**💼 Articles **
+- Thoughtfully curated articles on a variety of topics, designed to empower, support, and inspire women in every aspect of life and throughout their personal journey. 
+
 
 ## 🗄️ Database Setup
 
 ### Option 1: Complete Database from SQL Dump (Recommended) 🚀
 
 The project includes a full PostgreSQL database dump (`full_backup.sql`) containing:
-- 👥 Sample user accounts and profiles
-- 📚 Pre-populated articles across multiple wellness categories
-- 🔄 Complete wellness tracking data with cycle phases
-- 🍎 Generated nutrition and training plans
-- 😊 Mood tracking entries and diary data
+-  Sample user accounts and profiles
+-  Pre-populated articles across multiple wellness categories
+-  Complete wellness tracking data with cycle phases
+-  Generated nutrition and training plans
+-  Mood tracking entries and diary data
 
 **🐳 Docker Setup:**
 ```bash
 # Set up environment variables in .env
-cp .env.example .env
+cp .env .env
 
 # Build and start services
 docker-compose up --build
@@ -101,12 +102,32 @@ python manage.py runserver
   - **📧 Email:** ivayla_admin@gmail.com; **🔑 password:** Ivayla123!!AD (staff group)
   - **📧 Email:** lora@gmail.com; **🔑 password:** Lora123$$LL (basic user group)
 
+## Groups & Permissions
+- **Superusers**:
+  - **Permissions**: 
+    1. **FULL CRUD** operations and overall control
+    2. **CAN give** permissions and access
+- **Admins**:
+  - **Permissions**: 
+    1. Have access to the admin panel
+    2. **CANNOT** delete users and profiles but have the ability to perform full CRUD operations with user's data
+    3. **CAN** change permissions and give access to resources
+- **Basic users**:
+  - **Permissions**:
+    1. **HAVE FULL** CRUD access to their content
+    2. **HAVE ONLY** view permissions on the articles
+- **Authenticated users**:
+  - **Permissions**:
+    1. **HAVE ONLY** get permissions - can access home page, can read articles 
+    2. They can access the wellness page and try to submit their menstrual cycle data but their request will be handled after they login/create account
+
+
 ## 🚀 Deployment
 
 This application is deployed on **Railway** with the following production setup:
-- **⚡ WSGI Server**: Gunicorn for high-performance request handling
-- **🗂️ Static Files**: WhiteNoise for efficient static file serving
-- **☁️ Media Storage**: Cloudinary for image and file management
-- **🗄️ Database**: PostgreSQL hosted on Railway
-- **🔒 Security**: Environment-based configuration with secure secrets management
+- **WSGI Server**: Gunicorn for high-performance request handling
+- **Static Files**: WhiteNoise for serving static files
+- **Media Storage**: Cloudinary for image and file management
+- **Database**: PostgreSQL hosted on Railway
+- **Security**: Environment-based configuration with secure secrets management
 
