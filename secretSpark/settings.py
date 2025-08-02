@@ -41,7 +41,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']  # Railway will provide the domain
 
 # Application definition
 PROJECT_APPS = [
@@ -65,7 +65,6 @@ INSTALLED_APPS = [
 ] + PROJECT_APPS
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -105,15 +104,12 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config('DATABASE_NAME'),
-        "USER": config('DATABASE_USER'),
-        "PASSWORD": config('DATABASE_PASSWORD'),
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-    }
+    'default': dj_database_url.config(
+        default=f"postgresql://{config('DATABASE_USER')}:{config('DATABASE_PASSWORD')}@127.0.0.1:5432/{config('DATABASE_NAME')}"
+    )
 }
 
 
@@ -160,7 +156,11 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static/',
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Static files storage (Railway will handle this)
+
+# Production security settings
+SECURE_SSL_REDIRECT = not DEBUG
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
