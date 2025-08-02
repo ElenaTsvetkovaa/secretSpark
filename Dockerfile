@@ -20,4 +20,4 @@ RUN adduser --disabled-password --gecos '' appuser \
 USER appuser
 
 # Simple, reliable startup command
-CMD ["sh", "-c", "gunicorn secretSpark.wsgi:application --bind 0.0.0.0:${PORT:-8000}"]
+CMD gunicorn secretSpark.wsgi:application --bind 0.0.0.0:$PORT

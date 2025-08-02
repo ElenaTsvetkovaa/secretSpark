@@ -161,7 +161,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static/',
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# Static files storage (Railway will handle this)
 
 # Production security settings
 SECURE_SSL_REDIRECT = not DEBUG
