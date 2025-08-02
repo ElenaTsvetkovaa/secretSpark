@@ -5,11 +5,11 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     const PHASE_CONFIG = {
-        menstrual: { color: "bg-pink-200", label: "Menstrual" },
-        follicular: { color: "bg-blue-200", label: "Follicular" },
-        ovulation: { color: "bg-yellow-200", label: "Ovulation" },
-        luteal: { color: "bg-purple-200", label: "Luteal" },
-        default: { color: "bg-gray-100", label: "" }
+        menstrual: { color: "bg-red-400 text-white font-semibold", label: "Menstrual" },
+        follicular: { color: "bg-blue-500 text-white font-semibold", label: "Follicular" },
+        ovulation: { color: "bg-amber-500 text-white font-semibold", label: "Ovulation" },
+        luteal: { color: "bg-purple-500 text-white font-semibold", label: "Luteal" },
+        default: { color: "bg-gray-200 text-gray-700", label: "" }
     };
 
     const lastPeriodDate = document.querySelector("[name='last_period_date']");
@@ -37,12 +37,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const legendDiv = document.getElementById("phaseLegend");
         legendDiv.innerHTML = Object.entries(PHASE_CONFIG)
             .filter(([key]) => key !== 'default')
-            .map(([key, config]) => `
-                <div class="flex items-center gap-1">
-                    <div class="w-3 h-3 ${config.color} rounded-full"></div>
-                    <span class="text-sm">${config.label}</span>
-                </div>
-            `).join('');
+            .map(([key, config]) => {
+                const bgColor = config.color.split(' ')[0];
+                return `
+                    <div class="flex items-center gap-1">
+                        <div class="w-4 h-4 ${bgColor} rounded border border-gray-300"></div>
+                        <span class="text-sm font-medium">${config.label}</span>
+                    </div>
+                `;
+            }).join('');
     }
 
     populateSelectOptions(cycleLength, 21, 39);
