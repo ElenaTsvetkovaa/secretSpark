@@ -1,13 +1,9 @@
 FROM python:3.11
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Set work directory
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
-# Install system dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         postgresql-client \
@@ -15,15 +11,13 @@ RUN apt-get update \
         libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy project
 COPY . /app/
 
-# Create staticfiles directory
-RUN mkdir -p /app/staticfiles
+RUN adduser --disabled-password --gecos '' appuser \
+    && chown -R appuser:appuser /app
+USER appuser
 
-# Run the application with gunicorn
-CMD ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn secretSpark.wsgi:application --bind 0.0.0.0:$PORT"]
+# Simple, reliable startup command
+CMD ["sh", "-c", "gunicorn secretSpark.wsgi:application --bind 0.0.0.0:${PORT:-8000}"]
