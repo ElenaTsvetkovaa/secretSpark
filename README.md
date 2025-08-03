@@ -112,11 +112,11 @@ python manage.py runserver
     1. Have access to the admin panel
     2. **CANNOT** delete users and profiles but have the ability to perform full CRUD operations with user's data
     3. **CAN** change permissions and give access to resources
-- **Basic users**:
+- **Authenticated users**:
   - **Permissions**:
     1. **HAVE FULL** CRUD access to their content
     2. **HAVE ONLY** view permissions on the articles
-- **Authenticated users**:
+- **Unauthenticated users**:
   - **Permissions**:
     1. **HAVE ONLY** get permissions - can access home page, can read articles 
     2. They can access the wellness page and try to submit their menstrual cycle data but their request will be handled after they login/create account

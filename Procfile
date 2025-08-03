@@ -1,1 +1,1 @@
-web: gunicorn secretSpark.wsgi:application --bind 0.0.0.0:$PORT --workers 4
+web: gunicorn secretSpark.wsgi:application --bind 0.0.0.0:$PORT --workers 4 --threads 4
