@@ -1,11 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms.models import inlineformset_factory
 from django.views.generic import CreateView, DetailView, UpdateView, TemplateView, DeleteView
 from rest_framework import status
 from rest_framework.generics import ListAPIView, DestroyAPIView
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from django.http import Http404
 from rest_framework.reverse import reverse_lazy
-
 from articles.choices import ArticleCategories
 from articles.forms import ArticleCreateForm, EditArticleForm, SectionForm
 from articles.models import Article
@@ -21,10 +22,15 @@ SectionFormSet = inlineformset_factory(
     can_delete=True
 )
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     form_class = ArticleCreateForm
     template_name = 'articles/create-article.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            raise Http404("Page not found")
+        return super().dispatch(request,  *args, **kwargs)
 
     def get_success_url(self):
         return reverse_lazy('article-category', kwargs={'category': self.object.category})
@@ -59,10 +65,15 @@ class ArticleDetailView(DetailView):
         context['sections'] = self.object.sections.all()
         return context
 
-class EditArticleView(UpdateView):
+class EditArticleView(LoginRequiredMixin, UpdateView):
     model = Article
     form_class = EditArticleForm
     template_name = 'articles/edit-article.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            raise Http404("Page not found")
+        return super().dispatch(request,  *args, **kwargs)
 
     def get_success_url(self):
         return reverse_lazy('details-article', kwargs={'pk': self.object.pk})
@@ -123,8 +134,9 @@ class ArticleListAPIView(ListAPIView):
             return Article.objects.filter(category=category)
         raise Http404("Category not found")
 
-class DeleteAPIView(DestroyAPIView):
+class DeleteAPIView(LoginRequiredMixin, DestroyAPIView):
     queryset = Article.objects.all()
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView
@@ -28,10 +30,13 @@ class CustomLoginView(LoginView):
         profile = Profile.objects.get(user_id=self.request.user.pk)
         return reverse_lazy('profile-details', kwargs={'pk': profile.pk})
 
-class ProfileEditView(UpdateView):
+class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileEditForm
     template_name = 'registration/profile-edit-page.html'
+
+    def get_object(self, queryset = ...):
+        return Profile.objects.get(user=self.request.user)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -42,6 +47,13 @@ class ProfileEditView(UpdateView):
         return reverse_lazy('profile-details', kwargs={'pk': self.object.pk})
 
 
-class ProfileDetailsView(DetailView):
+
+class ProfileDetailsView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'registration/profile-details-page.html'
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise PermissionDenied("You can only view your own profile.")
+        return obj

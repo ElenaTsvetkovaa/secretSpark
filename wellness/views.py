@@ -1,6 +1,7 @@
 from datetime import timedelta, datetime
 from dateutil.relativedelta import relativedelta
 from django.views.generic import CreateView, TemplateView
+from django.http import Http404
 from rest_framework import generics, permissions
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -100,7 +101,10 @@ class CyclePhasesResultsView(RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         profile = request.user.profile
-        cycle_data = CycleCalendar.objects.get(profile=profile)
+        try:
+            cycle_data = CycleCalendar.objects.get(profile=profile)
+        except CycleCalendar.DoesNotExist:
+            raise Http404("Cycle data not found")
 
         offset = int(request.GET.get("offset", 0))
 
