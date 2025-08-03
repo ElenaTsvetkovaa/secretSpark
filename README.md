@@ -57,13 +57,13 @@ For each phase, the app provides informative messages about physical and emotion
 - Phase-aware wellness insights (menstrual, follicular, ovulation, luteal)
 - Integration with mood tracking and diary entries
 
-**💼 Articles **
+**💼 Articles**
 - Thoughtfully curated articles on a variety of topics, designed to empower, support, and inspire women in every aspect of life and throughout their personal journey. 
 
 
 ## 🗄️ Database Setup
 
-### Option 1: Complete Database from SQL Dump (Recommended) 🚀
+### Option 1: Complete Database from SQL Dump 🚀
 
 The project includes a full PostgreSQL database dump (`full_backup.sql`) containing:
 -  Sample user accounts and profiles
